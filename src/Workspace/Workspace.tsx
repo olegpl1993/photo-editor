@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import styles from "./Workspace.module.css";
-import { Filters } from "../interfaces";
+import { Filters } from "../types";
 
 interface Props {
   filters: Filters;
