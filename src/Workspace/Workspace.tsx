@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { forwardRef, useEffect, useImperativeHandle, useRef } from "react";
 import styles from "./Workspace.module.css";
 import { Filters } from "../types";
 
@@ -6,10 +6,14 @@ interface Props {
   filters: Filters;
 }
 
-function Workspace(props: Props) {
+interface Ref {
+  saveCanvasImage: () => void;
+}
+
+const Workspace = forwardRef<Ref, Props>((props, ref) => {
   const { filters } = props;
 
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
   useEffect(() => {
     const canvas = canvasRef.current!;
@@ -28,6 +32,25 @@ function Workspace(props: Props) {
     };
   }, [filters]);
 
+  const saveCanvasImage = () => {
+    const canvas = canvasRef.current!;
+    const dataURL = canvas.toDataURL("image/png");
+    const a = document.createElement("a");
+    a.href = dataURL;
+    a.download = "filtered_image.png";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  };
+
+  useImperativeHandle(
+    ref,
+    () => ({
+      saveCanvasImage,
+    }),
+    []
+  );
+
   return (
     <div className={styles.workspace}>
       <canvas
@@ -39,6 +62,6 @@ function Workspace(props: Props) {
       ></canvas>
     </div>
   );
-}
+});
 
 export default Workspace;

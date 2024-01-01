@@ -10,10 +10,11 @@ interface Props {
       invert: number;
     }>
   >;
+  saveImage: () => void;
 }
 
 function Toolbar(props: Props) {
-  const { filters, setFilters } = props;
+  const { filters, setFilters, saveImage } = props;
 
   const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -23,9 +24,29 @@ function Toolbar(props: Props) {
     }));
   };
 
+  const handleFilterReset = () => {
+    setFilters({
+      grayscale: 0,
+      sepia: 0,
+      invert: 0,
+    });
+  };
+
+  const handleSaveImage = () => {
+    saveImage();
+  };
+
   return (
     <div className={styles.toolbar}>
-      <div className={styles.row}>Toolbar</div>
+      <div className={styles.row}>
+        <button className={styles.btn}>Load Photo</button>
+        <button className={styles.btn} onClick={handleSaveImage}>
+          Save Photo
+        </button>
+        <button className={styles.btn} onClick={handleFilterReset}>
+          Reset Filters
+        </button>
+      </div>
 
       <div className={styles.row}>
         <p className={styles.label}>grayscale</p>

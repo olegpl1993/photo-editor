@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import styles from "./App.module.css";
 import Toolbar from "./Toolbar/Toolbar";
 import Workspace from "./Workspace/Workspace";
@@ -10,10 +10,19 @@ function App() {
     invert: 0,
   });
 
+  const ref = useRef<{ saveCanvasImage: () => void } | null>(null);
+  const saveImage = () => {
+    ref.current?.saveCanvasImage();
+  };
+
   return (
     <div className={styles.app}>
-      <Toolbar filters={filters} setFilters={setFilters} />
-      <Workspace filters={filters} />
+      <Toolbar
+        filters={filters}
+        setFilters={setFilters}
+        saveImage={saveImage}
+      />
+      <Workspace filters={filters} ref={ref} />
     </div>
   );
 }
