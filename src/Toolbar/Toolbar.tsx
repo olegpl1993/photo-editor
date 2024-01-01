@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { Filters } from "../types";
 import styles from "./Toolbar.module.css";
 
@@ -11,12 +11,31 @@ interface Props {
       invert: number;
     }>
   >;
-  saveImage: () => void;
+  saveCanvasImage: () => void;
   loadUserImage: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 function Toolbar(props: Props) {
-  const { filters, setFilters, saveImage, loadUserImage } = props;
+  const { filters, setFilters, saveCanvasImage, loadUserImage } = props;
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+  useEffect(() => {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = "image/*";
+    input.className = styles.fileInput;
+    input.style.display = "none";
+    input.addEventListener("change", (event) =>
+      loadUserImage(event as unknown as React.ChangeEvent<HTMLInputElement>)
+    );
+    document.body.appendChild(input);
+    fileInputRef.current = input;
+
+    return () => {
+      document.body.removeChild(input);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -34,21 +53,7 @@ function Toolbar(props: Props) {
     });
   };
 
-  const fileInputRef = useRef<HTMLInputElement | null>(null);
   const handleButtonClick = () => {
-    if (!fileInputRef.current) {
-      const input = document.createElement("input");
-      input.type = "file";
-      input.accept = "image/*";
-      input.className = styles.fileInput;
-      input.style.display = "none";
-      input.addEventListener("change", (event) =>
-        loadUserImage(event as unknown as React.ChangeEvent<HTMLInputElement>)
-      );
-      document.body.appendChild(input);
-      fileInputRef.current = input;
-    }
-
     fileInputRef.current?.click();
   };
 
@@ -59,7 +64,7 @@ function Toolbar(props: Props) {
           Load Photo
         </button>
 
-        <button className={styles.btn} onClick={() => saveImage()}>
+        <button className={styles.btn} onClick={() => saveCanvasImage()}>
           Save Photo
         </button>
 

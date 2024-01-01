@@ -1,33 +1,22 @@
-import {
-  forwardRef,
-  useEffect,
-  useImperativeHandle,
-  useRef,
-  useState,
-} from "react";
+import { useEffect } from "react";
 import styles from "./Workspace.module.css";
 import { Filters } from "../types";
 
 interface Props {
   filters: Filters;
+  canvasRef: React.RefObject<HTMLCanvasElement>;
+  imageRef: React.RefObject<HTMLImageElement>;
+  file: File | null;
 }
 
-export interface WorkspaceRef {
-  saveCanvasImage: () => void;
-  loadUserImage: (event: React.ChangeEvent<HTMLInputElement>) => void;
-}
-
-const Workspace = forwardRef<WorkspaceRef, Props>((props, ref) => {
-  const { filters } = props;
-
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const imageRef = useRef<HTMLImageElement>(new Image());
-  const [file, setFile] = useState<File | null>(null);
+function Workspace(props: Props) {
+  console.log("workspace");
+  const { filters, canvasRef, imageRef, file } = props;
 
   useEffect(() => {
     const canvas = canvasRef.current!;
     const context = canvas.getContext("2d")!;
-    const image = imageRef.current;
+    const image = imageRef.current!;
     image.src = file ? URL.createObjectURL(file) : "/dragon.jpg";
 
     image.onload = () => {
@@ -42,32 +31,8 @@ const Workspace = forwardRef<WorkspaceRef, Props>((props, ref) => {
     return () => {
       URL.revokeObjectURL(image.src);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filters, file]);
-
-  useImperativeHandle(
-    ref,
-    () => ({
-      saveCanvasImage,
-      loadUserImage,
-    }),
-    []
-  );
-
-  const saveCanvasImage = () => {
-    const canvas = canvasRef.current!;
-    const dataURL = canvas.toDataURL("image/png");
-    const a = document.createElement("a");
-    a.href = dataURL;
-    a.download = "filtered_image.png";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-  };
-
-  const loadUserImage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) setFile(file);
-  };
 
   return (
     <div className={styles.workspace}>
@@ -80,6 +45,6 @@ const Workspace = forwardRef<WorkspaceRef, Props>((props, ref) => {
       ></canvas>
     </div>
   );
-});
+}
 
 export default Workspace;
