@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import styles from "./App.module.css";
 import Toolbar from "./Toolbar/Toolbar";
-import Workspace from "./Workspace/Workspace";
+import Workspace, { WorkspaceRef } from "./Workspace/Workspace";
 
 function App() {
   const [filters, setFilters] = useState({
@@ -10,10 +10,14 @@ function App() {
     invert: 0,
   });
 
-  const ref = useRef<{ saveCanvasImage: () => void } | null>(null);
+  const ref = useRef<WorkspaceRef | null>(null);
   const saveImage = () => {
     ref.current?.saveCanvasImage();
   };
+
+  const loadUserImage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    ref.current?.loadUserImage(event);
+  }
 
   return (
     <div className={styles.app}>
@@ -21,6 +25,7 @@ function App() {
         filters={filters}
         setFilters={setFilters}
         saveImage={saveImage}
+        loadUserImage={loadUserImage}
       />
       <Workspace filters={filters} ref={ref} />
     </div>

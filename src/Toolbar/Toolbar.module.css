@@ -9,6 +9,12 @@
   background-color: var(--toolbar-bg-color);
 }
 
+.col {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
 .row {
   padding: 0px 5px;
   width: 100%;

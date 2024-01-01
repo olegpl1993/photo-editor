@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import { Filters } from "../types";
 import styles from "./Toolbar.module.css";
 
@@ -11,10 +12,11 @@ interface Props {
     }>
   >;
   saveImage: () => void;
+  loadUserImage: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 function Toolbar(props: Props) {
-  const { filters, setFilters, saveImage } = props;
+  const { filters, setFilters, saveImage, loadUserImage } = props;
 
   const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -32,17 +34,35 @@ function Toolbar(props: Props) {
     });
   };
 
-  const handleSaveImage = () => {
-    saveImage();
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const handleButtonClick = () => {
+    if (!fileInputRef.current) {
+      const input = document.createElement("input");
+      input.type = "file";
+      input.accept = "image/*";
+      input.className = styles.fileInput;
+      input.style.display = "none";
+      input.addEventListener("change", (event) =>
+        loadUserImage(event as unknown as React.ChangeEvent<HTMLInputElement>)
+      );
+      document.body.appendChild(input);
+      fileInputRef.current = input;
+    }
+
+    fileInputRef.current?.click();
   };
 
   return (
     <div className={styles.toolbar}>
-      <div className={styles.row}>
-        <button className={styles.btn}>Load Photo</button>
-        <button className={styles.btn} onClick={handleSaveImage}>
+      <div className={styles.col}>
+        <button onClick={handleButtonClick} className={styles.btn}>
+          Load Photo
+        </button>
+
+        <button className={styles.btn} onClick={() => saveImage()}>
           Save Photo
         </button>
+
         <button className={styles.btn} onClick={handleFilterReset}>
           Reset Filters
         </button>

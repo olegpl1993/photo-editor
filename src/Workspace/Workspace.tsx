@@ -1,4 +1,10 @@
-import { forwardRef, useEffect, useImperativeHandle, useRef } from "react";
+import {
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from "react";
 import styles from "./Workspace.module.css";
 import { Filters } from "../types";
 
@@ -6,21 +12,24 @@ interface Props {
   filters: Filters;
 }
 
-interface Ref {
+export interface WorkspaceRef {
   saveCanvasImage: () => void;
+  loadUserImage: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const Workspace = forwardRef<Ref, Props>((props, ref) => {
+const Workspace = forwardRef<WorkspaceRef, Props>((props, ref) => {
   const { filters } = props;
 
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const imageRef = useRef(new Image());
+  const [file, setFile] = useState<File | null>(null);
 
   useEffect(() => {
     const canvas = canvasRef.current!;
     const context = canvas.getContext("2d")!;
 
-    const image = new Image();
-    image.src = "/dragon.jpg";
+    const image = imageRef.current;
+    image.src = file ? URL.createObjectURL(file) : "/dragon.jpg";
 
     image.onload = () => {
       context.filter = `
@@ -30,7 +39,16 @@ const Workspace = forwardRef<Ref, Props>((props, ref) => {
 
       context.drawImage(image, 0, 0, canvas.width, canvas.height);
     };
-  }, [filters]);
+  }, [filters, file]);
+
+  useImperativeHandle(
+    ref,
+    () => ({
+      saveCanvasImage,
+      loadUserImage,
+    }),
+    []
+  );
 
   const saveCanvasImage = () => {
     const canvas = canvasRef.current!;
@@ -43,13 +61,10 @@ const Workspace = forwardRef<Ref, Props>((props, ref) => {
     document.body.removeChild(a);
   };
 
-  useImperativeHandle(
-    ref,
-    () => ({
-      saveCanvasImage,
-    }),
-    []
-  );
+  const loadUserImage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) setFile(file);
+  };
 
   return (
     <div className={styles.workspace}>
