@@ -1,12 +1,11 @@
 :root {
-  --primary-color: rgb(255, 165, 165);
-  --primary-bg-color: rgb(230, 230, 230);
+  --primary-color: rgb(75, 60, 100);
+  --toolbar-bg-color: rgb(230, 230, 230);
 }
 
 body {
   display: flex;
   justify-content: center;
-  background-color: var(--primary-bg-color);
 }
 
 * {
