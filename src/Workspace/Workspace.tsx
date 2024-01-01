@@ -21,13 +21,12 @@ const Workspace = forwardRef<WorkspaceRef, Props>((props, ref) => {
   const { filters } = props;
 
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const imageRef = useRef(new Image());
+  const imageRef = useRef<HTMLImageElement>(new Image());
   const [file, setFile] = useState<File | null>(null);
 
   useEffect(() => {
     const canvas = canvasRef.current!;
     const context = canvas.getContext("2d")!;
-
     const image = imageRef.current;
     image.src = file ? URL.createObjectURL(file) : "/dragon.jpg";
 
@@ -38,6 +37,10 @@ const Workspace = forwardRef<WorkspaceRef, Props>((props, ref) => {
       sepia(${filters.sepia}%)`;
 
       context.drawImage(image, 0, 0, canvas.width, canvas.height);
+    };
+
+    return () => {
+      URL.revokeObjectURL(image.src);
     };
   }, [filters, file]);
 
