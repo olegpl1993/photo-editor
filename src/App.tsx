@@ -12,7 +12,6 @@ function App() {
   });
 
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const imageRef = useRef<HTMLImageElement>(new Image());
   const [file, setFile] = useState<File | null>(null);
 
   const saveCanvasImage = () => {
@@ -39,12 +38,7 @@ function App() {
         saveCanvasImage={saveCanvasImage}
         loadUserImage={loadUserImage}
       />
-      <Workspace
-        filters={filters}
-        canvasRef={canvasRef}
-        imageRef={imageRef}
-        file={file}
-      />
+      <Workspace filters={filters} canvasRef={canvasRef} file={file} />
     </div>
   );
 }
