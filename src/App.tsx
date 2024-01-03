@@ -2,32 +2,35 @@ import { useRef, useState } from "react";
 import styles from "./App.module.css";
 import Toolbar from "./Toolbar/Toolbar";
 import Workspace from "./Workspace/Workspace";
+import Konva from "konva";
 
 function App() {
   console.log("app");
   const [filters, setFilters] = useState({
-    grayscale: 0,
-    sepia: 0,
-    invert: 0,
+    blur: 0,
   });
 
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const [file, setFile] = useState<File | null>(null);
-
-  const saveCanvasImage = () => {
-    const canvas = canvasRef.current!;
-    const dataURL = canvas.toDataURL("image/png");
-    const a = document.createElement("a");
-    a.href = dataURL;
-    a.download = "filtered_image.png";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-  };
+  const stageRef = useRef<Konva.Stage>(null);
+  const [imgUrl, setImgUrl] = useState<string | null>(null);
 
   const loadUserImage = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
-    if (file) setFile(file);
+    if (file) {
+      const url = URL.createObjectURL(file);
+      setImgUrl(url);
+    }
+  };
+
+  const handleSaveCanvas = () => {
+    if (stageRef.current) {
+      const dataURL = stageRef.current.toDataURL();
+      const downloadLink = document.createElement("a");
+      downloadLink.href = dataURL || "";
+      downloadLink.download = "saved_canvas.png";
+      document.body.appendChild(downloadLink);
+      downloadLink.click();
+      document.body.removeChild(downloadLink);
+    }
   };
 
   return (
@@ -35,10 +38,10 @@ function App() {
       <Toolbar
         filters={filters}
         setFilters={setFilters}
-        saveCanvasImage={saveCanvasImage}
+        handleSaveCanvas={handleSaveCanvas}
         loadUserImage={loadUserImage}
       />
-      <Workspace filters={filters} canvasRef={canvasRef} file={file} />
+      <Workspace filters={filters} imgUrl={imgUrl} stageRef={stageRef} />
     </div>
   );
 }

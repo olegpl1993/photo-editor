@@ -1,56 +1,47 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
 import styles from "./Workspace.module.css";
 import { Filters } from "../types";
 import { Stage, Layer, Rect, Image } from "react-konva";
+import Konva from "konva";
+import useImage from "use-image";
 
 interface Props {
   filters: Filters;
-  canvasRef: React.RefObject<HTMLCanvasElement>;
-  file: File | null;
+  imgUrl: string | null;
+  stageRef: React.RefObject<Konva.Stage>;
 }
 
 function Workspace(props: Props) {
   console.log("workspace");
-  const { filters, canvasRef, file } = props;
-  const [image, setImage] = useState<HTMLImageElement | null>(null);
-
-  const loadImage = () => {
-    const canvas = canvasRef.current!;
-    const context = canvas.getContext("2d")!;
-    const image = new window.Image();
-    image.src = file ? URL.createObjectURL(file) : "/dragon.jpg";
-    image.onload = () => {
-      setImage(image);
-      context.filter = `
-      grayscale(${filters.grayscale}%)
-      invert(${filters.invert}%)
-      sepia(${filters.sepia}%)`;
-      context.drawImage(image, 0, 0, canvas.width, canvas.height);
-    };
-  };
+  const { filters, imgUrl, stageRef } = props;
+  const imageRef = useRef<Konva.Image>(null);
+  const [image] = useImage(imgUrl || "/dragon.jpg", "anonymous");
 
   useEffect(() => {
-    loadImage();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filters, file]);
+    if (image) {
+      imageRef.current?.cache();
+      imageRef.current?.getLayer()?.batchDraw();
+      imageRef.current?.blurRadius(filters.blur);
+    }
+  }, [image, filters]);
 
   return (
     <div className={styles.workspace}>
-      <canvas
-        ref={canvasRef}
-        id="canvas"
-        width="800"
-        height="600"
-        style={{ border: "1px solid black" }}
-      ></canvas>
-      <Stage width={800} height={600} style={{ border: "1px solid red" }}>
+      <Stage
+        width={800}
+        height={600}
+        style={{ border: "1px solid red" }}
+        ref={stageRef}
+      >
         <Layer>
           <Image
+            ref={imageRef}
             image={image!}
             width={800}
             height={600}
             x={0}
             y={0}
+            filters={[Konva.Filters.Blur]}
             draggable
           />
           <Rect width={100} height={100} fill="blue" draggable />
