@@ -35,13 +35,13 @@ function App() {
 
   return (
     <div className={styles.app}>
-      <Workspace filters={filters} imgUrl={imgUrl} stageRef={stageRef} />
       <Toolbar
         filters={filters}
         setFilters={setFilters}
         handleSaveCanvas={handleSaveCanvas}
         loadUserImage={loadUserImage}
       />
+      <Workspace filters={filters} imgUrl={imgUrl} stageRef={stageRef} />
     </div>
   );
 }
