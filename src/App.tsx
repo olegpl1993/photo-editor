@@ -3,6 +3,7 @@ import styles from "./App.module.css";
 import Toolbar from "./Toolbar/Toolbar";
 import Workspace from "./Workspace/Workspace";
 import Konva from "konva";
+import useImage from "use-image";
 
 function App() {
   console.log("app");
@@ -14,6 +15,7 @@ function App() {
 
   const stageRef = useRef<Konva.Stage>(null);
   const [imgUrl, setImgUrl] = useState<string | null>(null);
+  const [image] = useImage(imgUrl || "/dragon.jpg", "anonymous");
 
   const loadUserImage = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -45,12 +47,14 @@ function App() {
         setScale={setScale}
       />
 
-      <Workspace
-        filters={filters}
-        imgUrl={imgUrl}
-        stageRef={stageRef}
-        scale={scale}
-      />
+      {image && (
+        <Workspace
+          filters={filters}
+          image={image}
+          stageRef={stageRef}
+          scale={scale}
+        />
+      )}
     </div>
   );
 }
