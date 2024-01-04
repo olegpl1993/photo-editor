@@ -38,14 +38,15 @@ function Workspace(props: Props) {
           height={image.height}
           ref={stageRef}
           style={{
-            padding: "20px",
-            display: "inline-flex",
-            alignItems: "center",
-            justifyContent: "center",
+            border: "3px solid red",
+            display: "block",
+            position: "absolute",
+            left: "50%",
+            top: "50%",
             backgroundColor: "",
-            minWidth: "100%",
-            minHeight: "100%",
-            transform: `scale(${scale})`,
+            minWidth: image.width,
+            minHeight: image.height,
+            transform: `translate(-50%, -50%) scale(${scale})`,
           }}
         >
           <Layer>

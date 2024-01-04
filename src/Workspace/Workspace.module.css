@@ -12,8 +12,7 @@
 }
 
 .wrapper {
-  display: inline-flex;
   min-width: 200%;
   min-height: 200%;
-  padding: 20px;
+  position: relative;
 }
