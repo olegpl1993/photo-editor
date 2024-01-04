@@ -1,22 +1,23 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import styles from "./Workspace.module.css";
 import { Filters } from "../types";
 import { Stage, Layer, Rect, Image } from "react-konva";
 import Konva from "konva";
-import useImage from "use-image";
+import ScaleSlider from "./ScaleSlider/ScaleSlider";
 
 interface Props {
   filters: Filters;
-  imgUrl: string | null;
+  image: HTMLImageElement | null;
   stageRef: React.RefObject<Konva.Stage>;
-  scale: number;
 }
 
 function Workspace(props: Props) {
   console.log("workspace");
-  const { filters, imgUrl, stageRef, scale } = props;
+  const { filters, image, stageRef } = props;
+
+  const workspaceRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<Konva.Image>(null);
-  const [image] = useImage(imgUrl || "/dragon.jpg", "anonymous");
+  const [scale, setScale] = useState(1);
 
   useEffect(() => {
     if (image) {
@@ -26,19 +27,35 @@ function Workspace(props: Props) {
     }
   }, [image, filters]);
 
+  useEffect(() => {
+    if (workspaceRef.current) {
+      const workspace = workspaceRef.current;
+      workspace.scrollTop =
+        workspace.scrollHeight / 2 - workspace.clientHeight / 2;
+      workspace.scrollLeft =
+        workspace.scrollWidth / 2 - workspace.clientWidth / 2;
+    }
+  }, []);
+
   if (!image) {
     return null;
   }
 
   return (
-    <div className={styles.workspace}>
-      <div className={styles.wrapper}>
+    <div className={styles.workspace} ref={workspaceRef}>
+      <ScaleSlider setScale={setScale} />
+      <div
+        className={styles.wrapper}
+        style={{
+          minWidth: image.width * 1.6,
+          minHeight: image.height * 1.6,
+        }}
+      >
         <Stage
           width={image.width}
           height={image.height}
           ref={stageRef}
           style={{
-            border: "3px solid red",
             display: "block",
             position: "absolute",
             left: "50%",
