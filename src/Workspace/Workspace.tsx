@@ -25,24 +25,35 @@ function Workspace(props: Props) {
     }
   }, [image, filters]);
 
+  if (!image) {
+    return null;
+  }
+
   return (
     <div className={styles.workspace}>
       <Stage
-        width={800}
-        height={600}
-        style={{ border: "1px solid red" }}
+        width={image.width}
+        height={image.height}
+        style={{
+          padding: "20px",
+          display: "inline-flex",
+          alignItems: "center",
+          justifyContent: "center",
+          backgroundColor: "",
+          minWidth: "100%",
+          minHeight: "100%",
+        }}
         ref={stageRef}
       >
         <Layer>
           <Image
             ref={imageRef}
             image={image!}
-            width={800}
-            height={600}
+            width={image.width}
+            height={image.height}
             x={0}
             y={0}
             filters={[Konva.Filters.Blur]}
-            draggable
           />
           <Rect width={100} height={100} fill="blue" draggable />
           <Rect width={100} height={100} fill="red" x={200} y={200} draggable />
