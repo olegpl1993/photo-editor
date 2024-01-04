@@ -10,6 +10,8 @@ function App() {
     blur: 0,
   });
 
+  const [scale, setScale] = useState(1);
+
   const stageRef = useRef<Konva.Stage>(null);
   const [imgUrl, setImgUrl] = useState<string | null>(null);
 
@@ -40,8 +42,15 @@ function App() {
         setFilters={setFilters}
         handleSaveCanvas={handleSaveCanvas}
         loadUserImage={loadUserImage}
+        setScale={setScale}
       />
-      <Workspace filters={filters} imgUrl={imgUrl} stageRef={stageRef} />
+
+      <Workspace
+        filters={filters}
+        imgUrl={imgUrl}
+        stageRef={stageRef}
+        scale={scale}
+      />
     </div>
   );
 }

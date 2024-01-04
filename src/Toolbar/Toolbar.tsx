@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { Filters } from "../types";
 import styles from "./Toolbar.module.css";
 
@@ -10,10 +11,17 @@ interface Props {
   >;
   handleSaveCanvas: () => void;
   loadUserImage: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  setScale: React.Dispatch<React.SetStateAction<number>>;
 }
 
 function Toolbar(props: Props) {
-  const { filters, setFilters, handleSaveCanvas, loadUserImage } = props;
+  const {
+    filters,
+    setFilters,
+    handleSaveCanvas,
+    loadUserImage,
+    setScale,
+  } = props;
 
   const handleLoadImg = () => {
     const input = document.createElement("input");
@@ -49,6 +57,18 @@ function Toolbar(props: Props) {
     });
   };
 
+  const [scalePercent, setScalePercent] = useState<string>("100");
+
+  useEffect(() => {
+    setScale(parseInt(scalePercent) / 100);
+  });
+
+  const handleSetScalePercent = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setScalePercent(event.target.value);
+  };
+
   return (
     <div className={styles.toolbar}>
       <div className={styles.col}>
@@ -66,7 +86,20 @@ function Toolbar(props: Props) {
       </div>
 
       <div className={styles.row}>
-        <p className={styles.label}>blur</p>
+        <p className={styles.label}>Scale</p>
+        <input
+          type="range"
+          min="10"
+          max="150"
+          name="scale"
+          value={scalePercent}
+          onChange={handleSetScalePercent}
+        />
+        <p className={styles.value}>{scalePercent}%</p>
+      </div>
+
+      <div className={styles.row}>
+        <p className={styles.label}>Blur</p>
         <input
           type="range"
           min="0"

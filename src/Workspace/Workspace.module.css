@@ -1,9 +1,19 @@
 .workspace {
-  height: 100%;
   width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  border: 2px solid rgb(0, 123, 0);
+  height: 100%;
+  overflow: auto;
+  background-color: gray;
+}
+
+@media screen and (max-width: 768px) {
+  .workspace {
+    height: 85vh;
+  }
+}
+
+.wrapper {
+  display: inline-flex;
+  min-width: 200%;
+  min-height: 200%;
+  padding: 20px;
 }
