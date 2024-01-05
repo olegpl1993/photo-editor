@@ -4,11 +4,19 @@ import { Filters } from "../types";
 import { Stage, Layer, Rect, Image } from "react-konva";
 import Konva from "konva";
 import ScaleSlider from "./ScaleSlider/ScaleSlider";
+import { Filter } from "konva/lib/Node";
 
 interface Props {
   filters: Filters;
   image: HTMLImageElement | null;
   stageRef: React.RefObject<Konva.Stage>;
+}
+
+function createFiltersArr(filters: Filters) {
+  const filtersArr: Filter[] = [];
+  if (filters.blur) filtersArr.push(Konva.Filters.Blur);
+  if (filters.brighten) filtersArr.push(Konva.Filters.Brighten);
+  return filtersArr;
 }
 
 function Workspace(props: Props) {
@@ -23,7 +31,10 @@ function Workspace(props: Props) {
     if (image) {
       imageRef.current?.cache();
       imageRef.current?.getLayer()?.batchDraw();
+      const filtersArr = createFiltersArr(filters);
+      imageRef.current?.filters(filtersArr);
       imageRef.current?.blurRadius(filters.blur);
+      imageRef.current?.brightness(filters.brighten);
     }
   }, [image, filters]);
 
@@ -60,7 +71,6 @@ function Workspace(props: Props) {
             position: "absolute",
             left: "50%",
             top: "50%",
-            backgroundColor: "",
             minWidth: image.width,
             minHeight: image.height,
             transform: `translate(-50%, -50%) scale(${scale})`,
@@ -74,7 +84,6 @@ function Workspace(props: Props) {
               height={image.height}
               x={0}
               y={0}
-              filters={[Konva.Filters.Blur]}
             />
 
             <Rect width={100} height={100} fill="blue" draggable />
