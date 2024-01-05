@@ -14,10 +14,19 @@ interface Props {
   setFilters: React.Dispatch<React.SetStateAction<Filters>>;
   handleSaveCanvas: () => void;
   loadUserImage: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  isFiltersOpen: boolean;
+  setIsFiltersOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 function Toolbar(props: Props) {
-  const { filters, setFilters, handleSaveCanvas, loadUserImage } = props;
+  const {
+    filters,
+    setFilters,
+    handleSaveCanvas,
+    loadUserImage,
+    isFiltersOpen,
+    setIsFiltersOpen,
+  } = props;
 
   const handleLoadImg = () => {
     const input = document.createElement("input");
@@ -55,6 +64,12 @@ function Toolbar(props: Props) {
     }));
   };
 
+  const handleChangeAccordion = (index: number) => {
+    setIsFiltersOpen(index === 0);
+  };
+
+  console.log("isFiltersOpen", isFiltersOpen);
+
   return (
     <div className={styles.toolbar}>
       <div className={styles.col}>
@@ -62,7 +77,7 @@ function Toolbar(props: Props) {
           Load Photo
         </button>
 
-        <button className={styles.btn} onClick={() => handleSaveCanvas()}>
+        <button className={styles.btn} onClick={handleSaveCanvas}>
           Save Photo
         </button>
 
@@ -71,7 +86,12 @@ function Toolbar(props: Props) {
         </button>
       </div>
 
-      <Accordion allowToggle width={"100%"}>
+      <Accordion
+        allowToggle
+        width={"100%"}
+        defaultIndex={isFiltersOpen ? [0] : []}
+        onChange={handleChangeAccordion}
+      >
         <AccordionItem>
           <h2>
             <AccordionButton>

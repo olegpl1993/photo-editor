@@ -4,6 +4,7 @@ import Toolbar from "./Toolbar/Toolbar";
 import Workspace from "./Workspace/Workspace";
 import Konva from "konva";
 import useImage from "use-image";
+import FiltersWorkspace from "./FiltersWorkspace/FiltersWorkspace";
 
 function App() {
   console.log("app");
@@ -11,6 +12,8 @@ function App() {
     blur: 0,
     brighten: 0,
   });
+
+  const [isFiltersOpen, setIsFiltersOpen] = useState(false);
 
   const stageRef = useRef<Konva.Stage>(null);
   const [imgUrl, setImgUrl] = useState<string | null>(null);
@@ -43,11 +46,20 @@ function App() {
         setFilters={setFilters}
         handleSaveCanvas={handleSaveCanvas}
         loadUserImage={loadUserImage}
+        isFiltersOpen={isFiltersOpen}
+        setIsFiltersOpen={setIsFiltersOpen}
       />
 
-      {image && (
-        <Workspace filters={filters} image={image} stageRef={stageRef} />
-      )}
+      {image &&
+        (isFiltersOpen ? (
+          <FiltersWorkspace
+            filters={filters}
+            image={image}
+            stageRef={stageRef}
+          />
+        ) : (
+          <Workspace filters={filters} image={image} stageRef={stageRef} />
+        ))}
     </div>
   );
 }
