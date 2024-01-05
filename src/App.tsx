@@ -9,6 +9,7 @@ function App() {
   console.log("app");
   const [filters, setFilters] = useState({
     blur: 0,
+    brighten: 0,
   });
 
   const stageRef = useRef<Konva.Stage>(null);
@@ -45,11 +46,7 @@ function App() {
       />
 
       {image && (
-        <Workspace
-          filters={filters}
-          image={image}
-          stageRef={stageRef}
-        />
+        <Workspace filters={filters} image={image} stageRef={stageRef} />
       )}
     </div>
   );

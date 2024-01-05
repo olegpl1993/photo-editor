@@ -1,24 +1,23 @@
+import {
+  Accordion,
+  AccordionButton,
+  AccordionIcon,
+  AccordionItem,
+  AccordionPanel,
+  Box,
+} from "@chakra-ui/react";
 import { Filters } from "../types";
 import styles from "./Toolbar.module.css";
 
 interface Props {
   filters: Filters;
-  setFilters: React.Dispatch<
-    React.SetStateAction<{
-      blur: number;
-    }>
-  >;
+  setFilters: React.Dispatch<React.SetStateAction<Filters>>;
   handleSaveCanvas: () => void;
   loadUserImage: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 function Toolbar(props: Props) {
-  const {
-    filters,
-    setFilters,
-    handleSaveCanvas,
-    loadUserImage,
-  } = props;
+  const { filters, setFilters, handleSaveCanvas, loadUserImage } = props;
 
   const handleLoadImg = () => {
     const input = document.createElement("input");
@@ -40,18 +39,20 @@ function Toolbar(props: Props) {
     document.body.removeChild(input);
   };
 
+  const handleFilterReset = () => {
+    const copyFilters = { ...filters };
+    Object.keys(copyFilters).forEach((key) => {
+      copyFilters[key as keyof Filters] = 0;
+    });
+    setFilters(copyFilters);
+  };
+
   const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setFilters((prevFilters) => ({
       ...prevFilters,
-      [name]: parseInt(value),
+      [name]: Number(value),
     }));
-  };
-
-  const handleFilterReset = () => {
-    setFilters({
-      blur: 0,
-    });
   };
 
   return (
@@ -70,18 +71,50 @@ function Toolbar(props: Props) {
         </button>
       </div>
 
-      <div className={styles.row}>
-        <p className={styles.label}>Blur</p>
-        <input
-          type="range"
-          min="0"
-          max="100"
-          name="blur"
-          value={filters.blur}
-          onChange={handleFilterChange}
-        />
-        <p className={styles.value}>{filters.blur}</p>
-      </div>
+      <Accordion allowToggle width={"100%"}>
+        <AccordionItem>
+          <h2>
+            <AccordionButton>
+              <Box as="span" flex="1" textAlign="left">
+                Filters
+              </Box>
+              <AccordionIcon />
+            </AccordionButton>
+          </h2>
+          <AccordionPanel pb={4}>
+            <div className={styles.row}>
+              <p className={styles.label}>Blur</p>
+              <input
+                type="range"
+                min="0"
+                max="100"
+                name="blur"
+                className={styles.input}
+                value={filters.blur}
+                onChange={handleFilterChange}
+              />
+              <p className={styles.value}>{filters.blur}</p>
+            </div>
+          </AccordionPanel>
+
+          <AccordionPanel pb={4}>
+            <div className={styles.row}>
+              <p className={styles.label}>Brighten</p>
+              <input
+                type="range"
+                min="-1"
+                max="1"
+                step="0.01"
+                name="brighten"
+                className={styles.input}
+                value={filters.brighten}
+                onChange={handleFilterChange}
+              />
+              <p className={styles.value}>{filters.brighten}</p>
+            </div>
+          </AccordionPanel>
+        </AccordionItem>
+      </Accordion>
     </div>
   );
 }
