@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import styles from "./FiltersWorkspace.module.css";
 import { Filters } from "../types";
-import { Stage, Layer, Rect, Image } from "react-konva";
+import { Stage, Layer, Image } from "react-konva";
 import Konva from "konva";
 import { Filter } from "konva/lib/Node";
 
@@ -11,6 +11,38 @@ interface Props {
   stageRef: React.RefObject<Konva.Stage>;
 }
 
+const updateCanvasSize = (image: HTMLImageElement) => {
+  const containerWidth = window.innerWidth;
+  const containerHeight = window.innerHeight;
+  const imageWidth = image?.width;
+  const imageHeight = image?.height;
+
+  let newCanvasSize = { width: imageWidth, height: imageHeight };
+
+  const scalePercentage = containerWidth < 768 ? 0.9 : 0.6;
+  newCanvasSize.width *= scalePercentage;
+  newCanvasSize.height *= scalePercentage;
+
+  if (imageWidth > containerWidth || imageHeight > containerHeight) {
+    const containerRatio = containerWidth / containerHeight;
+    const imageRatio = imageWidth / imageHeight;
+
+    if (imageRatio > containerRatio) {
+      newCanvasSize = {
+        width: containerWidth * scalePercentage,
+        height: (containerWidth * scalePercentage) / imageRatio,
+      };
+    } else {
+      newCanvasSize = {
+        width: containerHeight * scalePercentage * imageRatio,
+        height: containerHeight * scalePercentage,
+      };
+    }
+  }
+
+  return newCanvasSize;
+};
+
 function createFiltersArr(filters: Filters) {
   const filtersArr: Filter[] = [];
   if (filters.blur) filtersArr.push(Konva.Filters.Blur);
@@ -19,7 +51,7 @@ function createFiltersArr(filters: Filters) {
 }
 
 function FiltersWorkspace(props: Props) {
-  console.log("workspace");
+  console.log("filters workspace");
   const { filters, image, stageRef } = props;
 
   const workspaceRef = useRef<HTMLDivElement>(null);
@@ -36,15 +68,7 @@ function FiltersWorkspace(props: Props) {
     }
   }, [image, filters]);
 
-  useEffect(() => {
-    if (workspaceRef.current) {
-      const workspace = workspaceRef.current;
-      workspace.scrollTop =
-        workspace.scrollHeight / 2 - workspace.clientHeight / 2;
-      workspace.scrollLeft =
-        workspace.scrollWidth / 2 - workspace.clientWidth / 2;
-    }
-  }, []);
+  const canvasSize = updateCanvasSize(image!);
 
   if (!image) {
     return null;
@@ -52,19 +76,18 @@ function FiltersWorkspace(props: Props) {
 
   return (
     <div className={styles.workspace} ref={workspaceRef}>
-      <div className={styles.wrapper} style={{ border: "1px solid red" }}>
+      <div className={styles.wrapper}>
         <Stage
-          width={800}
-          height={600}
+          width={canvasSize.width}
+          height={canvasSize.height}
           ref={stageRef}
           style={{
-            border: "1px solid green",
             display: "block",
             position: "absolute",
             left: "50%",
             top: "50%",
-            minWidth: 800,
-            minHeight: 600,
+            minWidth: canvasSize.width,
+            minHeight: canvasSize.height,
             transform: `translate(-50%, -50%)`,
           }}
         >
@@ -72,21 +95,10 @@ function FiltersWorkspace(props: Props) {
             <Image
               ref={imageRef}
               image={image!}
-              width={800}
-              height={600}
+              width={canvasSize.width}
+              height={canvasSize.height}
               x={0}
               y={0}
-            />
-
-            <Rect width={100} height={100} fill="blue" draggable />
-
-            <Rect
-              width={100}
-              height={100}
-              fill="red"
-              x={200}
-              y={200}
-              draggable
             />
           </Layer>
         </Stage>
