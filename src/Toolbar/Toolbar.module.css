@@ -18,6 +18,12 @@
   }
 }
 
+.btn {
+  border: 1px solid red;
+  width: 150px;
+  border-radius: 5px;
+}
+
 .col {
   display: flex;
   flex-direction: column;
@@ -32,17 +38,4 @@
   justify-content: center;
   gap: 5px;
   padding-top: 5px;
-}
-
-.input {
-  width: 100px;
-}
-
-.label {
-  width: 70px;
-}
-
-.value {
-  width: 40px;
-  font-size: 16px;
 }

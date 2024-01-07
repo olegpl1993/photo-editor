@@ -3,7 +3,7 @@ import styles from "./FiltersWorkspace.module.css";
 import { Filters } from "../types";
 import { Stage, Layer, Image } from "react-konva";
 import Konva from "konva";
-import { Filter } from "konva/lib/Node";
+import { createFiltersArr } from "../services";
 
 interface Props {
   filters: Filters;
@@ -42,13 +42,6 @@ const updateCanvasSize = (image: HTMLImageElement) => {
 
   return newCanvasSize;
 };
-
-function createFiltersArr(filters: Filters) {
-  const filtersArr: Filter[] = [];
-  if (filters.blur) filtersArr.push(Konva.Filters.Blur);
-  if (filters.brighten) filtersArr.push(Konva.Filters.Brighten);
-  return filtersArr;
-}
 
 function FiltersWorkspace(props: Props) {
   console.log("filters workspace");

@@ -8,6 +8,7 @@ import FiltersWorkspace from "./FiltersWorkspace/FiltersWorkspace";
 
 function App() {
   console.log("app");
+
   const [filters, setFilters] = useState({
     blur: 0,
     brighten: 0,
