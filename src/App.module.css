@@ -15,3 +15,22 @@
     height: auto;
   }
 }
+
+.loadPhotoWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.loadPhotoBtn {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(150, 150, 200);
+  font-size: 20px;
+}

@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styles from "./App.module.css";
 import Toolbar from "./Toolbar/Toolbar";
 import Workspace from "./Workspace/Workspace";
@@ -17,15 +17,36 @@ function App() {
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
 
   const stageRef = useRef<Konva.Stage>(null);
-  const [imgUrl, setImgUrl] = useState<string | null>(null);
-  const [image] = useImage(imgUrl || "/dragon.jpg", "anonymous");
+  const [file, setFile] = useState<File | null>(null);
+  const [imgUrl, setImgUrl] = useState<string>("");
+  const [image] = useImage(imgUrl, "anonymous");
 
-  const loadUserImage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
+  useEffect(() => {
     if (file) {
       const url = URL.createObjectURL(file);
       setImgUrl(url);
     }
+  }, [file]);
+
+  const handleLoadImg = () => {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = "image/*";
+    input.className = styles.fileInput;
+    input.style.display = "none";
+
+    const changeLoadEvent = (event: Event) => {
+      const loadEvent = event as unknown as React.ChangeEvent<HTMLInputElement>;
+      const file = loadEvent.target?.files?.[0];
+      if (file) {
+        setFile(file);
+      }
+    };
+
+    input.addEventListener("change", changeLoadEvent);
+    document.body.appendChild(input);
+    input.click();
+    document.body.removeChild(input);
   };
 
   const handleSaveCanvas = () => {
@@ -40,19 +61,19 @@ function App() {
     }
   };
 
-  return (
-    <div className={styles.app}>
-      <Toolbar
-        filters={filters}
-        setFilters={setFilters}
-        handleSaveCanvas={handleSaveCanvas}
-        loadUserImage={loadUserImage}
-        isFiltersOpen={isFiltersOpen}
-        setIsFiltersOpen={setIsFiltersOpen}
-      />
+  if (image) {
+    return (
+      <div className={styles.app}>
+        <Toolbar
+          filters={filters}
+          setFilters={setFilters}
+          handleSaveCanvas={handleSaveCanvas}
+          handleLoadImg={handleLoadImg}
+          isFiltersOpen={isFiltersOpen}
+          setIsFiltersOpen={setIsFiltersOpen}
+        />
 
-      {image &&
-        (isFiltersOpen ? (
+        {isFiltersOpen ? (
           <FiltersWorkspace
             filters={filters}
             image={image}
@@ -60,7 +81,18 @@ function App() {
           />
         ) : (
           <Workspace filters={filters} image={image} stageRef={stageRef} />
-        ))}
+        )}
+      </div>
+    );
+  }
+
+  return (
+    <div className={styles.app}>
+      <div className={styles.loadPhotoWrapper}>
+        <button onClick={handleLoadImg} className={styles.loadPhotoBtn}>
+          Load Photo
+        </button>
+      </div>
     </div>
   );
 }
