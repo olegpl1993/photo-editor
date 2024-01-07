@@ -1,5 +1,5 @@
 import { Filters } from "../../types";
-import styles from "./FiltersTools.module.css";
+import styles from "./FiltersToolbar.module.css";
 
 interface Props {
   filters: Filters;
@@ -8,7 +8,7 @@ interface Props {
   setIsFiltersOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-function FiltersTools(props: Props) {
+function FiltersToolbar(props: Props) {
   const { filters, setFilters, isFiltersOpen, setIsFiltersOpen } = props;
 
   const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -21,7 +21,7 @@ function FiltersTools(props: Props) {
 
   if (isFiltersOpen) {
     return (
-      <div className={styles.filtersTools}>
+      <div className={styles.filtersToolbar}>
         <div className={styles.row}>
           <p className={styles.label}>Blur</p>
           <input
@@ -64,4 +64,4 @@ function FiltersTools(props: Props) {
   }
 }
 
-export default FiltersTools;
+export default FiltersToolbar;
