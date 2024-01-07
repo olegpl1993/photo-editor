@@ -5,8 +5,8 @@ import styles from "./Toolbar.module.css";
 interface Props {
   filters: Filters;
   setFilters: React.Dispatch<React.SetStateAction<Filters>>;
+  handleLoadImg: () => void;
   handleSaveCanvas: () => void;
-  loadUserImage: (event: React.ChangeEvent<HTMLInputElement>) => void;
   isFiltersOpen: boolean;
   setIsFiltersOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -15,31 +15,11 @@ function Toolbar(props: Props) {
   const {
     filters,
     setFilters,
+    handleLoadImg,
     handleSaveCanvas,
-    loadUserImage,
     isFiltersOpen,
     setIsFiltersOpen,
   } = props;
-
-  const handleLoadImg = () => {
-    const input = document.createElement("input");
-    input.type = "file";
-    input.accept = "image/*";
-    input.className = styles.fileInput;
-    input.style.display = "none";
-
-    const changeEvent = (event: Event) => {
-      return loadUserImage(
-        event as unknown as React.ChangeEvent<HTMLInputElement>
-      );
-    };
-
-    input.addEventListener("change", changeEvent);
-    document.body.appendChild(input);
-
-    input.click();
-    document.body.removeChild(input);
-  };
 
   const handleFilterReset = () => {
     const copyFilters = { ...filters };
