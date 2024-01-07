@@ -4,19 +4,12 @@ import { Filters } from "../types";
 import { Stage, Layer, Rect, Image } from "react-konva";
 import Konva from "konva";
 import ScaleSlider from "./ScaleSlider/ScaleSlider";
-import { Filter } from "konva/lib/Node";
+import { createFiltersArr } from "../services";
 
 interface Props {
   filters: Filters;
   image: HTMLImageElement | null;
   stageRef: React.RefObject<Konva.Stage>;
-}
-
-function createFiltersArr(filters: Filters) {
-  const filtersArr: Filter[] = [];
-  if (filters.blur) filtersArr.push(Konva.Filters.Blur);
-  if (filters.brighten) filtersArr.push(Konva.Filters.Brighten);
-  return filtersArr;
 }
 
 function Workspace(props: Props) {
