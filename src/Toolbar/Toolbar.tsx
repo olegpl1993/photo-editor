@@ -1,5 +1,5 @@
 import { Filters } from "../types";
-import FiltersTools from "./FiltersTools/FiltersTools";
+import FiltersToolbar from "./FiltersToolbar/FiltersToolbar";
 import styles from "./Toolbar.module.css";
 
 interface Props {
@@ -58,7 +58,7 @@ function Toolbar(props: Props) {
   if (isFiltersOpen) {
     return (
       <div className={styles.toolbar}>
-        <FiltersTools
+        <FiltersToolbar
           filters={filters}
           setFilters={setFilters}
           isFiltersOpen={isFiltersOpen}
