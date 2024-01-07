@@ -32,7 +32,6 @@ function App() {
     const input = document.createElement("input");
     input.type = "file";
     input.accept = "image/*";
-    input.className = styles.fileInput;
     input.style.display = "none";
 
     const changeLoadEvent = (event: Event) => {
@@ -51,14 +50,52 @@ function App() {
 
   const handleSaveCanvas = () => {
     if (stageRef.current) {
-      const dataURL = stageRef.current.toDataURL();
+      const dataURL = stageRef.current.toDataURL({
+        mimeType: "image/jpeg",
+      });
       const downloadLink = document.createElement("a");
       downloadLink.href = dataURL || "";
-      downloadLink.download = "saved_canvas.png";
+      const fileName = file?.name.split(".")[0];
+      downloadLink.download = fileName ? `${fileName}.jpg` : "photo-editor.jpg";
       document.body.appendChild(downloadLink);
       downloadLink.click();
       document.body.removeChild(downloadLink);
     }
+  };
+
+  const updateFiltersImage = () => {
+    const saveImageDiv = document.createElement("div");
+
+    if (saveImageDiv && image) {
+      const stage = new Konva.Stage({
+        container: saveImageDiv,
+        width: image.width,
+        height: image.height,
+      });
+
+      const layer = new Konva.Layer();
+      stage.add(layer);
+
+      const imageObj = new Konva.Image({
+        x: 0,
+        y: 0,
+        image: image,
+        width: image.width,
+        height: image.height,
+        filters: [Konva.Filters.Blur, Konva.Filters.Brighten],
+      });
+      layer.add(imageObj);
+      imageObj.cache();
+      imageObj.blurRadius(filters.blur);
+      imageObj.brightness(filters.brighten);
+
+      const saveImage = stage.toDataURL({
+        mimeType: "image/jpeg",
+      });
+      image.src = saveImage;
+    }
+
+    setIsFiltersOpen(!isFiltersOpen);
   };
 
   if (image) {
@@ -71,6 +108,7 @@ function App() {
           handleLoadImg={handleLoadImg}
           isFiltersOpen={isFiltersOpen}
           setIsFiltersOpen={setIsFiltersOpen}
+          updateFiltersImage={updateFiltersImage}
         />
 
         {isFiltersOpen ? (
@@ -80,20 +118,18 @@ function App() {
             stageRef={stageRef}
           />
         ) : (
-          <Workspace filters={filters} image={image} stageRef={stageRef} />
+          <Workspace image={image!} stageRef={stageRef} />
         )}
       </div>
     );
   }
 
   return (
-    <div className={styles.app}>
       <div className={styles.loadPhotoWrapper}>
         <button onClick={handleLoadImg} className={styles.loadPhotoBtn}>
           Load Photo
         </button>
       </div>
-    </div>
   );
 }
 

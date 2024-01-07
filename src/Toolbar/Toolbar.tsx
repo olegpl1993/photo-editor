@@ -9,6 +9,7 @@ interface Props {
   handleSaveCanvas: () => void;
   isFiltersOpen: boolean;
   setIsFiltersOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  updateFiltersImage: () => void;
 }
 
 function Toolbar(props: Props) {
@@ -19,21 +20,12 @@ function Toolbar(props: Props) {
     handleSaveCanvas,
     isFiltersOpen,
     setIsFiltersOpen,
+    updateFiltersImage,
   } = props;
 
-  const handleFilterReset = () => {
-    const copyFilters = { ...filters };
-    Object.keys(copyFilters).forEach((key) => {
-      copyFilters[key as keyof Filters] = 0;
-    });
-    setFilters(copyFilters);
-  };
-
   const handleOpenFilters = () => {
-    setIsFiltersOpen(!isFiltersOpen);
+    setIsFiltersOpen(true);
   };
-
-  console.log("isFiltersOpen", isFiltersOpen);
 
   if (isFiltersOpen) {
     return (
@@ -41,8 +33,8 @@ function Toolbar(props: Props) {
         <FiltersToolbar
           filters={filters}
           setFilters={setFilters}
-          isFiltersOpen={isFiltersOpen}
           setIsFiltersOpen={setIsFiltersOpen}
+          updateFiltersImage={updateFiltersImage}
         />
       </div>
     );
@@ -57,10 +49,6 @@ function Toolbar(props: Props) {
 
         <button className={styles.btn} onClick={handleSaveCanvas}>
           Save Photo
-        </button>
-
-        <button className={styles.btn} onClick={handleFilterReset}>
-          Reset Filters
         </button>
 
         <button className={styles.btn} onClick={handleOpenFilters}>
