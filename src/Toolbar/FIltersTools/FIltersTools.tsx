@@ -8,7 +8,7 @@ interface Props {
   setIsFiltersOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-function FIltersTools(props: Props) {
+function FiltersTools(props: Props) {
   const { filters, setFilters, isFiltersOpen, setIsFiltersOpen } = props;
 
   const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -64,4 +64,4 @@ function FIltersTools(props: Props) {
   }
 }
 
-export default FIltersTools;
+export default FiltersTools;
