@@ -99,23 +99,47 @@ function App() {
     setIsFiltersOpen(!isFiltersOpen);
   };
 
-  const rotateImage = () => {
-    const angle = 90;
+  const rotateImage = (direction: string) => {
+    const directionMap = {
+      left: -90,
+      right: 90,
+      horizontal: 0,
+      vertical: 0,
+    };
+    const angle = directionMap[direction as keyof typeof directionMap];
     const saveImageDiv = document.createElement("div");
     if (saveImageDiv && image) {
       const stage = new Konva.Stage({
         container: saveImageDiv,
-        width: image.height,
-        height: image.width,
+        width:
+          direction === "horizontal" || direction === "vertical"
+            ? image.width
+            : image.height,
+        height:
+          direction === "horizontal" || direction === "vertical"
+            ? image.height
+            : image.width,
       });
       const layer = new Konva.Layer();
       stage.add(layer);
       const imageObj = new Konva.Image({
         image: image,
-        x: image.height,
-        y: 0,
+        x:
+          direction === "right"
+            ? image.height
+            : direction === "horizontal"
+            ? image.width
+            : 0,
+        y:
+          direction === "left"
+            ? image.width
+            : direction === "vertical"
+            ? image.height
+            : 0,
         width: image.width,
         height: image.height,
+        scaleX: direction === "horizontal" ? -1 : 1,
+        scaleY: direction === "vertical" ? -1 : 1,
       });
 
       imageObj.rotate(angle);
