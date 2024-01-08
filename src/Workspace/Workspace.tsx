@@ -54,6 +54,7 @@ function Workspace(props: Props) {
               position: "absolute",
               left: "50%",
               top: "50%",
+              background: "white",
               minWidth: image.width,
               minHeight: image.height,
               transform: `translate(-50%, -50%) scale(${scale})`,
