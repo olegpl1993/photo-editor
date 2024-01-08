@@ -103,25 +103,30 @@ function App() {
     const directionMap = {
       left: -90,
       right: 90,
+      horizontal: 0,
     };
-
     const angle = directionMap[direction as keyof typeof directionMap];
-
     const saveImageDiv = document.createElement("div");
     if (saveImageDiv && image) {
       const stage = new Konva.Stage({
         container: saveImageDiv,
-        width: image.height,
-        height: image.width,
+        width: direction === "horizontal" ? image.width : image.height,
+        height: direction === "horizontal" ? image.height : image.width,
       });
       const layer = new Konva.Layer();
       stage.add(layer);
       const imageObj = new Konva.Image({
         image: image,
-        x: direction === "right" ? image.height : 0,
+        x:
+          direction === "right"
+            ? image.height
+            : direction === "horizontal"
+            ? image.width
+            : 0,
         y: direction === "left" ? image.width : 0,
         width: image.width,
         height: image.height,
+        scaleX: direction === "horizontal" ? -1 : 1,
       });
 
       imageObj.rotate(angle);

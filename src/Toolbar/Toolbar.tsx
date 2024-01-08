@@ -60,6 +60,13 @@ function Toolbar(props: Props) {
         <button className={styles.btn} onClick={() => rotateImage("left")}>
           Rotate left
         </button>
+
+        <button
+          className={styles.btn}
+          onClick={() => rotateImage("horizontal")}
+        >
+          Mirror horizontal
+        </button>
       </div>
     </div>
   );
