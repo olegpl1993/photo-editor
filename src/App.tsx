@@ -99,7 +99,14 @@ function App() {
     setIsFiltersOpen(!isFiltersOpen);
   };
 
-  const rotateImage = (angle: number) => {
+  const rotateImage = (direction: string) => {
+    const directionMap = {
+      left: -90,
+      right: 90,
+    };
+
+    const angle = directionMap[direction as keyof typeof directionMap];
+
     const saveImageDiv = document.createElement("div");
     if (saveImageDiv && image) {
       const stage = new Konva.Stage({
@@ -111,8 +118,8 @@ function App() {
       stage.add(layer);
       const imageObj = new Konva.Image({
         image: image,
-        x: angle === 90 ? image.height : 0,
-        y: angle === -90 ? image.width : 0,
+        x: direction === "right" ? image.height : 0,
+        y: direction === "left" ? image.width : 0,
         width: image.width,
         height: image.height,
       });
