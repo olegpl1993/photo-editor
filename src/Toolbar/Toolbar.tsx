@@ -10,6 +10,7 @@ interface Props {
   isFiltersOpen: boolean;
   setIsFiltersOpen: React.Dispatch<React.SetStateAction<boolean>>;
   updateFiltersImage: () => void;
+  rotateImage: () => void;
 }
 
 function Toolbar(props: Props) {
@@ -21,11 +22,8 @@ function Toolbar(props: Props) {
     isFiltersOpen,
     setIsFiltersOpen,
     updateFiltersImage,
+    rotateImage,
   } = props;
-
-  const handleOpenFilters = () => {
-    setIsFiltersOpen(true);
-  };
 
   if (isFiltersOpen) {
     return (
@@ -51,8 +49,12 @@ function Toolbar(props: Props) {
           Save Photo
         </button>
 
-        <button className={styles.btn} onClick={handleOpenFilters}>
+        <button className={styles.btn} onClick={() => setIsFiltersOpen(true)}>
           Filters
+        </button>
+
+        <button className={styles.btn} onClick={rotateImage}>
+          Rotate right
         </button>
       </div>
     </div>
