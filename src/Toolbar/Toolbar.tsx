@@ -10,7 +10,7 @@ interface Props {
   isFiltersOpen: boolean;
   setIsFiltersOpen: React.Dispatch<React.SetStateAction<boolean>>;
   updateFiltersImage: () => void;
-  rotateImage: () => void;
+  rotateImage: (angle: number) => void;
 }
 
 function Toolbar(props: Props) {
@@ -53,8 +53,12 @@ function Toolbar(props: Props) {
           Filters
         </button>
 
-        <button className={styles.btn} onClick={rotateImage}>
+        <button className={styles.btn} onClick={() => rotateImage(90)}>
           Rotate right
+        </button>
+
+        <button className={styles.btn} onClick={() => rotateImage(-90)}>
+          Rotate left
         </button>
       </div>
     </div>

@@ -99,8 +99,7 @@ function App() {
     setIsFiltersOpen(!isFiltersOpen);
   };
 
-  const rotateImage = () => {
-    const angle = 90;
+  const rotateImage = (angle: number) => {
     const saveImageDiv = document.createElement("div");
     if (saveImageDiv && image) {
       const stage = new Konva.Stage({
@@ -112,8 +111,8 @@ function App() {
       stage.add(layer);
       const imageObj = new Konva.Image({
         image: image,
-        x: image.height,
-        y: 0,
+        x: angle === 90 ? image.height : 0,
+        y: angle === -90 ? image.width : 0,
         width: image.width,
         height: image.height,
       });
