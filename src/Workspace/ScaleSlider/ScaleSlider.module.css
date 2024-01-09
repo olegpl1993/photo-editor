@@ -6,8 +6,14 @@
   gap: 3px;
   position: absolute;
   right: 2%;
-  top: 2%;
+  top: 3%;
   z-index: 1;
+}
+
+@media screen and (max-width: 768px) {
+  .scaleSlider {
+    top: 78%;
+  }
 }
 
 .input {

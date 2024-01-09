@@ -4,6 +4,7 @@ import Toolbar from "./Toolbar/Toolbar";
 import Workspace from "./Workspace/Workspace";
 import Konva from "konva";
 import FiltersWorkspace from "./FiltersWorkspace/FiltersWorkspace";
+import FiltersToolbar from "./FiltersToolbar/FiltersToolbar";
 
 function App() {
   console.log("app");
@@ -161,29 +162,30 @@ function App() {
     }
   };
 
-  if (image) {
+  if (image && isFiltersOpen) {
+    return (
+      <div className={styles.app}>
+        <FiltersToolbar
+          filters={filters}
+          setFilters={setFilters}
+          setIsFiltersOpen={setIsFiltersOpen}
+          updateFiltersImage={updateFiltersImage}
+        />
+        <FiltersWorkspace filters={filters} image={image} stageRef={stageRef} />
+      </div>
+    );
+  }
+
+  if (image && !isFiltersOpen) {
     return (
       <div className={styles.app}>
         <Toolbar
-          filters={filters}
-          setFilters={setFilters}
           handleSaveCanvas={handleSaveCanvas}
           handleLoadImg={handleLoadImg}
-          isFiltersOpen={isFiltersOpen}
           setIsFiltersOpen={setIsFiltersOpen}
-          updateFiltersImage={updateFiltersImage}
           rotateImage={rotateImage}
         />
-
-        {isFiltersOpen ? (
-          <FiltersWorkspace
-            filters={filters}
-            image={image}
-            stageRef={stageRef}
-          />
-        ) : (
-          <Workspace image={image!} stageRef={stageRef} />
-        )}
+        <Workspace image={image!} stageRef={stageRef} />
       </div>
     );
   }

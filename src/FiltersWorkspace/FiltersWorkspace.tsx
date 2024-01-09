@@ -68,7 +68,7 @@ function FiltersWorkspace(props: Props) {
   }
 
   return (
-    <div className={styles.workspace} ref={workspaceRef}>
+    <div className={styles.filtersWorkspace} ref={workspaceRef}>
       <div className={styles.wrapper}>
         <Stage
           width={canvasSize.width}
