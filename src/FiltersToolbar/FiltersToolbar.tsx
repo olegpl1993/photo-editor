@@ -1,4 +1,4 @@
-import { Filters } from "../../types";
+import { Filters } from "../types";
 import styles from "./FiltersToolbar.module.css";
 
 interface Props {

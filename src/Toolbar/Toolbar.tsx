@@ -1,42 +1,19 @@
-import { Filters } from "../types";
-import FiltersToolbar from "./FiltersToolbar/FiltersToolbar";
 import styles from "./Toolbar.module.css";
 
 interface Props {
-  filters: Filters;
-  setFilters: React.Dispatch<React.SetStateAction<Filters>>;
   handleLoadImg: () => void;
   handleSaveCanvas: () => void;
-  isFiltersOpen: boolean;
   setIsFiltersOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  updateFiltersImage: () => void;
   rotateImage: (direction: string) => void;
 }
 
 function Toolbar(props: Props) {
   const {
-    filters,
-    setFilters,
     handleLoadImg,
     handleSaveCanvas,
-    isFiltersOpen,
     setIsFiltersOpen,
-    updateFiltersImage,
     rotateImage,
   } = props;
-
-  if (isFiltersOpen) {
-    return (
-      <div className={styles.toolbar}>
-        <FiltersToolbar
-          filters={filters}
-          setFilters={setFilters}
-          setIsFiltersOpen={setIsFiltersOpen}
-          updateFiltersImage={updateFiltersImage}
-        />
-      </div>
-    );
-  }
 
   return (
     <div className={styles.toolbar}>
