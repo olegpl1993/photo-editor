@@ -91,7 +91,7 @@ function App() {
       imageObj.blurRadius(filters.blur);
       imageObj.brightness(filters.brighten);
       const saveImage = stage.toDataURL({
-        mimeType: "image/jpeg",
+        mimeType: "image/png",
       });
 
       setImgUrl(saveImage);
@@ -150,7 +150,7 @@ function App() {
       layer.add(imageObj);
       imageObj.cache();
       const saveImage = stage.toDataURL({
-        mimeType: "image/jpeg",
+        mimeType: "image/png",
       });
 
       setImgUrl(saveImage);
