@@ -5,17 +5,15 @@ import Workspace from "./Workspace/Workspace";
 import Konva from "konva";
 import FiltersWorkspace from "./FiltersWorkspace/FiltersWorkspace";
 import FiltersToolbar from "./FiltersToolbar/FiltersToolbar";
+import { loadImg } from "./App.service";
 
 function App() {
   console.log("app");
-
   const [filters, setFilters] = useState({
     blur: 0,
     brighten: 0,
   });
-
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
-
   const stageRef = useRef<Konva.Stage>(null);
   const [file, setFile] = useState<File | null>(null);
   const [imgUrl, setImgUrl] = useState<string>("");
@@ -36,132 +34,6 @@ function App() {
     }
   }, [file]);
 
-  const handleLoadImg = () => {
-    const input = document.createElement("input");
-    input.type = "file";
-    input.accept = "image/*";
-    input.style.display = "none";
-    const changeLoadEvent = (event: Event) => {
-      const loadEvent = event as unknown as React.ChangeEvent<HTMLInputElement>;
-      const file = loadEvent.target?.files?.[0];
-      if (file) {
-        setFile(file);
-      }
-    };
-    input.addEventListener("change", changeLoadEvent);
-    document.body.appendChild(input);
-    input.click();
-    document.body.removeChild(input);
-  };
-
-  const handleSaveCanvas = () => {
-    if (stageRef.current) {
-      const dataURL = stageRef.current.toDataURL({
-        mimeType: "image/jpeg",
-      });
-      const downloadLink = document.createElement("a");
-      downloadLink.href = dataURL || "";
-      const fileName = file?.name.split(".")[0];
-      downloadLink.download = fileName ? `${fileName}.jpg` : "photo-editor.jpg";
-      document.body.appendChild(downloadLink);
-      downloadLink.click();
-      document.body.removeChild(downloadLink);
-    }
-  };
-
-  const updateFiltersImage = () => {
-    const saveImageDiv = document.createElement("div");
-    if (saveImageDiv && image) {
-      const stage = new Konva.Stage({
-        container: saveImageDiv,
-        width: image.width,
-        height: image.height,
-      });
-      const layer = new Konva.Layer();
-      stage.add(layer);
-      const imageObj = new Konva.Image({
-        x: 0,
-        y: 0,
-        image: image,
-        width: image.width,
-        height: image.height,
-        filters: [Konva.Filters.Blur, Konva.Filters.Brighten],
-      });
-      layer.add(imageObj);
-      imageObj.cache();
-      imageObj.blurRadius(filters.blur);
-      imageObj.brightness(filters.brighten);
-      const saveImage = stage.toDataURL({
-        mimeType: "image/png",
-      });
-
-      setImgUrl(saveImage);
-      setIsFiltersOpen(!isFiltersOpen);
-      stage.destroy();
-      layer.destroy();
-      imageObj.destroy();
-      URL.revokeObjectURL(saveImage);
-    }
-  };
-
-  const rotateImage = (direction: string) => {
-    const directionMap = {
-      left: -90,
-      right: 90,
-      horizontal: 0,
-      vertical: 0,
-    };
-    const angle = directionMap[direction as keyof typeof directionMap];
-    const saveImageDiv = document.createElement("div");
-    if (saveImageDiv && image) {
-      const stage = new Konva.Stage({
-        container: saveImageDiv,
-        width:
-          direction === "horizontal" || direction === "vertical"
-            ? image.width
-            : image.height,
-        height:
-          direction === "horizontal" || direction === "vertical"
-            ? image.height
-            : image.width,
-      });
-      const layer = new Konva.Layer();
-      stage.add(layer);
-      const imageObj = new Konva.Image({
-        image: image,
-        x:
-          direction === "right"
-            ? image.height
-            : direction === "horizontal"
-            ? image.width
-            : 0,
-        y:
-          direction === "left"
-            ? image.width
-            : direction === "vertical"
-            ? image.height
-            : 0,
-        width: image.width,
-        height: image.height,
-        scaleX: direction === "horizontal" ? -1 : 1,
-        scaleY: direction === "vertical" ? -1 : 1,
-      });
-
-      imageObj.rotate(angle);
-      layer.add(imageObj);
-      imageObj.cache();
-      const saveImage = stage.toDataURL({
-        mimeType: "image/png",
-      });
-
-      setImgUrl(saveImage);
-      stage.destroy();
-      layer.destroy();
-      imageObj.destroy();
-      URL.revokeObjectURL(saveImage);
-    }
-  };
-
   if (image && isFiltersOpen) {
     return (
       <div className={styles.app}>
@@ -169,7 +41,8 @@ function App() {
           filters={filters}
           setFilters={setFilters}
           setIsFiltersOpen={setIsFiltersOpen}
-          updateFiltersImage={updateFiltersImage}
+          image={image}
+          setImgUrl={setImgUrl}
         />
         <FiltersWorkspace filters={filters} image={image} stageRef={stageRef} />
       </div>
@@ -180,10 +53,12 @@ function App() {
     return (
       <div className={styles.app}>
         <Toolbar
-          handleSaveCanvas={handleSaveCanvas}
-          handleLoadImg={handleLoadImg}
+          file={file}
+          stageRef={stageRef}
+          setFile={setFile}
           setIsFiltersOpen={setIsFiltersOpen}
-          rotateImage={rotateImage}
+          image={image}
+          setImgUrl={setImgUrl}
         />
         <Workspace image={image!} stageRef={stageRef} />
       </div>
@@ -192,7 +67,7 @@ function App() {
 
   return (
     <div className={styles.loadPhotoWrapper}>
-      <button onClick={handleLoadImg} className={styles.loadPhotoBtn}>
+      <button onClick={() => loadImg(setFile)} className={styles.loadPhotoBtn}>
         Load Photo
       </button>
     </div>

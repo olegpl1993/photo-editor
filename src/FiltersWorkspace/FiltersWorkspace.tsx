@@ -3,7 +3,7 @@ import styles from "./FiltersWorkspace.module.css";
 import { Filters } from "../types";
 import { Stage, Layer, Image } from "react-konva";
 import Konva from "konva";
-import { createFiltersArr } from "../services";
+import { createFiltersArr } from "../App.service";
 
 interface Props {
   filters: Filters;
