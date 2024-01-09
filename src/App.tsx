@@ -93,10 +93,14 @@ function App() {
       const saveImage = stage.toDataURL({
         mimeType: "image/jpeg",
       });
-      image.src = saveImage;
-    }
 
-    setIsFiltersOpen(!isFiltersOpen);
+      setImgUrl(saveImage);
+      setIsFiltersOpen(!isFiltersOpen);
+      stage.destroy();
+      layer.destroy();
+      imageObj.destroy();
+      URL.revokeObjectURL(saveImage);
+    }
   };
 
   const rotateImage = (direction: string) => {
@@ -150,6 +154,10 @@ function App() {
       });
 
       setImgUrl(saveImage);
+      stage.destroy();
+      layer.destroy();
+      imageObj.destroy();
+      URL.revokeObjectURL(saveImage);
     }
   };
 
