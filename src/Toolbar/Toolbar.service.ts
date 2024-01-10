@@ -33,7 +33,6 @@ export const rotateImage = (
   const saveImageDiv = document.createElement("div");
   if (saveImageDiv && image) {
     const stage = new Konva.Stage({
-      imageSmoothingEnabled: false,
       container: saveImageDiv,
       width:
         direction === "horizontal" || direction === "vertical"
@@ -45,9 +44,7 @@ export const rotateImage = (
           : image.width,
     });
 
-    const layer = new Konva.Layer({
-      imageSmoothingEnabled: false,
-    });
+    const layer = new Konva.Layer();
     stage.add(layer);
 
     const imageObj = new Konva.Image({
