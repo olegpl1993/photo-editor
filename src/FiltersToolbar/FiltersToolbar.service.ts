@@ -24,6 +24,7 @@ export const updateFiltersImage = (
       width: image.width,
       height: image.height,
       filters: [Konva.Filters.Blur, Konva.Filters.Brighten],
+      imageSmoothingEnabled: false,
     });
     layer.add(imageObj);
 
