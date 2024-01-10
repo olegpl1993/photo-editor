@@ -69,9 +69,8 @@ export const rotateImage = (
     layer.add(imageObj);
     imageObj.cache();
     const saveImage = stage.toDataURL({
-      mimeType: "image/png",
-      quality: 1,
-      pixelRatio: 1,
+      mimeType: "image/jpeg",
+      quality: 1.0,
     });
 
     setImgUrl(saveImage);
