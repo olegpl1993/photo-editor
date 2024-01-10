@@ -33,7 +33,6 @@ export const rotateImage = (
   const saveImageDiv = document.createElement("div");
   if (saveImageDiv && image) {
     const stage = new Konva.Stage({
-      pixelRatio: window.devicePixelRatio,
       container: saveImageDiv,
       width:
         direction === "horizontal" || direction === "vertical"
@@ -71,6 +70,8 @@ export const rotateImage = (
     imageObj.cache();
     const saveImage = stage.toDataURL({
       mimeType: "image/png",
+      quality: 1,
+      pixelRatio: 1,
     });
 
     setImgUrl(saveImage);
