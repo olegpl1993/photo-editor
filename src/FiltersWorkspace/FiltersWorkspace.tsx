@@ -92,6 +92,7 @@ function FiltersWorkspace(props: Props) {
               height={canvasSize.height}
               x={0}
               y={0}
+              imageSmoothingEnabled={false}
             />
           </Layer>
         </Stage>

@@ -68,6 +68,7 @@ function Workspace(props: Props) {
                 height={image.height}
                 x={0}
                 y={0}
+                imageSmoothingEnabled={false}
               />
 
               <Rect width={100} height={100} fill="blue" draggable />
