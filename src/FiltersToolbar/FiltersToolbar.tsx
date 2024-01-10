@@ -1,15 +1,17 @@
 import { Filters } from "../types";
 import styles from "./FiltersToolbar.module.css";
+import { updateFiltersImage } from "./FiltersToolbar.service";
 
 interface Props {
   filters: Filters;
   setFilters: React.Dispatch<React.SetStateAction<Filters>>;
   setIsFiltersOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  updateFiltersImage: () => void;
+  image: HTMLImageElement;
+  setImgUrl: React.Dispatch<React.SetStateAction<string>>;
 }
 
 function FiltersToolbar(props: Props) {
-  const { filters, setFilters, setIsFiltersOpen, updateFiltersImage } = props;
+  const { filters, setFilters, setIsFiltersOpen, image, setImgUrl } = props;
 
   const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -28,7 +30,7 @@ function FiltersToolbar(props: Props) {
   };
 
   const handleFiltersApply = () => {
-    updateFiltersImage();
+    updateFiltersImage(image, filters, setImgUrl, setIsFiltersOpen);
     handleFilterReset();
   };
 

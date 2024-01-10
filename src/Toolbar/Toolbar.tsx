@@ -1,28 +1,35 @@
+import Konva from "konva";
 import styles from "./Toolbar.module.css";
+import { rotateImage, saveCanvas } from "./Toolbar.service";
+import { loadImg } from "../App.service";
 
 interface Props {
-  handleLoadImg: () => void;
-  handleSaveCanvas: () => void;
+  file: File | null;
+  stageRef: React.RefObject<Konva.Stage>;
+  setFile: React.Dispatch<React.SetStateAction<File | null>>;
   setIsFiltersOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  rotateImage: (direction: string) => void;
+  image: HTMLImageElement;
+  setImgUrl: React.Dispatch<React.SetStateAction<string>>;
 }
 
 function Toolbar(props: Props) {
-  const {
-    handleLoadImg,
-    handleSaveCanvas,
-    setIsFiltersOpen,
-    rotateImage,
-  } = props;
+  const { file, stageRef, setFile, setIsFiltersOpen, image, setImgUrl } = props;
+
+  const handleRotateImage = (direction: string) => {
+    rotateImage(direction, image, setImgUrl);
+  };
 
   return (
     <div className={styles.toolbar}>
       <div className={styles.col}>
-        <button onClick={handleLoadImg} className={styles.btn}>
+        <button onClick={() => loadImg(setFile)} className={styles.btn}>
           Load Photo
         </button>
 
-        <button className={styles.btn} onClick={handleSaveCanvas}>
+        <button
+          className={styles.btn}
+          onClick={() => saveCanvas(file, stageRef)}
+        >
           Save Photo
         </button>
 
@@ -30,24 +37,30 @@ function Toolbar(props: Props) {
           Filters
         </button>
 
-        <button className={styles.btn} onClick={() => rotateImage("right")}>
+        <button
+          className={styles.btn}
+          onClick={() => handleRotateImage("right")}
+        >
           Rotate right
         </button>
 
-        <button className={styles.btn} onClick={() => rotateImage("left")}>
+        <button
+          className={styles.btn}
+          onClick={() => handleRotateImage("left")}
+        >
           Rotate left
         </button>
 
         <button
           className={styles.btn}
-          onClick={() => rotateImage("horizontal")}
+          onClick={() => handleRotateImage("horizontal")}
         >
           Mirror horizontal
         </button>
 
         <button
           className={styles.btn}
-          onClick={() => rotateImage("vertical")}
+          onClick={() => handleRotateImage("vertical")}
         >
           Mirror vertical
         </button>
