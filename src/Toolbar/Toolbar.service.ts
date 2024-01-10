@@ -33,6 +33,7 @@ export const rotateImage = (
   const saveImageDiv = document.createElement("div");
   if (saveImageDiv && image) {
     const stage = new Konva.Stage({
+      pixelRatio: window.devicePixelRatio,
       container: saveImageDiv,
       width:
         direction === "horizontal" || direction === "vertical"
@@ -44,9 +45,13 @@ export const rotateImage = (
           : image.width,
     });
     const layer = new Konva.Layer();
+
+    layer.cache({ pixelRatio: window.devicePixelRatio });
+
     stage.add(layer);
     const imageObj = new Konva.Image({
       image: image,
+      pixelRatio: window.devicePixelRatio,
       x:
         direction === "right"
           ? image.height
@@ -65,12 +70,13 @@ export const rotateImage = (
       scaleY: direction === "vertical" ? -1 : 1,
     });
 
+    imageObj.attrs.image.style.imageRendering = "pixelated";
+
     imageObj.rotate(angle);
     layer.add(imageObj);
-    imageObj.cache();
+    imageObj.cache({ pixelRatio: window.devicePixelRatio });
     const saveImage = stage.toDataURL({
-      mimeType: "image/jpeg",
-      quality: 1.0,
+      mimeType: "image/png",
     });
 
     setImgUrl(saveImage);
