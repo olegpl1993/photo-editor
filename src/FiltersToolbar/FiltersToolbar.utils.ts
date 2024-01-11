@@ -1,5 +1,6 @@
 import Konva from "konva";
 import { Filters } from "../types";
+import { createFiltersArr } from "../App.utils";
 
 export const updateFiltersImage = (
   image: HTMLImageElement,
@@ -23,7 +24,7 @@ export const updateFiltersImage = (
       image: image,
       width: image.width,
       height: image.height,
-      filters: [Konva.Filters.Blur, Konva.Filters.Brighten],
+      filters: createFiltersArr(filters),
       imageSmoothingEnabled: false,
     });
     layer.add(imageObj);
@@ -31,6 +32,9 @@ export const updateFiltersImage = (
     imageObj.cache();
     imageObj.blurRadius(filters.blur);
     imageObj.brightness(filters.brighten);
+    imageObj.contrast(filters.contrast);
+    imageObj.noise(filters.noise);
+    imageObj.pixelSize(filters.pixelate);
 
     const saveImage = stage.toDataURL({
       mimeType: "image/png",

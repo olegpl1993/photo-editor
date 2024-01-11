@@ -6,12 +6,18 @@ import Konva from "konva";
 import FiltersWorkspace from "./FiltersWorkspace/FiltersWorkspace";
 import FiltersToolbar from "./FiltersToolbar/FiltersToolbar";
 import { loadImg } from "./App.utils";
+import { Filters } from "./types";
 
 function App() {
   console.log("app");
-  const [filters, setFilters] = useState({
+  const [filters, setFilters] = useState<Filters>({
     blur: 0,
     brighten: 0,
+    contrast: 0,
+    grayscale: 0,
+    invert: 0,
+    noise: 0,
+    pixelate: 1,
   });
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
   const stageRef = useRef<Konva.Stage>(null);

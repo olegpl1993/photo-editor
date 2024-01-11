@@ -27,6 +27,9 @@ function FiltersWorkspace(props: Props) {
       imageRef.current?.filters(filtersArr);
       imageRef.current?.blurRadius(filters.blur);
       imageRef.current?.brightness(filters.brighten);
+      imageRef.current?.contrast(filters.contrast);
+      imageRef.current?.noise(filters.noise);
+      imageRef.current?.pixelSize(filters.pixelate);
     }
   }, [image, filters]);
 

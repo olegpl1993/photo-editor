@@ -29,13 +29,17 @@
   height: 25px;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   gap: 5px;
   padding-top: 5px;
 }
 
 .input {
   width: 100px;
+}
+
+.inputCheckbox {
+  margin-right: 28px;
 }
 
 .label {

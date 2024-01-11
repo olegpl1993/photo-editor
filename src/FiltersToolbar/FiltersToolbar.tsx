@@ -14,18 +14,27 @@ function FiltersToolbar(props: Props) {
   const { filters, setFilters, setIsFiltersOpen, image, setImgUrl } = props;
 
   const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-    setFilters((prevFilters) => ({
-      ...prevFilters,
-      [name]: Number(value),
-    }));
+    const { name, value, checked } = event.target;
+    console.log(name, value, checked);
+    if (checked) {
+      setFilters((prevFilters) => ({
+        ...prevFilters,
+        [name]: 1,
+      }));
+    } else {
+      setFilters((prevFilters) => ({
+        ...prevFilters,
+        [name]: Number(value),
+      }));
+    }
   };
 
   const handleFilterReset = () => {
-    const copyFilters = { ...filters };
+    const copyFilters: Record<string, number> = { ...filters };
     Object.keys(copyFilters).forEach((key) => {
-      copyFilters[key as keyof Filters] = 0;
+      copyFilters[key] = 0;
     });
+    copyFilters.pixelate = 1;
     setFilters(copyFilters);
   };
 
@@ -41,6 +50,28 @@ function FiltersToolbar(props: Props) {
 
   return (
     <div className={styles.filtersToolbar}>
+      <div className={styles.row}>
+        <p className={styles.label}>Grayscale</p>
+        <input
+          type="checkbox"
+          name="grayscale"
+          className={styles.inputCheckbox}
+          checked={!!filters.grayscale}
+          onChange={handleFilterChange}
+        />
+      </div>
+
+      <div className={styles.row}>
+        <p className={styles.label}>Invert</p>
+        <input
+          type="checkbox"
+          name="invert"
+          className={styles.inputCheckbox}
+          checked={!!filters.invert}
+          onChange={handleFilterChange}
+        />
+      </div>
+
       <div className={styles.row}>
         <p className={styles.label}>Blur</p>
         <input
@@ -68,6 +99,50 @@ function FiltersToolbar(props: Props) {
           onChange={handleFilterChange}
         />
         <p className={styles.value}>{filters.brighten}</p>
+      </div>
+
+      <div className={styles.row}>
+        <p className={styles.label}>Contrast</p>
+        <input
+          type="range"
+          min="-100"
+          max="100"
+          name="contrast"
+          className={styles.input}
+          value={filters.contrast}
+          onChange={handleFilterChange}
+        />
+        <p className={styles.value}>{filters.contrast}</p>
+      </div>
+
+      <div className={styles.row}>
+        <p className={styles.label}>Noise</p>
+        <input
+          type="range"
+          min="0"
+          max="4"
+          step="0.1"
+          name="noise"
+          className={styles.input}
+          value={filters.noise}
+          onChange={handleFilterChange}
+        />
+        <p className={styles.value}>{filters.noise}</p>
+      </div>
+
+      <div className={styles.row}>
+        <p className={styles.label}>Pixelate</p>
+        <input
+          type="range"
+          min="1"
+          max="20"
+          step="0.1"
+          name="pixelate"
+          className={styles.input}
+          value={filters.pixelate}
+          onChange={handleFilterChange}
+        />
+        <p className={styles.value}>{filters.pixelate}</p>
       </div>
 
       <button className={styles.btn} onClick={handleFilterReset}>

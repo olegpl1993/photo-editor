@@ -6,6 +6,11 @@ export function createFiltersArr(filters: Filters) {
   const filtersArr: Filter[] = [];
   if (filters.blur) filtersArr.push(Konva.Filters.Blur);
   if (filters.brighten) filtersArr.push(Konva.Filters.Brighten);
+  if (filters.contrast) filtersArr.push(Konva.Filters.Contrast);
+  if (filters.grayscale) filtersArr.push(Konva.Filters.Grayscale);
+  if (filters.invert) filtersArr.push(Konva.Filters.Invert);
+  if (filters.noise) filtersArr.push(Konva.Filters.Noise);
+  if (filters.pixelate > 1) filtersArr.push(Konva.Filters.Pixelate);
   return filtersArr;
 }
 
