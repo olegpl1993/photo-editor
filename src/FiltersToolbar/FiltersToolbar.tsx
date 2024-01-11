@@ -1,6 +1,6 @@
 import { Filters } from "../types";
 import styles from "./FiltersToolbar.module.css";
-import { updateFiltersImage } from "./FiltersToolbar.service";
+import { updateFiltersImage } from "./FiltersToolbar.utils";
 
 interface Props {
   filters: Filters;

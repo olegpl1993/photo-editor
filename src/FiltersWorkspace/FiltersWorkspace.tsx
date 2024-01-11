@@ -3,45 +3,14 @@ import styles from "./FiltersWorkspace.module.css";
 import { Filters } from "../types";
 import { Stage, Layer, Image } from "react-konva";
 import Konva from "konva";
-import { createFiltersArr } from "../App.service";
+import { createFiltersArr } from "../App.utils";
+import { updateCanvasSize } from "./FiltersWorkspace.utils";
 
 interface Props {
   filters: Filters;
   image: HTMLImageElement | null;
   stageRef: React.RefObject<Konva.Stage>;
 }
-
-const updateCanvasSize = (image: HTMLImageElement) => {
-  const containerWidth = window.innerWidth;
-  const containerHeight = window.innerHeight;
-  const imageWidth = image?.width;
-  const imageHeight = image?.height;
-
-  let newCanvasSize = { width: imageWidth, height: imageHeight };
-
-  const scalePercentage = containerWidth < 768 ? 0.9 : 0.6;
-  newCanvasSize.width *= scalePercentage;
-  newCanvasSize.height *= scalePercentage;
-
-  if (imageWidth > containerWidth || imageHeight > containerHeight) {
-    const containerRatio = containerWidth / containerHeight;
-    const imageRatio = imageWidth / imageHeight;
-
-    if (imageRatio > containerRatio) {
-      newCanvasSize = {
-        width: containerWidth * scalePercentage,
-        height: (containerWidth * scalePercentage) / imageRatio,
-      };
-    } else {
-      newCanvasSize = {
-        width: containerHeight * scalePercentage * imageRatio,
-        height: containerHeight * scalePercentage,
-      };
-    }
-  }
-
-  return newCanvasSize;
-};
 
 function FiltersWorkspace(props: Props) {
   console.log("filters workspace");

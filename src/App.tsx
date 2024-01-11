@@ -5,7 +5,7 @@ import Workspace from "./Workspace/Workspace";
 import Konva from "konva";
 import FiltersWorkspace from "./FiltersWorkspace/FiltersWorkspace";
 import FiltersToolbar from "./FiltersToolbar/FiltersToolbar";
-import { loadImg } from "./App.service";
+import { loadImg } from "./App.utils";
 
 function App() {
   console.log("app");
