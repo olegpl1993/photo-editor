@@ -25,6 +25,9 @@ function App() {
     green: 0,
     blue: 0,
     alpha: 0,
+    hue: 0,
+    saturation: 0,
+    luminance: 0,
   });
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
   const stageRef = useRef<Konva.Stage>(null);
