@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import styles from "./Workspace.module.css";
-import { Stage, Layer, Rect, Image } from "react-konva";
+import { Stage, Layer, Image } from "react-konva";
 import Konva from "konva";
 import ScaleSlider from "./ScaleSlider/ScaleSlider";
 
@@ -10,7 +10,6 @@ interface Props {
 }
 
 function Workspace(props: Props) {
-  console.log("workspace");
   const { image, stageRef } = props;
 
   const workspaceRef = useRef<HTMLDivElement>(null);
@@ -69,17 +68,6 @@ function Workspace(props: Props) {
                 x={0}
                 y={0}
                 imageSmoothingEnabled={false}
-              />
-
-              <Rect width={100} height={100} fill="blue" draggable />
-
-              <Rect
-                width={100}
-                height={100}
-                fill="red"
-                x={200}
-                y={200}
-                draggable
               />
             </Layer>
           </Stage>

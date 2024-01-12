@@ -1,4 +1,1 @@
-export interface Filters {
-  blur: number;
-  brighten: number;
-}
+export type Filters = Record<string, number>;

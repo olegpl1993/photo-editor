@@ -3,7 +3,8 @@ import styles from "./FiltersWorkspace.module.css";
 import { Filters } from "../types";
 import { Stage, Layer, Image } from "react-konva";
 import Konva from "konva";
-import { createFiltersArr } from "../App.service";
+import { createFiltersArr } from "../App.utils";
+import { updateCanvasSize } from "./FiltersWorkspace.utils";
 
 interface Props {
   filters: Filters;
@@ -11,40 +12,7 @@ interface Props {
   stageRef: React.RefObject<Konva.Stage>;
 }
 
-const updateCanvasSize = (image: HTMLImageElement) => {
-  const containerWidth = window.innerWidth;
-  const containerHeight = window.innerHeight;
-  const imageWidth = image?.width;
-  const imageHeight = image?.height;
-
-  let newCanvasSize = { width: imageWidth, height: imageHeight };
-
-  const scalePercentage = containerWidth < 768 ? 0.9 : 0.6;
-  newCanvasSize.width *= scalePercentage;
-  newCanvasSize.height *= scalePercentage;
-
-  if (imageWidth > containerWidth || imageHeight > containerHeight) {
-    const containerRatio = containerWidth / containerHeight;
-    const imageRatio = imageWidth / imageHeight;
-
-    if (imageRatio > containerRatio) {
-      newCanvasSize = {
-        width: containerWidth * scalePercentage,
-        height: (containerWidth * scalePercentage) / imageRatio,
-      };
-    } else {
-      newCanvasSize = {
-        width: containerHeight * scalePercentage * imageRatio,
-        height: containerHeight * scalePercentage,
-      };
-    }
-  }
-
-  return newCanvasSize;
-};
-
 function FiltersWorkspace(props: Props) {
-  console.log("filters workspace");
   const { filters, image, stageRef } = props;
 
   const workspaceRef = useRef<HTMLDivElement>(null);
@@ -58,14 +26,23 @@ function FiltersWorkspace(props: Props) {
       imageRef.current?.filters(filtersArr);
       imageRef.current?.blurRadius(filters.blur);
       imageRef.current?.brightness(filters.brighten);
+      imageRef.current?.contrast(filters.contrast);
+      imageRef.current?.noise(filters.noise);
+      imageRef.current?.pixelSize(filters.pixelate);
+      imageRef.current?.levels(filters.posterize);
+      imageRef.current?.threshold(filters.threshold);
+      imageRef.current?.red(filters.red);
+      imageRef.current?.green(filters.green);
+      imageRef.current?.blue(filters.blue);
+      imageRef.current?.alpha(filters.alpha);
     }
   }, [image, filters]);
-
-  const canvasSize = updateCanvasSize(image!);
 
   if (!image) {
     return null;
   }
+
+  const canvasSize = updateCanvasSize(image);
 
   return (
     <div className={styles.filtersWorkspace} ref={workspaceRef}>

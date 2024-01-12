@@ -1,7 +1,7 @@
 import Konva from "konva";
 import styles from "./Toolbar.module.css";
-import { rotateImage, saveCanvas } from "./Toolbar.service";
-import { loadImg } from "../App.service";
+import { rotateImage, saveCanvas } from "./Toolbar.utils";
+import { loadImg } from "../App.utils";
 
 interface Props {
   file: File | null;
