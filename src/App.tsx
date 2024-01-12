@@ -18,6 +18,10 @@ function App() {
     invert: 0,
     noise: 0,
     pixelate: 1,
+    posterize: 0,
+    sepia: 0,
+    solarize: 0,
+    threshold: 0,
   });
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
   const stageRef = useRef<Konva.Stage>(null);

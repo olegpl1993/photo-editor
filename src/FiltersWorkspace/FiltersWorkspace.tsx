@@ -30,6 +30,8 @@ function FiltersWorkspace(props: Props) {
       imageRef.current?.contrast(filters.contrast);
       imageRef.current?.noise(filters.noise);
       imageRef.current?.pixelSize(filters.pixelate);
+      imageRef.current?.levels(filters.posterize);
+      imageRef.current?.threshold(filters.threshold);
     }
   }, [image, filters]);
 

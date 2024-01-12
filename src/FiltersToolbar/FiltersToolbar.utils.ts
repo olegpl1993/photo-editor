@@ -35,6 +35,8 @@ export const updateFiltersImage = (
     imageObj.contrast(filters.contrast);
     imageObj.noise(filters.noise);
     imageObj.pixelSize(filters.pixelate);
+    imageObj.levels(filters.posterize);
+    imageObj.threshold(filters.threshold);
 
     const saveImage = stage.toDataURL({
       mimeType: "image/png",

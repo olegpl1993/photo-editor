@@ -73,11 +73,34 @@ function FiltersToolbar(props: Props) {
       </div>
 
       <div className={styles.row}>
+        <p className={styles.label}>Sepia</p>
+        <input
+          type="checkbox"
+          name="sepia"
+          className={styles.inputCheckbox}
+          checked={!!filters.sepia}
+          onChange={handleFilterChange}
+        />
+      </div>
+
+      <div className={styles.row}>
+        <p className={styles.label}>Solarize</p>
+        <input
+          type="checkbox"
+          name="solarize"
+          className={styles.inputCheckbox}
+          checked={!!filters.solarize}
+          onChange={handleFilterChange}
+        />
+      </div>
+
+      <div className={styles.row}>
         <p className={styles.label}>Blur</p>
         <input
           type="range"
           min="0"
-          max="100"
+          max="10"
+          step="0.1"
           name="blur"
           className={styles.input}
           value={filters.blur}
@@ -105,7 +128,7 @@ function FiltersToolbar(props: Props) {
         <p className={styles.label}>Contrast</p>
         <input
           type="range"
-          min="-100"
+          min="0"
           max="100"
           name="contrast"
           className={styles.input}
@@ -143,6 +166,36 @@ function FiltersToolbar(props: Props) {
           onChange={handleFilterChange}
         />
         <p className={styles.value}>{filters.pixelate}</p>
+      </div>
+
+      <div className={styles.row}>
+        <p className={styles.label}>Posterize</p>
+        <input
+          type="range"
+          min="0"
+          max="0.1"
+          step="0.01"
+          name="posterize"
+          className={styles.input}
+          value={filters.posterize}
+          onChange={handleFilterChange}
+        />
+        <p className={styles.value}>{filters.posterize}</p>
+      </div>
+
+      <div className={styles.row}>
+        <p className={styles.label}>Threshold</p>
+        <input
+          type="range"
+          min="0"
+          max="1"
+          step="0.01"
+          name="threshold"
+          className={styles.input}
+          value={filters.threshold}
+          onChange={handleFilterChange}
+        />
+        <p className={styles.value}>{filters.threshold}</p>
       </div>
 
       <button className={styles.btn} onClick={handleFilterReset}>
