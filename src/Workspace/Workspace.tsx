@@ -10,7 +10,6 @@ interface Props {
 }
 
 function Workspace(props: Props) {
-  console.log("workspace");
   const { image, stageRef } = props;
 
   const workspaceRef = useRef<HTMLDivElement>(null);

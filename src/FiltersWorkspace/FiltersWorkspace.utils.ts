@@ -6,7 +6,7 @@ export const updateCanvasSize = (image: HTMLImageElement) => {
 
   let newCanvasSize = { width: imageWidth, height: imageHeight };
 
-  const scalePercentage = containerWidth < 768 ? 0.9 : 0.6;
+  const scalePercentage = containerWidth < 768 ? 0.9 : 0.8;
   newCanvasSize.width *= scalePercentage;
   newCanvasSize.height *= scalePercentage;
 

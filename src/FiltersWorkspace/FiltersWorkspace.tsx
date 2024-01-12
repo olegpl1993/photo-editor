@@ -13,7 +13,6 @@ interface Props {
 }
 
 function FiltersWorkspace(props: Props) {
-  console.log("filters workspace");
   const { filters, image, stageRef } = props;
 
   const workspaceRef = useRef<HTMLDivElement>(null);
@@ -32,14 +31,18 @@ function FiltersWorkspace(props: Props) {
       imageRef.current?.pixelSize(filters.pixelate);
       imageRef.current?.levels(filters.posterize);
       imageRef.current?.threshold(filters.threshold);
+      imageRef.current?.red(filters.red);
+      imageRef.current?.green(filters.green);
+      imageRef.current?.blue(filters.blue);
+      imageRef.current?.alpha(filters.alpha);
     }
   }, [image, filters]);
-
-  const canvasSize = updateCanvasSize(image!);
 
   if (!image) {
     return null;
   }
+
+  const canvasSize = updateCanvasSize(image);
 
   return (
     <div className={styles.filtersWorkspace} ref={workspaceRef}>

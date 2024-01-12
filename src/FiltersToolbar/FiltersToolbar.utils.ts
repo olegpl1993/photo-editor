@@ -37,6 +37,10 @@ export const updateFiltersImage = (
     imageObj.pixelSize(filters.pixelate);
     imageObj.levels(filters.posterize);
     imageObj.threshold(filters.threshold);
+    imageObj.red(filters.red);
+    imageObj.green(filters.green);
+    imageObj.blue(filters.blue);
+    imageObj.alpha(filters.alpha);
 
     const saveImage = stage.toDataURL({
       mimeType: "image/png",
@@ -49,4 +53,17 @@ export const updateFiltersImage = (
     imageObj.destroy();
     URL.revokeObjectURL(saveImage);
   }
+};
+
+export const hexToRgb = (hex: string) => {
+  hex = hex.replace(/^#/, "");
+  const bigint = parseInt(hex, 16);
+  const red = (bigint >> 16) & 255;
+  const green = (bigint >> 8) & 255;
+  const blue = bigint & 255;
+  return { r: red, g: green, b: blue };
+};
+
+export const rgbToHex = (r: number, g: number, b: number) => {
+  return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
 };

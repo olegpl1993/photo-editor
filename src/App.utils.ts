@@ -15,6 +15,7 @@ export function createFiltersArr(filters: Filters) {
   if (filters.sepia) filtersArr.push(Konva.Filters.Sepia);
   if (filters.solarize) filtersArr.push(Konva.Filters.Solarize);
   if (filters.threshold) filtersArr.push(Konva.Filters.Threshold);
+  if (filters.alpha) filtersArr.push(Konva.Filters.RGBA);
   return filtersArr;
 }
 

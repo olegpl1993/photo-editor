@@ -1,6 +1,6 @@
 import { Filters } from "../types";
 import styles from "./FiltersToolbar.module.css";
-import { updateFiltersImage } from "./FiltersToolbar.utils";
+import { hexToRgb, rgbToHex, updateFiltersImage } from "./FiltersToolbar.utils";
 
 interface Props {
   filters: Filters;
@@ -15,7 +15,6 @@ function FiltersToolbar(props: Props) {
 
   const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, checked } = event.target;
-    console.log(name, value, checked);
     if (checked) {
       setFilters((prevFilters) => ({
         ...prevFilters,
@@ -27,6 +26,17 @@ function FiltersToolbar(props: Props) {
         [name]: Number(value),
       }));
     }
+  };
+
+  const handleFilterRGB = (event: React.FocusEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    const { r, g, b } = hexToRgb(value);
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      red: r,
+      green: g,
+      blue: b,
+    }));
   };
 
   const handleFilterReset = () => {
@@ -196,6 +206,32 @@ function FiltersToolbar(props: Props) {
           onChange={handleFilterChange}
         />
         <p className={styles.value}>{filters.threshold}</p>
+      </div>
+
+      <div className={styles.row}>
+        <p className={styles.label}>RGBA</p>
+        <input
+          type="color"
+          className={styles.input}
+          onChange={handleFilterRGB}
+          value={rgbToHex(filters.red, filters.green, filters.blue)}
+        />
+        <p className={styles.value}></p>
+      </div>
+
+      <div className={styles.row}>
+        <p className={styles.label}>Alpha</p>
+        <input
+          type="range"
+          min="0"
+          max="1"
+          step="0.01"
+          name="alpha"
+          className={styles.input}
+          value={filters.alpha}
+          onChange={handleFilterChange}
+        />
+        <p className={styles.value}>{filters.alpha}</p>
       </div>
 
       <button className={styles.btn} onClick={handleFilterReset}>
