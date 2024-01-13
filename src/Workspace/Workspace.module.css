@@ -5,12 +5,6 @@
   background-color: gray;
 }
 
-@media screen and (max-width: 768px) {
-  .workspace {
-    height: 85vh;
-  }
-}
-
 .wrapper {
   position: relative;
 }
