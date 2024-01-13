@@ -20,9 +20,9 @@ function FiltersWorkspace(props: Props) {
 
   useEffect(() => {
     if (image) {
+      const filtersArr = createFiltersArr(filters);
       imageRef.current?.cache();
       imageRef.current?.getLayer()?.batchDraw();
-      const filtersArr = createFiltersArr(filters);
       imageRef.current?.filters(filtersArr);
       imageRef.current?.blurRadius(filters.blur);
       imageRef.current?.brightness(filters.brighten);
@@ -46,6 +46,7 @@ function FiltersWorkspace(props: Props) {
   }
 
   const canvasSize = updateCanvasSize(image);
+  console.log(canvasSize);
 
   return (
     <div className={styles.filtersWorkspace} ref={workspaceRef}>
