@@ -1,7 +1,7 @@
 .toolbar {
   width: 80px;
   min-width: 80px;
-  height: 100vh;
+  height: 100dvh;
   padding: 10px 0px;
   display: flex;
   flex-direction: column;

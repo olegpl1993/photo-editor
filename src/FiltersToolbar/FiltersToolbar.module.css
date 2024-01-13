@@ -1,7 +1,7 @@
 .filtersToolbar {
   width: 230px;
   min-width: 230px;
-  height: 100vh;
+  height: 100dvh;
   padding: 10px 5px;
   display: flex;
   flex-direction: column;
