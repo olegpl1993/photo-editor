@@ -12,3 +12,4 @@ Photo Editor App is designed to allow users to upload photos and apply various f
 - CSS Modules
 - Konva
 - React-konva
+- Material-UI
