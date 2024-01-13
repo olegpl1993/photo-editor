@@ -2,6 +2,14 @@ import Konva from "konva";
 import styles from "./Toolbar.module.css";
 import { rotateImage, saveCanvas } from "./Toolbar.utils";
 import { loadImg } from "../App.utils";
+import { IconButton } from "@mui/material";
+import FileOpenIcon from "@mui/icons-material/FileOpen";
+import DriveFolderUploadIcon from "@mui/icons-material/DriveFolderUpload";
+import TuneIcon from "@mui/icons-material/Tune";
+import RotateRightIcon from "@mui/icons-material/RotateRight";
+import RotateLeftIcon from "@mui/icons-material/RotateLeft";
+import SwapHorizontalCircleIcon from "@mui/icons-material/SwapHorizontalCircle";
+import SwapVerticalCircleIcon from "@mui/icons-material/SwapVerticalCircle";
 
 interface Props {
   file: File | null;
@@ -21,50 +29,96 @@ function Toolbar(props: Props) {
 
   return (
     <div className={styles.toolbar}>
-      <div className={styles.col}>
-        <button onClick={() => loadImg(setFile)} className={styles.btn}>
-          Load Photo
-        </button>
+      <IconButton
+        title="Load image"
+        onClick={() => loadImg(setFile)}
+        sx={{
+          height: "50px",
+          width: "50px",
+          border: "2px solid gray",
+          borderRadius: "50%",
+        }}
+      >
+        <FileOpenIcon fontSize="large" />
+      </IconButton>
 
-        <button
-          className={styles.btn}
-          onClick={() => saveCanvas(file, stageRef)}
-        >
-          Save Photo
-        </button>
+      <IconButton
+        title="Save image"
+        onClick={() => saveCanvas(file, stageRef)}
+        sx={{
+          height: "50px",
+          width: "50px",
+          border: "2px solid gray",
+          borderRadius: "50%",
+        }}
+      >
+        <DriveFolderUploadIcon fontSize="large" />
+      </IconButton>
 
-        <button className={styles.btn} onClick={() => setIsFiltersOpen(true)}>
-          Filters
-        </button>
+      <IconButton
+        title="Filters"
+        onClick={() => setIsFiltersOpen(true)}
+        sx={{
+          height: "50px",
+          width: "50px",
+          border: "2px solid gray",
+          borderRadius: "50%",
+        }}
+      >
+        <TuneIcon fontSize="large" />
+      </IconButton>
 
-        <button
-          className={styles.btn}
-          onClick={() => handleRotateImage("right")}
-        >
-          Rotate right
-        </button>
+      <IconButton
+        title="Rotate right"
+        onClick={() => handleRotateImage("right")}
+        sx={{
+          height: "50px",
+          width: "50px",
+          border: "2px solid gray",
+          borderRadius: "50%",
+        }}
+      >
+        <RotateRightIcon fontSize="large" />
+      </IconButton>
 
-        <button
-          className={styles.btn}
-          onClick={() => handleRotateImage("left")}
-        >
-          Rotate left
-        </button>
+      <IconButton
+        title="Rotate left"
+        onClick={() => handleRotateImage("left")}
+        sx={{
+          height: "50px",
+          width: "50px",
+          border: "2px solid gray",
+          borderRadius: "50%",
+        }}
+      >
+        <RotateLeftIcon fontSize="large" />
+      </IconButton>
 
-        <button
-          className={styles.btn}
-          onClick={() => handleRotateImage("horizontal")}
-        >
-          Mirror horizontal
-        </button>
+      <IconButton
+        title="Mirror horizontal"
+        onClick={() => handleRotateImage("horizontal")}
+        sx={{
+          height: "50px",
+          width: "50px",
+          border: "2px solid gray",
+          borderRadius: "50%",
+        }}
+      >
+        <SwapHorizontalCircleIcon fontSize="large" />
+      </IconButton>
 
-        <button
-          className={styles.btn}
-          onClick={() => handleRotateImage("vertical")}
-        >
-          Mirror vertical
-        </button>
-      </div>
+      <IconButton
+        title="Mirror vertical"
+        onClick={() => handleRotateImage("vertical")}
+        sx={{
+          height: "50px",
+          width: "50px",
+          border: "2px solid gray",
+          borderRadius: "50%",
+        }}
+      >
+        <SwapVerticalCircleIcon fontSize="large" />
+      </IconButton>
     </div>
   );
 }

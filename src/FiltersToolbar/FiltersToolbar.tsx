@@ -1,6 +1,10 @@
+import { Checkbox, IconButton } from "@mui/material";
 import { Filters } from "../types";
 import styles from "./FiltersToolbar.module.css";
 import { hexToRgb, rgbToHex, updateFiltersImage } from "./FiltersToolbar.utils";
+import SaveIcon from "@mui/icons-material/Save";
+import HighlightOffIcon from "@mui/icons-material/HighlightOff";
+import FilterListOffIcon from "@mui/icons-material/FilterListOff";
 
 interface Props {
   filters: Filters;
@@ -236,59 +240,84 @@ function FiltersToolbar(props: Props) {
 
       <div className={styles.row}>
         <p className={styles.label}>Grayscale</p>
-        <input
-          type="checkbox"
+        <Checkbox
           name="grayscale"
-          className={styles.inputCheckbox}
           checked={!!filters.grayscale}
           onChange={handleFilterChange}
+          sx={{ marginRight: "10px" }}
         />
       </div>
 
       <div className={styles.row}>
         <p className={styles.label}>Invert</p>
-        <input
-          type="checkbox"
+        <Checkbox
           name="invert"
-          className={styles.inputCheckbox}
           checked={!!filters.invert}
           onChange={handleFilterChange}
+          sx={{ marginRight: "10px" }}
         />
       </div>
 
       <div className={styles.row}>
         <p className={styles.label}>Sepia</p>
-        <input
-          type="checkbox"
+        <Checkbox
           name="sepia"
-          className={styles.inputCheckbox}
           checked={!!filters.sepia}
           onChange={handleFilterChange}
+          sx={{ marginRight: "10px" }}
         />
       </div>
 
       <div className={styles.row}>
         <p className={styles.label}>Solarize</p>
-        <input
-          type="checkbox"
+        <Checkbox
           name="solarize"
-          className={styles.inputCheckbox}
           checked={!!filters.solarize}
           onChange={handleFilterChange}
+          sx={{ marginRight: "10px" }}
         />
       </div>
 
-      <button className={styles.btn} onClick={handleFilterReset}>
-        Reset
-      </button>
+      <div className={styles.iconsRow}>
+        <IconButton
+          title="Apply"
+          onClick={handleFiltersApply}
+          sx={{
+            height: "50px",
+            width: "50px",
+            border: "2px solid gray",
+            borderRadius: "50%",
+          }}
+        >
+          <SaveIcon fontSize="large" />
+        </IconButton>
 
-      <button className={styles.btn} onClick={handleFiltersClose}>
-        Close
-      </button>
+        <IconButton
+          title="Reset filters"
+          onClick={handleFilterReset}
+          sx={{
+            height: "50px",
+            width: "50px",
+            border: "2px solid gray",
+            borderRadius: "50%",
+          }}
+        >
+          <FilterListOffIcon fontSize="large" />
+        </IconButton>
 
-      <button className={styles.btn} onClick={handleFiltersApply}>
-        Apply
-      </button>
+        <IconButton
+          title="Close"
+          onClick={handleFiltersClose}
+          sx={{
+            height: "50px",
+            width: "50px",
+            border: "2px solid gray",
+            borderRadius: "50%",
+          }}
+        >
+          <HighlightOffIcon fontSize="large" />
+        </IconButton>
+      </div>
     </div>
   );
 }

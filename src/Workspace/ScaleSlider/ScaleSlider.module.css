@@ -8,11 +8,12 @@
   right: 2%;
   top: 3%;
   z-index: 1;
+  user-select: none;
 }
 
 @media screen and (max-width: 768px) {
   .scaleSlider {
-    bottom: 200px;
+    bottom: 100px;
     top: unset;
   }
 }
@@ -20,6 +21,7 @@
 .input {
   border: 1px solid rgb(0, 255, 0);
   width: 100px;
+  cursor: pointer;
 }
 
 .value {
