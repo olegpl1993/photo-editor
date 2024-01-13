@@ -1,4 +1,6 @@
 export const updateCanvasSize = (image: HTMLImageElement) => {
+  const desktopScale = 0.9;
+  const mobileScale = 0.8;
   const containerWidth = window.innerWidth;
   const containerHeight = window.innerHeight;
   const imageWidth = image?.width;
@@ -6,11 +8,8 @@ export const updateCanvasSize = (image: HTMLImageElement) => {
 
   let newCanvasSize = { width: imageWidth, height: imageHeight };
 
-  const scalePercentage = containerWidth < 768 ? 0.9 : 0.8;
-  newCanvasSize.width *= scalePercentage;
-  newCanvasSize.height *= scalePercentage;
-
   if (imageWidth > containerWidth || imageHeight > containerHeight) {
+    const scalePercentage = containerWidth < 768 ? desktopScale : mobileScale;
     const containerRatio = containerWidth / containerHeight;
     const imageRatio = imageWidth / imageHeight;
 
