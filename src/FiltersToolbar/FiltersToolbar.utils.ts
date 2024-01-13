@@ -41,6 +41,9 @@ export const updateFiltersImage = (
     imageObj.green(filters.green);
     imageObj.blue(filters.blue);
     imageObj.alpha(filters.alpha);
+    imageObj.hue(filters.hue);
+    imageObj.saturation(filters.saturation);
+    imageObj.luminance(filters.luminance);
 
     const saveImage = stage.toDataURL({
       mimeType: "image/png",

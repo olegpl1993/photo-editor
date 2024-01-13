@@ -35,6 +35,9 @@ function FiltersWorkspace(props: Props) {
       imageRef.current?.green(filters.green);
       imageRef.current?.blue(filters.blue);
       imageRef.current?.alpha(filters.alpha);
+      imageRef.current?.hue(filters.hue);
+      imageRef.current?.saturation(filters.saturation);
+      imageRef.current?.luminance(filters.luminance);
     }
   }, [image, filters]);
 

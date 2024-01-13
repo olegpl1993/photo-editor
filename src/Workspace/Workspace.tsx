@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import styles from "./Workspace.module.css";
 import { Stage, Layer, Image } from "react-konva";
 import Konva from "konva";
@@ -7,14 +7,15 @@ import ScaleSlider from "./ScaleSlider/ScaleSlider";
 interface Props {
   image: HTMLImageElement | null;
   stageRef: React.RefObject<Konva.Stage>;
+  scale: number;
+  setScale: React.Dispatch<React.SetStateAction<number>>;
 }
 
 function Workspace(props: Props) {
-  const { image, stageRef } = props;
+  const { image, stageRef, scale, setScale } = props;
 
   const workspaceRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<Konva.Image>(null);
-  const [scale, setScale] = useState(1);
 
   useEffect(() => {
     if (image) {
@@ -36,7 +37,7 @@ function Workspace(props: Props) {
   if (image) {
     return (
       <div className={styles.workspace} ref={workspaceRef}>
-        <ScaleSlider setScale={setScale} />
+        <ScaleSlider scale={scale} setScale={setScale} />
         <div
           className={styles.wrapper}
           style={{

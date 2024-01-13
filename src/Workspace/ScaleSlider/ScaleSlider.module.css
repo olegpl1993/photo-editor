@@ -12,7 +12,8 @@
 
 @media screen and (max-width: 768px) {
   .scaleSlider {
-    top: 78%;
+    bottom: 200px;
+    top: unset;
   }
 }
 

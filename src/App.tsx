@@ -25,12 +25,16 @@ function App() {
     green: 0,
     blue: 0,
     alpha: 0,
+    hue: 0,
+    saturation: 0,
+    luminance: 0,
   });
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
   const stageRef = useRef<Konva.Stage>(null);
   const [file, setFile] = useState<File | null>(null);
   const [imgUrl, setImgUrl] = useState<string>("");
   const [image, setImage] = useState<HTMLImageElement | null>(null);
+  const [scale, setScale] = useState(1);
 
   useEffect(() => {
     const img = new Image();
@@ -73,7 +77,7 @@ function App() {
           image={image}
           setImgUrl={setImgUrl}
         />
-        <Workspace image={image!} stageRef={stageRef} />
+        <Workspace image={image!} stageRef={stageRef} scale={scale} setScale={setScale} />
       </div>
     );
   }
