@@ -85,7 +85,7 @@ function App() {
   return (
     <div className={styles.loadPhotoWrapper}>
       <button onClick={() => loadImg(setFile)} className={styles.loadPhotoBtn}>
-        Load Photo
+        LOAD PHOTO
       </button>
     </div>
   );

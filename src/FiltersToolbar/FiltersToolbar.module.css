@@ -6,6 +6,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: flex-start;
   gap: 10px;
   background-color: var(--toolbar-bg-color);
   overflow-y: auto;
