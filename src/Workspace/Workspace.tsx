@@ -12,7 +12,7 @@ interface Props {
 }
 
 function Workspace(props: Props) {
-  const { image, stageRef, scale, setScale } = props;
+  const { image, stageRef, scale, setScale} = props;
 
   const workspaceRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<Konva.Image>(null);

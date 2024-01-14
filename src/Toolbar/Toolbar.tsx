@@ -18,13 +18,25 @@ interface Props {
   setIsFiltersOpen: React.Dispatch<React.SetStateAction<boolean>>;
   image: HTMLImageElement;
   setImgUrl: React.Dispatch<React.SetStateAction<string>>;
+  setLoadSpinner: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 function Toolbar(props: Props) {
-  const { file, stageRef, setFile, setIsFiltersOpen, image, setImgUrl } = props;
+  const {
+    file,
+    stageRef,
+    setFile,
+    setIsFiltersOpen,
+    image,
+    setImgUrl,
+    setLoadSpinner,
+  } = props;
 
   const handleRotateImage = (direction: string) => {
-    rotateImage(direction, image, setImgUrl);
+    setLoadSpinner(true);
+    setTimeout(() => {
+      rotateImage(direction, image, setImgUrl);
+    }, 0); // for spinner visibility before starting image rotation
   };
 
   return (
