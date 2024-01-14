@@ -12,10 +12,18 @@ interface Props {
   setIsFiltersOpen: React.Dispatch<React.SetStateAction<boolean>>;
   image: HTMLImageElement;
   setImgUrl: React.Dispatch<React.SetStateAction<string>>;
+  setLoadSpinner: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 function FiltersToolbar(props: Props) {
-  const { filters, setFilters, setIsFiltersOpen, image, setImgUrl } = props;
+  const {
+    filters,
+    setFilters,
+    setIsFiltersOpen,
+    image,
+    setImgUrl,
+    setLoadSpinner,
+  } = props;
 
   const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, checked } = event.target;
@@ -53,8 +61,11 @@ function FiltersToolbar(props: Props) {
   };
 
   const handleFiltersApply = () => {
-    updateFiltersImage(image, filters, setImgUrl, setIsFiltersOpen);
-    handleFilterReset();
+    setLoadSpinner(true);
+    setTimeout(() => {
+      updateFiltersImage(image, filters, setImgUrl, setIsFiltersOpen);
+      handleFilterReset();
+    }, 0); // for spinner visibility before starting image filtering
   };
 
   const handleFiltersClose = () => {

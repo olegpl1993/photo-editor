@@ -7,6 +7,7 @@ import FiltersWorkspace from "./FiltersWorkspace/FiltersWorkspace";
 import FiltersToolbar from "./FiltersToolbar/FiltersToolbar";
 import { loadImg } from "./App.utils";
 import { Filters } from "./types";
+import Spinner from "./Spinner/Spinner";
 
 function App() {
   const [filters, setFilters] = useState<Filters>({
@@ -35,12 +36,16 @@ function App() {
   const [imgUrl, setImgUrl] = useState<string>("");
   const [image, setImage] = useState<HTMLImageElement | null>(null);
   const [scale, setScale] = useState(1);
+  const [loadSpinner, setLoadSpinner] = useState(false);
 
   useEffect(() => {
     const img = new Image();
     img.src = imgUrl;
     img.onload = () => {
       setImage(img);
+      setTimeout(() => {
+        setLoadSpinner(false);
+      }, 0); // wait for image to load (for normal working spinner)
     };
   }, [imgUrl]);
 
@@ -60,8 +65,14 @@ function App() {
           setIsFiltersOpen={setIsFiltersOpen}
           image={image}
           setImgUrl={setImgUrl}
+          setLoadSpinner={setLoadSpinner}
         />
         <FiltersWorkspace filters={filters} image={image} stageRef={stageRef} />
+        {loadSpinner && (
+          <div className={styles.spinnerWrapper}>
+            <Spinner />
+          </div>
+        )}
       </div>
     );
   }
@@ -76,8 +87,19 @@ function App() {
           setIsFiltersOpen={setIsFiltersOpen}
           image={image}
           setImgUrl={setImgUrl}
+          setLoadSpinner={setLoadSpinner}
         />
-        <Workspace image={image!} stageRef={stageRef} scale={scale} setScale={setScale} />
+        <Workspace
+          image={image!}
+          stageRef={stageRef}
+          scale={scale}
+          setScale={setScale}
+        />
+        {loadSpinner && (
+          <div className={styles.spinnerWrapper}>
+            <Spinner />
+          </div>
+        )}
       </div>
     );
   }

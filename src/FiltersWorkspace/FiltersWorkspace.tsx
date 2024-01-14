@@ -46,7 +46,6 @@ function FiltersWorkspace(props: Props) {
   }
 
   const canvasSize = updateCanvasSize(image);
-  console.log(canvasSize);
 
   return (
     <div className={styles.filtersWorkspace} ref={workspaceRef}>
