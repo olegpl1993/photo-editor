@@ -1,4 +1,4 @@
-import { Checkbox, IconButton } from "@mui/material";
+import { Checkbox, IconButton, Slider } from "@mui/material";
 import { Filters } from "../types";
 import styles from "./FiltersToolbar.module.css";
 import { hexToRgb, rgbToHex, updateFiltersImage } from "./FiltersToolbar.utils";
@@ -25,6 +25,22 @@ function FiltersToolbar(props: Props) {
     setLoadSpinner,
   } = props;
 
+  const rootStyles = getComputedStyle(document.documentElement);
+  const primaryColor = rootStyles.getPropertyValue("--primary-color");
+  const sliderSX = {
+    width: "100px",
+    color: primaryColor,
+    "& .MuiSlider-thumb": { color: primaryColor },
+  };
+  const checkboxSX = { marginRight: "10px", color: primaryColor };
+  const iconButtonSX = {
+    height: "50px",
+    width: "50px",
+    border: `2px solid ${primaryColor}`,
+    borderRadius: "50%",
+    color: primaryColor,
+  };
+
   const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, checked } = event.target;
     if (checked) {
@@ -36,6 +52,21 @@ function FiltersToolbar(props: Props) {
       setFilters((prevFilters) => ({
         ...prevFilters,
         [name]: Number(value),
+      }));
+    }
+  };
+
+  const handleFilter = (event: Event, newValue: number | number[]) => {
+    const { name, checked } = event.target as HTMLInputElement;
+    if (checked) {
+      setFilters((prevFilters) => ({
+        ...prevFilters,
+        [name]: 1,
+      }));
+    } else {
+      setFilters((prevFilters) => ({
+        ...prevFilters,
+        [name]: newValue as number,
       }));
     }
   };
@@ -77,148 +108,140 @@ function FiltersToolbar(props: Props) {
     <div className={styles.filtersToolbar}>
       <div className={styles.row}>
         <p className={styles.label}>Contrast</p>
-        <input
-          type="range"
-          min="-100"
-          max="100"
+        <Slider
+          min={-100}
+          max={100}
+          step={1}
           name="contrast"
-          className={styles.input}
           value={filters.contrast}
-          onChange={handleFilterChange}
+          onChange={handleFilter}
+          sx={sliderSX}
         />
         <p className={styles.value}>{filters.contrast}</p>
       </div>
 
       <div className={styles.row}>
         <p className={styles.label}>Brighten</p>
-        <input
-          type="range"
-          min="-1"
-          max="1"
-          step="0.01"
+        <Slider
+          min={-1}
+          max={1}
+          step={0.01}
           name="brighten"
-          className={styles.input}
           value={filters.brighten}
-          onChange={handleFilterChange}
+          onChange={handleFilter}
+          sx={sliderSX}
         />
         <p className={styles.value}>{filters.brighten}</p>
       </div>
 
       <div className={styles.row}>
         <p className={styles.label}>Luminance</p>
-        <input
-          type="range"
-          min="-2"
-          max="2"
-          step="0.01"
+        <Slider
+          min={-2}
+          max={2}
+          step={0.01}
           name="luminance"
-          className={styles.input}
           value={filters.luminance}
-          onChange={handleFilterChange}
+          onChange={handleFilter}
+          sx={sliderSX}
         />
         <p className={styles.value}>{filters.luminance}</p>
       </div>
 
       <div className={styles.row}>
         <p className={styles.label}>Saturation</p>
-        <input
-          type="range"
-          min="-5"
-          max="5"
-          step="0.01"
+        <Slider
+          min={-5}
+          max={5}
+          step={0.01}
           name="saturation"
-          className={styles.input}
           value={filters.saturation}
-          onChange={handleFilterChange}
+          onChange={handleFilter}
+          sx={sliderSX}
         />
         <p className={styles.value}>{filters.saturation}</p>
       </div>
 
       <div className={styles.row}>
         <p className={styles.label}>Hue</p>
-        <input
-          type="range"
-          min="0"
-          max="360"
+        <Slider
+          min={0}
+          max={360}
+          step={1}
           name="hue"
-          className={styles.input}
           value={filters.hue}
-          onChange={handleFilterChange}
+          onChange={handleFilter}
+          sx={sliderSX}
         />
         <p className={styles.value}>{filters.hue}</p>
       </div>
 
       <div className={styles.row}>
         <p className={styles.label}>Blur</p>
-        <input
-          type="range"
-          min="0"
-          max="10"
-          step="0.1"
+        <Slider
+          min={0}
+          max={10}
+          step={0.1}
           name="blur"
-          className={styles.input}
           value={filters.blur}
-          onChange={handleFilterChange}
+          onChange={handleFilter}
+          sx={sliderSX}
         />
         <p className={styles.value}>{filters.blur}</p>
       </div>
 
       <div className={styles.row}>
         <p className={styles.label}>Posterize</p>
-        <input
-          type="range"
-          min="0"
-          max="0.1"
-          step="0.01"
+        <Slider
+          min={0}
+          max={0.1}
+          step={0.01}
           name="posterize"
-          className={styles.input}
           value={filters.posterize}
-          onChange={handleFilterChange}
+          onChange={handleFilter}
+          sx={sliderSX}
         />
         <p className={styles.value}>{filters.posterize}</p>
       </div>
 
       <div className={styles.row}>
         <p className={styles.label}>Pixelate</p>
-        <input
-          type="range"
-          min="1"
-          max="20"
-          step="0.1"
+        <Slider
+          min={1}
+          max={20}
+          step={0.1}
           name="pixelate"
-          className={styles.input}
           value={filters.pixelate}
-          onChange={handleFilterChange}
+          onChange={handleFilter}
+          sx={sliderSX}
         />
         <p className={styles.value}>{filters.pixelate}</p>
       </div>
 
       <div className={styles.row}>
         <p className={styles.label}>Threshold</p>
-        <input
-          type="range"
-          min="0"
-          max="1"
-          step="0.01"
+        <Slider
+          min={0}
+          max={1}
+          step={0.01}
           name="threshold"
-          className={styles.input}
           value={filters.threshold}
-          onChange={handleFilterChange}
+          onChange={handleFilter}
+          sx={sliderSX}
         />
         <p className={styles.value}>{filters.threshold}</p>
       </div>
 
       <div className={styles.row}>
         <p className={styles.label}>Noise</p>
-        <input
-          type="range"
-          min="0"
-          max="4"
-          step="0.1"
+        <Slider
+          min={0}
+          max={4}
+          step={0.1}
           name="noise"
-          className={styles.input}
           value={filters.noise}
-          onChange={handleFilterChange}
+          onChange={handleFilter}
+          sx={sliderSX}
         />
         <p className={styles.value}>{filters.noise}</p>
       </div>
@@ -227,7 +250,7 @@ function FiltersToolbar(props: Props) {
         <p className={styles.label}>RGBA</p>
         <input
           type="color"
-          className={styles.input}
+          className={styles.inputColor}
           onChange={handleFilterRGB}
           value={rgbToHex(filters.red, filters.green, filters.blue)}
         />
@@ -236,15 +259,14 @@ function FiltersToolbar(props: Props) {
 
       <div className={styles.row}>
         <p className={styles.label}>Alpha</p>
-        <input
-          type="range"
-          min="0"
-          max="1"
-          step="0.01"
+        <Slider
+          min={0}
+          max={1}
+          step={0.01}
           name="alpha"
-          className={styles.input}
           value={filters.alpha}
-          onChange={handleFilterChange}
+          onChange={handleFilter}
+          sx={sliderSX}
         />
         <p className={styles.value}>{filters.alpha}</p>
       </div>
@@ -255,7 +277,7 @@ function FiltersToolbar(props: Props) {
           name="grayscale"
           checked={!!filters.grayscale}
           onChange={handleFilterChange}
-          sx={{ marginRight: "10px" }}
+          sx={checkboxSX}
         />
       </div>
 
@@ -265,7 +287,7 @@ function FiltersToolbar(props: Props) {
           name="invert"
           checked={!!filters.invert}
           onChange={handleFilterChange}
-          sx={{ marginRight: "10px" }}
+          sx={checkboxSX}
         />
       </div>
 
@@ -275,7 +297,7 @@ function FiltersToolbar(props: Props) {
           name="sepia"
           checked={!!filters.sepia}
           onChange={handleFilterChange}
-          sx={{ marginRight: "10px" }}
+          sx={checkboxSX}
         />
       </div>
 
@@ -285,7 +307,7 @@ function FiltersToolbar(props: Props) {
           name="solarize"
           checked={!!filters.solarize}
           onChange={handleFilterChange}
-          sx={{ marginRight: "10px" }}
+          sx={checkboxSX}
         />
       </div>
 
@@ -293,12 +315,7 @@ function FiltersToolbar(props: Props) {
         <IconButton
           title="Apply"
           onClick={handleFiltersApply}
-          sx={{
-            height: "50px",
-            width: "50px",
-            border: "2px solid gray",
-            borderRadius: "50%",
-          }}
+          sx={iconButtonSX}
         >
           <SaveIcon fontSize="large" />
         </IconButton>
@@ -306,12 +323,7 @@ function FiltersToolbar(props: Props) {
         <IconButton
           title="Reset filters"
           onClick={handleFilterReset}
-          sx={{
-            height: "50px",
-            width: "50px",
-            border: "2px solid gray",
-            borderRadius: "50%",
-          }}
+          sx={iconButtonSX}
         >
           <FilterListOffIcon fontSize="large" />
         </IconButton>
@@ -319,12 +331,7 @@ function FiltersToolbar(props: Props) {
         <IconButton
           title="Close"
           onClick={handleFiltersClose}
-          sx={{
-            height: "50px",
-            width: "50px",
-            border: "2px solid gray",
-            borderRadius: "50%",
-          }}
+          sx={iconButtonSX}
         >
           <HighlightOffIcon fontSize="large" />
         </IconButton>

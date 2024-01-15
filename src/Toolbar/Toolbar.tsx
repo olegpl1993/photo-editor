@@ -32,6 +32,16 @@ function Toolbar(props: Props) {
     setLoadSpinner,
   } = props;
 
+  const rootStyles = getComputedStyle(document.documentElement);
+  const primaryColor = rootStyles.getPropertyValue("--primary-color");
+  const iconButtonSX = {
+    height: "50px",
+    width: "50px",
+    border: `2px solid ${primaryColor}`,
+    borderRadius: "50%",
+    color: primaryColor,
+  };
+
   const handleRotateImage = (direction: string) => {
     setLoadSpinner(true);
     setTimeout(() => {
@@ -44,12 +54,7 @@ function Toolbar(props: Props) {
       <IconButton
         title="Load image"
         onClick={() => loadImg(setFile)}
-        sx={{
-          height: "50px",
-          width: "50px",
-          border: "2px solid gray",
-          borderRadius: "50%",
-        }}
+        sx={iconButtonSX}
       >
         <FileOpenIcon fontSize="large" />
       </IconButton>
@@ -57,12 +62,7 @@ function Toolbar(props: Props) {
       <IconButton
         title="Save image"
         onClick={() => saveCanvas(file, stageRef)}
-        sx={{
-          height: "50px",
-          width: "50px",
-          border: "2px solid gray",
-          borderRadius: "50%",
-        }}
+        sx={iconButtonSX}
       >
         <DriveFolderUploadIcon fontSize="large" />
       </IconButton>
@@ -70,12 +70,7 @@ function Toolbar(props: Props) {
       <IconButton
         title="Filters"
         onClick={() => setIsFiltersOpen(true)}
-        sx={{
-          height: "50px",
-          width: "50px",
-          border: "2px solid gray",
-          borderRadius: "50%",
-        }}
+        sx={iconButtonSX}
       >
         <TuneIcon fontSize="large" />
       </IconButton>
@@ -83,12 +78,7 @@ function Toolbar(props: Props) {
       <IconButton
         title="Rotate right"
         onClick={() => handleRotateImage("right")}
-        sx={{
-          height: "50px",
-          width: "50px",
-          border: "2px solid gray",
-          borderRadius: "50%",
-        }}
+        sx={iconButtonSX}
       >
         <RotateRightIcon fontSize="large" />
       </IconButton>
@@ -96,12 +86,7 @@ function Toolbar(props: Props) {
       <IconButton
         title="Rotate left"
         onClick={() => handleRotateImage("left")}
-        sx={{
-          height: "50px",
-          width: "50px",
-          border: "2px solid gray",
-          borderRadius: "50%",
-        }}
+        sx={iconButtonSX}
       >
         <RotateLeftIcon fontSize="large" />
       </IconButton>
@@ -109,12 +94,7 @@ function Toolbar(props: Props) {
       <IconButton
         title="Mirror horizontal"
         onClick={() => handleRotateImage("horizontal")}
-        sx={{
-          height: "50px",
-          width: "50px",
-          border: "2px solid gray",
-          borderRadius: "50%",
-        }}
+        sx={iconButtonSX}
       >
         <SwapHorizontalCircleIcon fontSize="large" />
       </IconButton>
@@ -122,12 +102,7 @@ function Toolbar(props: Props) {
       <IconButton
         title="Mirror vertical"
         onClick={() => handleRotateImage("vertical")}
-        sx={{
-          height: "50px",
-          width: "50px",
-          border: "2px solid gray",
-          borderRadius: "50%",
-        }}
+        sx={iconButtonSX}
       >
         <SwapVerticalCircleIcon fontSize="large" />
       </IconButton>

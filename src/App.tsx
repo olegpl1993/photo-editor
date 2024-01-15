@@ -53,6 +53,7 @@ function App() {
     if (file) {
       const url = URL.createObjectURL(file);
       setImgUrl(url);
+      setScale(1);
     }
   }, [file]);
 

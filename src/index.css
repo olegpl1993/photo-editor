@@ -1,5 +1,6 @@
 :root {
-  --primary-color: rgb(75, 60, 100);
+  --primary-color: rgb(103, 160, 210);
+  --spinner-color: rgba(103, 160, 210, 0.6);
   --toolbar-bg-color: rgb(230, 230, 230);
 }
 
