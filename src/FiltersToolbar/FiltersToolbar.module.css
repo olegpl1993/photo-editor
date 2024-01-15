@@ -27,11 +27,10 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 5px;
   padding-top: 5px;
 }
 
-.input {
+.inputColor {
   width: 100px;
   cursor: pointer;
 }
@@ -42,7 +41,8 @@
 
 .value {
   width: 40px;
-  font-size: 16px;
+  font-size: 15px;
+  padding-left: 7px;
 }
 
 .iconsRow {

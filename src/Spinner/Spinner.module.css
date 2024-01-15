@@ -32,7 +32,7 @@
   font-weight: 600;
   font-size: 30px;
   transition: all 0.1s;
-  background-color: rgba(97, 105, 225, 0.6);
+  background-color: var(--spinner-color);
   color: white;
   border: 1px solid white;
 }
