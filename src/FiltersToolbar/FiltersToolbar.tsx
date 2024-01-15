@@ -41,34 +41,23 @@ function FiltersToolbar(props: Props) {
     color: primaryColor,
   };
 
-  const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value, checked } = event.target;
-    if (checked) {
-      setFilters((prevFilters) => ({
-        ...prevFilters,
-        [name]: 1,
-      }));
-    } else {
-      setFilters((prevFilters) => ({
-        ...prevFilters,
-        [name]: Number(value),
-      }));
-    }
+  const handleFilter = (event: Event, newValue: number | number[]) => {
+    const { name } = event.target as HTMLInputElement;
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      [name]: newValue as number,
+    }));
   };
 
-  const handleFilter = (event: Event, newValue: number | number[]) => {
-    const { name, checked } = event.target as HTMLInputElement;
-    if (checked) {
-      setFilters((prevFilters) => ({
-        ...prevFilters,
-        [name]: 1,
-      }));
-    } else {
-      setFilters((prevFilters) => ({
-        ...prevFilters,
-        [name]: newValue as number,
-      }));
-    }
+  const handleFilterChecked = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    checked: boolean
+  ) => {
+    const { name } = event.target;
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      [name]: checked ? 1 : 0,
+    }));
   };
 
   const handleFilterRGB = (event: React.FocusEvent<HTMLInputElement>) => {
@@ -276,7 +265,7 @@ function FiltersToolbar(props: Props) {
         <Checkbox
           name="grayscale"
           checked={!!filters.grayscale}
-          onChange={handleFilterChange}
+          onChange={handleFilterChecked}
           sx={checkboxSX}
         />
       </div>
@@ -286,7 +275,7 @@ function FiltersToolbar(props: Props) {
         <Checkbox
           name="invert"
           checked={!!filters.invert}
-          onChange={handleFilterChange}
+          onChange={handleFilterChecked}
           sx={checkboxSX}
         />
       </div>
@@ -296,7 +285,7 @@ function FiltersToolbar(props: Props) {
         <Checkbox
           name="sepia"
           checked={!!filters.sepia}
-          onChange={handleFilterChange}
+          onChange={handleFilterChecked}
           sx={checkboxSX}
         />
       </div>
@@ -306,7 +295,7 @@ function FiltersToolbar(props: Props) {
         <Checkbox
           name="solarize"
           checked={!!filters.solarize}
-          onChange={handleFilterChange}
+          onChange={handleFilterChecked}
           sx={checkboxSX}
         />
       </div>
