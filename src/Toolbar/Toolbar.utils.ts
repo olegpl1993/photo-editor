@@ -1,23 +1,5 @@
 import Konva from "konva";
 
-export const saveCanvas = (
-  file: File | null,
-  stageRef: React.RefObject<Konva.Stage>
-) => {
-  if (stageRef.current) {
-    const dataURL = stageRef.current.toDataURL({
-      mimeType: "image/jpeg",
-    });
-    const downloadLink = document.createElement("a");
-    downloadLink.href = dataURL || "";
-    const fileName = file?.name.split(".")[0];
-    downloadLink.download = fileName ? `${fileName}.jpg` : "photo-editor.jpg";
-    document.body.appendChild(downloadLink);
-    downloadLink.click();
-    document.body.removeChild(downloadLink);
-  }
-};
-
 export const rotateImage = (
   direction: string,
   image: HTMLImageElement,

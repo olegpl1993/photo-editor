@@ -1,15 +1,15 @@
 import Konva from "konva";
 import styles from "./Toolbar.module.css";
-import { rotateImage, saveCanvas } from "./Toolbar.utils";
+import { rotateImage } from "./Toolbar.utils";
 import { loadImg } from "../App.utils";
 import { IconButton } from "@mui/material";
 import FileOpenIcon from "@mui/icons-material/FileOpen";
-import DriveFolderUploadIcon from "@mui/icons-material/DriveFolderUpload";
 import TuneIcon from "@mui/icons-material/Tune";
 import RotateRightIcon from "@mui/icons-material/RotateRight";
 import RotateLeftIcon from "@mui/icons-material/RotateLeft";
 import SwapHorizontalCircleIcon from "@mui/icons-material/SwapHorizontalCircle";
 import SwapVerticalCircleIcon from "@mui/icons-material/SwapVerticalCircle";
+import SaveModal from "./SaveModal/SaveModal";
 
 interface Props {
   file: File | null;
@@ -59,13 +59,7 @@ function Toolbar(props: Props) {
         <FileOpenIcon fontSize="large" />
       </IconButton>
 
-      <IconButton
-        title="Save image"
-        onClick={() => saveCanvas(file, stageRef)}
-        sx={iconButtonSX}
-      >
-        <DriveFolderUploadIcon fontSize="large" />
-      </IconButton>
+      <SaveModal file={file} stageRef={stageRef} />
 
       <IconButton
         title="Filters"

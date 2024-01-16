@@ -1,0 +1,136 @@
+@keyframes wrapperAnime {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.wrapper {
+  position: fixed;
+  z-index: 5;
+  left: 0;
+  top: 0;
+  height: 100vh;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation-duration: 0.5s;
+  animation-name: wrapperAnime;
+  cursor: pointer;
+}
+
+@keyframes boxAnime {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+.box {
+  position: relative;
+  background-color: white;
+  width: 300px;
+  height: 250px;
+  animation-duration: 0.5s;
+  animation-name: boxAnime;
+  cursor: auto;
+  border: 3px solid var(--primary-color);
+  border-radius: 20px;
+}
+
+.content {
+  background-color: white;
+  padding: 5px;
+  border-radius: 20px;
+  height: 100%;
+  width: 100%;
+  color: black;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.title {
+  text-align: center;
+  width: 100%;
+  font-size: 24px;
+  border-radius: 10px;
+  color: var(--primary-color);
+  padding: 5px;
+  user-select: none;
+}
+
+.close {
+  display: block;
+  border: none;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  width: 20px;
+  height: 20px;
+  --weight: 0.5px;
+  --aa: 2px; /* anti-aliasing */
+  --color: var(--primary-color);
+  cursor: pointer;
+  background: linear-gradient(
+      45deg,
+      transparent calc(50% - var(--weight) - var(--aa)),
+      var(--color) calc(50% - var(--weight)),
+      var(--color) calc(50% + var(--weight)),
+      transparent calc(50% + var(--weight) + var(--aa))
+    ),
+    linear-gradient(
+      -45deg,
+      transparent calc(50% - var(--weight) - var(--aa)),
+      var(--color) calc(50% - var(--weight)),
+      var(--color) calc(50% + var(--weight)),
+      transparent calc(50% + var(--weight) + var(--aa))
+    );
+  transition: all 0.3s;
+}
+.close:hover {
+  transform: rotate(90deg);
+}
+
+.layer {
+  height: 100%;
+  width: 100%;
+  padding: 10px;
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+}
+
+.col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 3px;
+  width: 50%;
+}
+
+.row {
+  height: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.label {
+  font-size: 12px;
+}
+
+.value {
+  width: 30px;
+  font-size: 15px;
+  padding-left: 7px;
+}
