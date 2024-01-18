@@ -10,6 +10,7 @@ import RotateLeftIcon from "@mui/icons-material/RotateLeft";
 import SwapHorizontalCircleIcon from "@mui/icons-material/SwapHorizontalCircle";
 import SwapVerticalCircleIcon from "@mui/icons-material/SwapVerticalCircle";
 import SaveModal from "./SaveModal/SaveModal";
+import FullScreen from "./FullScreen/FullScreen";
 
 interface Props {
   file: File | null;
@@ -61,6 +62,8 @@ function Toolbar(props: Props) {
 
       <SaveModal file={file} stageRef={stageRef} />
 
+      <div className={styles.divider} />
+
       <IconButton
         title="Filters"
         onClick={() => setIsFiltersOpen(true)}
@@ -100,6 +103,10 @@ function Toolbar(props: Props) {
       >
         <SwapVerticalCircleIcon fontSize="large" />
       </IconButton>
+
+      <div className={styles.divider} />
+
+      <FullScreen />
     </div>
   );
 }

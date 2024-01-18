@@ -21,3 +21,16 @@
     padding: 0px 10px;
   }
 }
+
+.divider {
+  min-width: 100%;
+  min-height: 1px;
+  background-color: var(--divider-color);
+}
+
+@media screen and (max-width: 768px) {
+  .divider {
+    min-width: 1px;
+    min-height: 100%;
+  }
+}
