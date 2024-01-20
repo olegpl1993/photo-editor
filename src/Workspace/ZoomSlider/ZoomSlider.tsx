@@ -4,10 +4,11 @@ import styles from "./ZoomSlider.module.css";
 interface Props {
   zoom: number;
   setZoom: React.Dispatch<React.SetStateAction<number>>;
+  isScaleOpen: boolean;
 }
 
 function ZoomSlider(props: Props) {
-  const { zoom, setZoom } = props;
+  const { zoom, setZoom, isScaleOpen } = props;
 
   const rootStyles = getComputedStyle(document.documentElement);
   const primaryColor = rootStyles.getPropertyValue("--primary-color");
@@ -19,7 +20,7 @@ function ZoomSlider(props: Props) {
   const zoomPercent = Math.round(zoom * 100);
 
   return (
-    <div className={styles.zoomSlider}>
+    <div className={`${styles.zoomSlider} ${isScaleOpen && styles.scaleOpen}`}>
       <Slider
         min={10}
         max={150}

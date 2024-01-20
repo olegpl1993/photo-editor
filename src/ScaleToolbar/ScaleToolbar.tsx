@@ -8,13 +8,24 @@ import FilterListOffIcon from "@mui/icons-material/FilterListOff";
 
 interface Props {
   image: HTMLImageElement;
+  imageScaleSize: { width: number; height: number };
+  setImageScaleSize: React.Dispatch<
+    React.SetStateAction<{ width: number; height: number }>
+  >;
   setImgUrl: React.Dispatch<React.SetStateAction<string>>;
   setLoadSpinner: React.Dispatch<React.SetStateAction<boolean>>;
   setIsScaleOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 function ScaleToolbar(props: Props) {
-  const { image, setImgUrl, setLoadSpinner, setIsScaleOpen } = props;
+  const {
+    image,
+    setImgUrl,
+    setLoadSpinner,
+    setIsScaleOpen,
+    imageScaleSize,
+    setImageScaleSize,
+  } = props;
 
   const rootStyles = getComputedStyle(document.documentElement);
   const primaryColor = rootStyles.getPropertyValue("--primary-color");
@@ -27,26 +38,17 @@ function ScaleToolbar(props: Props) {
     color: primaryColor,
   };
 
-  const [imageSize, setImageSize] = useState({
-    width: image.width,
-    height: image.height,
-  });
-
   const [isSaveRatio, setIsSaveRatio] = useState(true);
 
-  console.log(imageSize);
-
   const handleScaleReset = () => {
-    setImageSize({ width: image.width, height: image.height });
+    setImageScaleSize({ width: image.width, height: image.height });
   };
 
-  const handleImageSizeChange = (
+  const handleImageScaleSizeChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     const name = event.target.name;
-    const value = Number(event.target.value);
-
-    console.log(value);
+    const value = Math.min(parseInt(event.target.value) || 0, 10000);
 
     if (isSaveRatio) {
       const aspectRatio =
@@ -54,22 +56,28 @@ function ScaleToolbar(props: Props) {
           ? image.height / image.width
           : image.width / image.height;
 
-      setImageSize({
+      setImageScaleSize({
         width: name === "width" ? value : Math.round(value * aspectRatio),
         height: name === "height" ? value : Math.round(value * aspectRatio),
       });
     } else {
-      setImageSize({
-        width: name === "width" ? value : imageSize.width,
-        height: name === "height" ? value : imageSize.height,
+      setImageScaleSize({
+        width: name === "width" ? value : imageScaleSize.width,
+        height: name === "height" ? value : imageScaleSize.height,
       });
     }
+  };
+
+  const handleScaleClose = () => {
+    handleScaleReset();
+    setIsScaleOpen(false);
   };
 
   const handleImageApplySize = () => {
     setLoadSpinner(true);
     setTimeout(() => {
-      imageNewSize(imageSize, image, setImgUrl);
+      imageNewSize(imageScaleSize, image, setImgUrl);
+      handleScaleClose();
     }, 0); // for spinner visibility before starting image rotation
   };
 
@@ -82,8 +90,8 @@ function ScaleToolbar(props: Props) {
             label="width"
             name="width"
             size="small"
-            value={String(imageSize?.width)}
-            onChange={handleImageSizeChange}
+            value={String(imageScaleSize?.width)}
+            onChange={handleImageScaleSizeChange}
             sx={{ width: "105px" }}
           />
           <TextField
@@ -91,8 +99,8 @@ function ScaleToolbar(props: Props) {
             label="height"
             name="height"
             size="small"
-            value={String(imageSize?.height)}
-            onChange={handleImageSizeChange}
+            value={String(imageScaleSize?.height)}
+            onChange={handleImageScaleSizeChange}
             sx={{ width: "105px" }}
           />
         </div>
@@ -123,11 +131,7 @@ function ScaleToolbar(props: Props) {
           <FilterListOffIcon fontSize="large" />
         </IconButton>
 
-        <IconButton
-          title="Close"
-          onClick={() => setIsScaleOpen(false)}
-          sx={iconButtonSX}
-        >
+        <IconButton title="Close" onClick={handleScaleClose} sx={iconButtonSX}>
           <HighlightOffIcon fontSize="large" />
         </IconButton>
       </div>

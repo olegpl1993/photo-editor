@@ -1,7 +1,7 @@
 import Konva from "konva";
 
 export const imageNewSize = (
-  imageSize: { width: number; height: number } | null,
+  imageScaleSize: { width: number; height: number } | null,
   image: HTMLImageElement,
   setImgUrl: React.Dispatch<React.SetStateAction<string>>
 ) => {
@@ -9,8 +9,8 @@ export const imageNewSize = (
   if (saveImageDiv) {
     const stage = new Konva.Stage({
       container: saveImageDiv,
-      width: imageSize?.width,
-      height: imageSize?.height,
+      width: imageScaleSize?.width,
+      height: imageScaleSize?.height,
     });
 
     const layer = new Konva.Layer();
@@ -20,8 +20,8 @@ export const imageNewSize = (
       image: image,
       x: 0,
       y: 0,
-      width: imageSize?.width,
-      height: imageSize?.height,
+      width: imageScaleSize?.width,
+      height: imageScaleSize?.height,
       imageSmoothingEnabled: false,
     });
 

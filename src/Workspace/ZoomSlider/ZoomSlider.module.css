@@ -13,8 +13,12 @@
 
 @media screen and (max-width: 768px) {
   .zoomSlider {
-    bottom: 200px;
+    bottom: 100px;
     top: unset;
+  }
+
+  .scaleOpen {
+    bottom: 200px;
   }
 }
 

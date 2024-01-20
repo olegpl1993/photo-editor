@@ -9,20 +9,22 @@ interface Props {
   stageRef: React.RefObject<Konva.Stage>;
   zoom: number;
   setZoom: React.Dispatch<React.SetStateAction<number>>;
+  isScaleOpen: boolean;
+  imageScaleSize: { width: number; height: number };
 }
 
 function Workspace(props: Props) {
-  const { image, stageRef, zoom, setZoom } = props;
+  const { image, stageRef, zoom, setZoom, isScaleOpen, imageScaleSize } = props;
 
   const workspaceRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<Konva.Image>(null);
 
   useEffect(() => {
-    if (image) {
+    if (image && imageScaleSize.width > 0 && imageScaleSize.height > 0) {
       imageRef.current?.cache();
       imageRef.current?.getLayer()?.batchDraw();
     }
-  }, [image]);
+  }, [image, imageScaleSize, isScaleOpen]);
 
   useEffect(() => {
     if (workspaceRef.current) {
@@ -32,50 +34,51 @@ function Workspace(props: Props) {
       workspace.scrollLeft =
         workspace.scrollWidth / 2 - workspace.clientWidth / 2;
     }
-  }, [image]);
+  }, [image, imageScaleSize, isScaleOpen]);
 
-  if (image) {
-    return (
-      <div className={styles.workspace} ref={workspaceRef}>
-        <ZoomSlider zoom={zoom} setZoom={setZoom} />
-        <div
-          className={styles.wrapper}
+  if (!image) return null;
+  return (
+    <div className={styles.workspace} ref={workspaceRef}>
+      <ZoomSlider zoom={zoom} setZoom={setZoom} isScaleOpen={isScaleOpen} />
+      <div
+        className={styles.wrapper}
+        style={{
+          width: isScaleOpen ? imageScaleSize.width * 1.6 : image.width * 1.6,
+          height: isScaleOpen
+            ? imageScaleSize.height * 1.6
+            : image.height * 1.6,
+        }}
+      >
+        <Stage
+          width={isScaleOpen ? imageScaleSize.width : image.width}
+          height={isScaleOpen ? imageScaleSize.height : image.height}
+          ref={stageRef}
           style={{
-            minWidth: image.width * 1.6,
-            minHeight: image.height * 1.6,
+            display: "block",
+            position: "absolute",
+            left: "50%",
+            top: "50%",
+            background: "white",
+            minWidth: isScaleOpen ? imageScaleSize.width : image.width,
+            minHeight: isScaleOpen ? imageScaleSize.height : image.height,
+            transform: `translate(-50%, -50%) scale(${zoom})`,
           }}
         >
-          <Stage
-            width={image.width}
-            height={image.height}
-            ref={stageRef}
-            style={{
-              display: "block",
-              position: "absolute",
-              left: "50%",
-              top: "50%",
-              background: "white",
-              minWidth: image.width,
-              minHeight: image.height,
-              transform: `translate(-50%, -50%) scale(${zoom})`,
-            }}
-          >
-            <Layer>
-              <Image
-                ref={imageRef}
-                image={image!}
-                width={image.width}
-                height={image.height}
-                x={0}
-                y={0}
-                imageSmoothingEnabled={false}
-              />
-            </Layer>
-          </Stage>
-        </div>
+          <Layer>
+            <Image
+              ref={imageRef}
+              image={image}
+              width={isScaleOpen ? imageScaleSize.width : image.width}
+              height={isScaleOpen ? imageScaleSize.height : image.height}
+              x={0}
+              y={0}
+              imageSmoothingEnabled={false}
+            />
+          </Layer>
+        </Stage>
       </div>
-    );
-  }
+    </div>
+  );
 }
 
 export default Workspace;

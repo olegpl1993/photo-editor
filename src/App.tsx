@@ -11,6 +11,17 @@ import Spinner from "./Spinner/Spinner";
 import ScaleToolbar from "./ScaleToolbar/ScaleToolbar";
 
 function App() {
+  const stageRef = useRef<Konva.Stage>(null);
+  const [file, setFile] = useState<File | null>(null);
+  const [imgUrl, setImgUrl] = useState<string>("");
+  const [image, setImage] = useState<HTMLImageElement | null>(null);
+  const [zoom, setZoom] = useState(1);
+  const [loadSpinner, setLoadSpinner] = useState(false);
+
+  const [isScaleOpen, setIsScaleOpen] = useState(false);
+  const [imageScaleSize, setImageScaleSize] = useState({ width: 1, height: 1 });
+
+  const [isFiltersOpen, setIsFiltersOpen] = useState(false);
   const [filters, setFilters] = useState<Filters>({
     blur: 0,
     brighten: 0,
@@ -31,14 +42,14 @@ function App() {
     saturation: 0,
     luminance: 0,
   });
-  const [isFiltersOpen, setIsFiltersOpen] = useState(false);
-  const [isScaleOpen, setIsScaleOpen] = useState(false);
-  const stageRef = useRef<Konva.Stage>(null);
-  const [file, setFile] = useState<File | null>(null);
-  const [imgUrl, setImgUrl] = useState<string>("");
-  const [image, setImage] = useState<HTMLImageElement | null>(null);
-  const [zoom, setZoom] = useState(1);
-  const [loadSpinner, setLoadSpinner] = useState(false);
+
+  useEffect(() => {
+    if (file) {
+      const url = URL.createObjectURL(file);
+      setImgUrl(url);
+      setZoom(1);
+    }
+  }, [file]);
 
   useEffect(() => {
     const img = new Image();
@@ -52,18 +63,18 @@ function App() {
   }, [imgUrl]);
 
   useEffect(() => {
-    if (file) {
-      const url = URL.createObjectURL(file);
-      setImgUrl(url);
-      setZoom(1);
+    if (image) {
+      setImageScaleSize({ width: image.width, height: image.height });
     }
-  }, [file]);
+  }, [image]);
 
   if (image && isScaleOpen) {
     return (
       <div className={styles.app}>
         <ScaleToolbar
           image={image}
+          imageScaleSize={imageScaleSize}
+          setImageScaleSize={setImageScaleSize}
           setImgUrl={setImgUrl}
           setLoadSpinner={setLoadSpinner}
           setIsScaleOpen={setIsScaleOpen}
@@ -73,6 +84,8 @@ function App() {
           stageRef={stageRef}
           zoom={zoom}
           setZoom={setZoom}
+          isScaleOpen={isScaleOpen}
+          imageScaleSize={imageScaleSize}
         />
         {loadSpinner && (
           <div className={styles.spinnerWrapper}>
@@ -122,6 +135,8 @@ function App() {
           stageRef={stageRef}
           zoom={zoom}
           setZoom={setZoom}
+          isScaleOpen={isScaleOpen}
+          imageScaleSize={imageScaleSize}
         />
         {loadSpinner && (
           <div className={styles.spinnerWrapper}>
