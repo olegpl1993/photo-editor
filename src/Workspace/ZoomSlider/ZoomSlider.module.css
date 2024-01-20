@@ -1,4 +1,4 @@
-.scaleSlider {
+.zoomSlider {
   height: 20px;
   display: flex;
   align-items: center;
@@ -12,8 +12,8 @@
 }
 
 @media screen and (max-width: 768px) {
-  .scaleSlider {
-    bottom: 100px;
+  .zoomSlider {
+    bottom: 200px;
     top: unset;
   }
 }

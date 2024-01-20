@@ -8,6 +8,7 @@ import FiltersToolbar from "./FiltersToolbar/FiltersToolbar";
 import { loadImg } from "./App.utils";
 import { Filters } from "./types";
 import Spinner from "./Spinner/Spinner";
+import ScaleToolbar from "./ScaleToolbar/ScaleToolbar";
 
 function App() {
   const [filters, setFilters] = useState<Filters>({
@@ -31,11 +32,12 @@ function App() {
     luminance: 0,
   });
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
+  const [isScaleOpen, setIsScaleOpen] = useState(false);
   const stageRef = useRef<Konva.Stage>(null);
   const [file, setFile] = useState<File | null>(null);
   const [imgUrl, setImgUrl] = useState<string>("");
   const [image, setImage] = useState<HTMLImageElement | null>(null);
-  const [scale, setScale] = useState(1);
+  const [zoom, setZoom] = useState(1);
   const [loadSpinner, setLoadSpinner] = useState(false);
 
   useEffect(() => {
@@ -53,9 +55,33 @@ function App() {
     if (file) {
       const url = URL.createObjectURL(file);
       setImgUrl(url);
-      setScale(1);
+      setZoom(1);
     }
   }, [file]);
+
+  if (image && isScaleOpen) {
+    return (
+      <div className={styles.app}>
+        <ScaleToolbar
+          image={image}
+          setImgUrl={setImgUrl}
+          setLoadSpinner={setLoadSpinner}
+          setIsScaleOpen={setIsScaleOpen}
+        />
+        <Workspace
+          image={image}
+          stageRef={stageRef}
+          zoom={zoom}
+          setZoom={setZoom}
+        />
+        {loadSpinner && (
+          <div className={styles.spinnerWrapper}>
+            <Spinner />
+          </div>
+        )}
+      </div>
+    );
+  }
 
   if (image && isFiltersOpen) {
     return (
@@ -78,7 +104,7 @@ function App() {
     );
   }
 
-  if (image && !isFiltersOpen) {
+  if (image) {
     return (
       <div className={styles.app}>
         <Toolbar
@@ -89,12 +115,13 @@ function App() {
           image={image}
           setImgUrl={setImgUrl}
           setLoadSpinner={setLoadSpinner}
+          setIsScaleOpen={setIsScaleOpen}
         />
         <Workspace
-          image={image!}
+          image={image}
           stageRef={stageRef}
-          scale={scale}
-          setScale={setScale}
+          zoom={zoom}
+          setZoom={setZoom}
         />
         {loadSpinner && (
           <div className={styles.spinnerWrapper}>

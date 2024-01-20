@@ -2,17 +2,17 @@ import { useEffect, useRef } from "react";
 import styles from "./Workspace.module.css";
 import { Stage, Layer, Image } from "react-konva";
 import Konva from "konva";
-import ScaleSlider from "./ScaleSlider/ScaleSlider";
+import ZoomSlider from "./ZoomSlider/ZoomSlider";
 
 interface Props {
   image: HTMLImageElement | null;
   stageRef: React.RefObject<Konva.Stage>;
-  scale: number;
-  setScale: React.Dispatch<React.SetStateAction<number>>;
+  zoom: number;
+  setZoom: React.Dispatch<React.SetStateAction<number>>;
 }
 
 function Workspace(props: Props) {
-  const { image, stageRef, scale, setScale} = props;
+  const { image, stageRef, zoom, setZoom } = props;
 
   const workspaceRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<Konva.Image>(null);
@@ -37,7 +37,7 @@ function Workspace(props: Props) {
   if (image) {
     return (
       <div className={styles.workspace} ref={workspaceRef}>
-        <ScaleSlider scale={scale} setScale={setScale} />
+        <ZoomSlider zoom={zoom} setZoom={setZoom} />
         <div
           className={styles.wrapper}
           style={{
@@ -57,7 +57,7 @@ function Workspace(props: Props) {
               background: "white",
               minWidth: image.width,
               minHeight: image.height,
-              transform: `translate(-50%, -50%) scale(${scale})`,
+              transform: `translate(-50%, -50%) scale(${zoom})`,
             }}
           >
             <Layer>
