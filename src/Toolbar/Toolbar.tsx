@@ -11,6 +11,7 @@ import SwapHorizontalCircleIcon from "@mui/icons-material/SwapHorizontalCircle";
 import SwapVerticalCircleIcon from "@mui/icons-material/SwapVerticalCircle";
 import SaveModal from "./SaveModal/SaveModal";
 import FullScreen from "./FullScreen/FullScreen";
+import AspectRatioIcon from "@mui/icons-material/AspectRatio";
 
 interface Props {
   file: File | null;
@@ -20,6 +21,7 @@ interface Props {
   image: HTMLImageElement;
   setImgUrl: React.Dispatch<React.SetStateAction<string>>;
   setLoadSpinner: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsScaleOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 function Toolbar(props: Props) {
@@ -31,6 +33,7 @@ function Toolbar(props: Props) {
     image,
     setImgUrl,
     setLoadSpinner,
+    setIsScaleOpen,
   } = props;
 
   const rootStyles = getComputedStyle(document.documentElement);
@@ -70,6 +73,14 @@ function Toolbar(props: Props) {
         sx={iconButtonSX}
       >
         <TuneIcon fontSize="large" />
+      </IconButton>
+
+      <IconButton
+        title="Scale"
+        onClick={() => setIsScaleOpen(true)}
+        sx={iconButtonSX}
+      >
+        <AspectRatioIcon fontSize="large" />
       </IconButton>
 
       <IconButton
