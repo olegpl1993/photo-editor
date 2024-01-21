@@ -57,7 +57,7 @@ function App() {
     img.onload = () => {
       setImage(img);
       setTimeout(() => {
-        setLoadSpinner(false);
+        // setLoadSpinner(false);
       }, 0); // wait for image to load (for normal working spinner)
     };
   }, [imgUrl]);

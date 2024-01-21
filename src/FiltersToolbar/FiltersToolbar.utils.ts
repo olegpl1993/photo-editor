@@ -6,7 +6,6 @@ export const updateFiltersImage = (
   image: HTMLImageElement,
   filters: Filters,
   setImgUrl: React.Dispatch<React.SetStateAction<string>>,
-  setIsFiltersOpen: React.Dispatch<React.SetStateAction<boolean>>
 ) => {
   const saveImageDiv = document.createElement("div");
   if (saveImageDiv && image) {
@@ -50,7 +49,6 @@ export const updateFiltersImage = (
     });
 
     setImgUrl(saveImage);
-    setIsFiltersOpen(false);
     stage.destroy();
     layer.destroy();
     imageObj.destroy();

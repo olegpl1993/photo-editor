@@ -69,17 +69,21 @@ function ScaleToolbar(props: Props) {
     }
   };
 
+  const handleImageApplySize = async () => {
+    setLoadSpinner(true);
+    await new Promise<void>((resolve) => {
+      setTimeout(() => {
+        imageNewSize(imageScaleSize, image, setImgUrl);
+        resolve();
+      }, 0);
+    });
+    handleScaleClose();
+    setLoadSpinner(false);
+  };
+
   const handleScaleClose = () => {
     handleScaleReset();
     setIsScaleOpen(false);
-  };
-
-  const handleImageApplySize = () => {
-    setLoadSpinner(true);
-    setTimeout(() => {
-      imageNewSize(imageScaleSize, image, setImgUrl);
-      handleScaleClose();
-    }, 0); // for spinner visibility before starting image rotation
   };
 
   return (
@@ -131,7 +135,11 @@ function ScaleToolbar(props: Props) {
         <IconButton
           title="Reset scale"
           onClick={handleScaleReset}
-          sx={iconButtonSX}
+          sx={{
+            ...iconButtonSX,
+            border: `2px solid ${isSizeChanged ? primaryColor : "#AAAAAA"}`,
+          }}
+          disabled={!isSizeChanged}
         >
           <FilterListOffIcon fontSize="large" />
         </IconButton>
