@@ -29,7 +29,6 @@ function ScaleToolbar(props: Props) {
 
   const rootStyles = getComputedStyle(document.documentElement);
   const primaryColor = rootStyles.getPropertyValue("--primary-color");
-
   const iconButtonSX = {
     height: "50px",
     width: "50px",
@@ -37,7 +36,9 @@ function ScaleToolbar(props: Props) {
     borderRadius: "50%",
     color: primaryColor,
   };
-
+  const isSizeChanged =
+    imageScaleSize.width !== image.width ||
+    imageScaleSize.height !== image.height;
   const [isSaveRatio, setIsSaveRatio] = useState(true);
 
   const handleScaleReset = () => {
@@ -118,7 +119,11 @@ function ScaleToolbar(props: Props) {
         <IconButton
           title="Apply"
           onClick={handleImageApplySize}
-          sx={iconButtonSX}
+          sx={{
+            ...iconButtonSX,
+            border: `2px solid ${isSizeChanged ? primaryColor : "#AAAAAA"}`,
+          }}
+          disabled={!isSizeChanged}
         >
           <SaveIcon fontSize="large" />
         </IconButton>

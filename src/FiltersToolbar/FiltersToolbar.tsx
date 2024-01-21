@@ -5,6 +5,7 @@ import { hexToRgb, rgbToHex, updateFiltersImage } from "./FiltersToolbar.utils";
 import SaveIcon from "@mui/icons-material/Save";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import FilterListOffIcon from "@mui/icons-material/FilterListOff";
+import { useState } from "react";
 
 interface Props {
   filters: Filters;
@@ -24,6 +25,9 @@ function FiltersToolbar(props: Props) {
     setImgUrl,
     setLoadSpinner,
   } = props;
+
+  const [baseFilters] = useState(JSON.stringify(filters));
+  const isFiltersChanged = baseFilters !== JSON.stringify(filters);
 
   const rootStyles = getComputedStyle(document.documentElement);
   const primaryColor = rootStyles.getPropertyValue("--primary-color");
@@ -304,7 +308,11 @@ function FiltersToolbar(props: Props) {
         <IconButton
           title="Apply"
           onClick={handleFiltersApply}
-          sx={iconButtonSX}
+          sx={{
+            ...iconButtonSX,
+            border: `2px solid ${isFiltersChanged ? primaryColor : "#AAAAAA"}`,
+          }}
+          disabled={!isFiltersChanged}
         >
           <SaveIcon fontSize="large" />
         </IconButton>
