@@ -46,11 +46,15 @@ function Toolbar(props: Props) {
     color: primaryColor,
   };
 
-  const handleRotateImage = (direction: string) => {
+  const handleRotateImage = async (direction: string) => {
     setLoadSpinner(true);
-    setTimeout(() => {
-      rotateImage(direction, image, setImgUrl);
-    }, 0); // for spinner visibility before starting image rotation
+    await new Promise<void>((resolve) => {
+      setTimeout(() => {
+        rotateImage(direction, image, setImgUrl);
+        resolve();
+      }, 0);
+    });
+    setLoadSpinner(false);
   };
 
   return (
@@ -84,19 +88,19 @@ function Toolbar(props: Props) {
       </IconButton>
 
       <IconButton
-        title="Rotate right"
-        onClick={() => handleRotateImage("right")}
-        sx={iconButtonSX}
-      >
-        <RotateRightIcon fontSize="large" />
-      </IconButton>
-
-      <IconButton
         title="Rotate left"
         onClick={() => handleRotateImage("left")}
         sx={iconButtonSX}
       >
         <RotateLeftIcon fontSize="large" />
+      </IconButton>
+
+      <IconButton
+        title="Rotate right"
+        onClick={() => handleRotateImage("right")}
+        sx={iconButtonSX}
+      >
+        <RotateRightIcon fontSize="large" />
       </IconButton>
 
       <IconButton

@@ -84,12 +84,16 @@ function FiltersToolbar(props: Props) {
     setFilters(copyFilters);
   };
 
-  const handleFiltersApply = () => {
+  const handleFiltersApply = async () => {
     setLoadSpinner(true);
-    setTimeout(() => {
-      updateFiltersImage(image, filters, setImgUrl, setIsFiltersOpen);
-      handleFilterReset();
-    }, 0); // for spinner visibility before starting image filtering
+    await new Promise<void>((resolve) => {
+      setTimeout(() => {
+        updateFiltersImage(image, filters, setImgUrl);
+        resolve();
+      }, 0);
+    });
+    handleFiltersClose();
+    setLoadSpinner(false);
   };
 
   const handleFiltersClose = () => {
@@ -174,7 +178,7 @@ function FiltersToolbar(props: Props) {
         <Slider
           min={0}
           max={10}
-          step={0.1}
+          step={0.5}
           name="blur"
           value={filters.blur}
           onChange={handleFilter}
@@ -201,7 +205,7 @@ function FiltersToolbar(props: Props) {
         <p className={styles.label}>Pixelate</p>
         <Slider
           min={1}
-          max={20}
+          max={10}
           step={0.1}
           name="pixelate"
           value={filters.pixelate}
@@ -229,7 +233,7 @@ function FiltersToolbar(props: Props) {
         <p className={styles.label}>Noise</p>
         <Slider
           min={0}
-          max={4}
+          max={2}
           step={0.1}
           name="noise"
           value={filters.noise}
@@ -320,7 +324,11 @@ function FiltersToolbar(props: Props) {
         <IconButton
           title="Reset filters"
           onClick={handleFilterReset}
-          sx={iconButtonSX}
+          sx={{
+            ...iconButtonSX,
+            border: `2px solid ${isFiltersChanged ? primaryColor : "#AAAAAA"}`,
+          }}
+          disabled={!isFiltersChanged}
         >
           <FilterListOffIcon fontSize="large" />
         </IconButton>
