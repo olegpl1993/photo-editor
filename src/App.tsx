@@ -9,13 +9,14 @@ import { loadImg } from "./App.utils";
 import { Filters } from "./types";
 import Spinner from "./Spinner/Spinner";
 import ScaleToolbar from "./ScaleToolbar/ScaleToolbar";
+import zoomState from "./store/zoomState";
+import { observer } from "mobx-react-lite";
 
-function App() {
+const App = observer(() => {
   const stageRef = useRef<Konva.Stage>(null);
   const [file, setFile] = useState<File | null>(null);
   const [imgUrl, setImgUrl] = useState<string>("");
   const [image, setImage] = useState<HTMLImageElement | null>(null);
-  const [zoom, setZoom] = useState(1);
   const [loadSpinner, setLoadSpinner] = useState(false);
 
   const [isScaleOpen, setIsScaleOpen] = useState(false);
@@ -47,7 +48,7 @@ function App() {
     if (file) {
       const url = URL.createObjectURL(file);
       setImgUrl(url);
-      setZoom(1);
+      zoomState.setZoom(1);
     }
   }, [file]);
 
@@ -56,9 +57,6 @@ function App() {
     img.src = imgUrl;
     img.onload = () => {
       setImage(img);
-      setTimeout(() => {
-        // setLoadSpinner(false);
-      }, 0); // wait for image to load (for normal working spinner)
     };
   }, [imgUrl]);
 
@@ -82,8 +80,6 @@ function App() {
         <Workspace
           image={image}
           stageRef={stageRef}
-          zoom={zoom}
-          setZoom={setZoom}
           isScaleOpen={isScaleOpen}
           imageScaleSize={imageScaleSize}
         />
@@ -133,8 +129,6 @@ function App() {
         <Workspace
           image={image}
           stageRef={stageRef}
-          zoom={zoom}
-          setZoom={setZoom}
           isScaleOpen={isScaleOpen}
           imageScaleSize={imageScaleSize}
         />
@@ -154,6 +148,6 @@ function App() {
       </button>
     </div>
   );
-}
+});
 
 export default App;

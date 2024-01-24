@@ -3,18 +3,18 @@ import styles from "./Workspace.module.css";
 import { Stage, Layer, Image } from "react-konva";
 import Konva from "konva";
 import ZoomSlider from "./ZoomSlider/ZoomSlider";
+import zoomState from "../store/zoomState";
+import { observer } from "mobx-react-lite";
 
 interface Props {
   image: HTMLImageElement | null;
   stageRef: React.RefObject<Konva.Stage>;
-  zoom: number;
-  setZoom: React.Dispatch<React.SetStateAction<number>>;
   isScaleOpen: boolean;
   imageScaleSize: { width: number; height: number };
 }
 
-function Workspace(props: Props) {
-  const { image, stageRef, zoom, setZoom, isScaleOpen, imageScaleSize } = props;
+const Workspace = observer((props: Props) => {
+  const { image, stageRef, isScaleOpen, imageScaleSize } = props;
 
   const workspaceRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<Konva.Image>(null);
@@ -39,7 +39,7 @@ function Workspace(props: Props) {
   if (!image) return null;
   return (
     <div className={styles.workspace} ref={workspaceRef}>
-      <ZoomSlider zoom={zoom} setZoom={setZoom} isScaleOpen={isScaleOpen} />
+      <ZoomSlider isScaleOpen={isScaleOpen} />
       <div
         className={styles.wrapper}
         style={{
@@ -61,7 +61,7 @@ function Workspace(props: Props) {
             background: "white",
             minWidth: isScaleOpen ? imageScaleSize.width : image.width,
             minHeight: isScaleOpen ? imageScaleSize.height : image.height,
-            transform: `translate(-50%, -50%) scale(${zoom})`,
+            transform: `translate(-50%, -50%) scale(${zoomState.zoom})`,
           }}
         >
           <Layer>
@@ -79,6 +79,6 @@ function Workspace(props: Props) {
       </div>
     </div>
   );
-}
+});
 
 export default Workspace;
