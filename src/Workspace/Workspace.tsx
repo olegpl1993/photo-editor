@@ -3,29 +3,29 @@ import styles from "./Workspace.module.css";
 import { Stage, Layer, Image } from "react-konva";
 import Konva from "konva";
 import ZoomSlider from "./ZoomSlider/ZoomSlider";
-import zoomState from "../store/zoomState";
 import { observer } from "mobx-react-lite";
 import appState from "../store/appState";
+import imageScaleState from "../store/imageScaleState";
 
 interface Props {
   image: HTMLImageElement | null;
   stageRef: React.RefObject<Konva.Stage>;
-  imageScaleSize: { width: number; height: number };
 }
 
 const Workspace = observer((props: Props) => {
-  const { image, stageRef, imageScaleSize } = props;
-  const { isScaleOpen } = appState;
+  const { image, stageRef } = props;
+  const { imageScaleWidth, imageScaleHeight } = imageScaleState;
+  const { isScaleOpen, zoom } = appState;
 
   const workspaceRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<Konva.Image>(null);
 
   useEffect(() => {
-    if (image && imageScaleSize.width > 0 && imageScaleSize.height > 0) {
+    if (image && imageScaleWidth > 0 && imageScaleHeight > 0) {
       imageRef.current?.cache();
       imageRef.current?.getLayer()?.batchDraw();
     }
-  }, [image, imageScaleSize, isScaleOpen]);
+  }, [image, imageScaleWidth, imageScaleHeight, isScaleOpen]);
 
   useEffect(() => {
     if (workspaceRef.current) {
@@ -35,7 +35,7 @@ const Workspace = observer((props: Props) => {
       workspace.scrollLeft =
         workspace.scrollWidth / 2 - workspace.clientWidth / 2;
     }
-  }, [image, imageScaleSize, isScaleOpen]);
+  }, [image, imageScaleWidth, imageScaleHeight, isScaleOpen]);
 
   if (!image) return null;
   return (
@@ -44,15 +44,13 @@ const Workspace = observer((props: Props) => {
       <div
         className={styles.wrapper}
         style={{
-          width: isScaleOpen ? imageScaleSize.width * 1.6 : image.width * 1.6,
-          height: isScaleOpen
-            ? imageScaleSize.height * 1.6
-            : image.height * 1.6,
+          width: isScaleOpen ? imageScaleWidth * 1.6 : image.width * 1.6,
+          height: isScaleOpen ? imageScaleHeight * 1.6 : image.height * 1.6,
         }}
       >
         <Stage
-          width={isScaleOpen ? imageScaleSize.width : image.width}
-          height={isScaleOpen ? imageScaleSize.height : image.height}
+          width={isScaleOpen ? imageScaleWidth : image.width}
+          height={isScaleOpen ? imageScaleHeight : image.height}
           ref={stageRef}
           style={{
             display: "block",
@@ -60,17 +58,17 @@ const Workspace = observer((props: Props) => {
             left: "50%",
             top: "50%",
             background: "white",
-            minWidth: isScaleOpen ? imageScaleSize.width : image.width,
-            minHeight: isScaleOpen ? imageScaleSize.height : image.height,
-            transform: `translate(-50%, -50%) scale(${zoomState.zoom})`,
+            minWidth: isScaleOpen ? imageScaleWidth : image.width,
+            minHeight: isScaleOpen ? imageScaleHeight : image.height,
+            transform: `translate(-50%, -50%) scale(${zoom})`,
           }}
         >
           <Layer>
             <Image
               ref={imageRef}
               image={image}
-              width={isScaleOpen ? imageScaleSize.width : image.width}
-              height={isScaleOpen ? imageScaleSize.height : image.height}
+              width={isScaleOpen ? imageScaleWidth : image.width}
+              height={isScaleOpen ? imageScaleHeight : image.height}
               x={0}
               y={0}
               imageSmoothingEnabled={false}

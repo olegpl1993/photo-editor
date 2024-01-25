@@ -7,20 +7,19 @@ import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import FilterListOffIcon from "@mui/icons-material/FilterListOff";
 import appState from "../store/appState";
 import { observer } from "mobx-react-lite";
+import imageScaleState from "../store/imageScaleState";
 
 interface Props {
   image: HTMLImageElement;
-  imageScaleSize: { width: number; height: number };
-  setImageScaleSize: React.Dispatch<
-    React.SetStateAction<{ width: number; height: number }>
-  >;
   setImgUrl: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const ScaleToolbar = observer((props: Props) => {
-  const { image, setImgUrl, imageScaleSize, setImageScaleSize } = props;
-
+  const { image, setImgUrl } = props;
   const { setLoadSpinner, setScaleOpen } = appState;
+  const { imageScaleWidth, imageScaleHeight, setImageScaleSize } =
+    imageScaleState;
+  const [isSaveRatio, setIsSaveRatio] = useState(true);
 
   const rootStyles = getComputedStyle(document.documentElement);
   const primaryColor = rootStyles.getPropertyValue("--primary-color");
@@ -32,12 +31,10 @@ const ScaleToolbar = observer((props: Props) => {
     color: primaryColor,
   };
   const isSizeChanged =
-    imageScaleSize.width !== image.width ||
-    imageScaleSize.height !== image.height;
-  const [isSaveRatio, setIsSaveRatio] = useState(true);
+    imageScaleWidth !== image.width || imageScaleHeight !== image.height;
 
   const handleScaleReset = () => {
-    setImageScaleSize({ width: image.width, height: image.height });
+    setImageScaleSize(image.width, image.height);
   };
 
   const handleImageScaleSizeChange = (
@@ -52,15 +49,15 @@ const ScaleToolbar = observer((props: Props) => {
           ? image.height / image.width
           : image.width / image.height;
 
-      setImageScaleSize({
-        width: name === "width" ? value : Math.round(value * aspectRatio),
-        height: name === "height" ? value : Math.round(value * aspectRatio),
-      });
+      setImageScaleSize(
+        name === "width" ? value : Math.round(value * aspectRatio),
+        name === "height" ? value : Math.round(value * aspectRatio)
+      );
     } else {
-      setImageScaleSize({
-        width: name === "width" ? value : imageScaleSize.width,
-        height: name === "height" ? value : imageScaleSize.height,
-      });
+      setImageScaleSize(
+        name === "width" ? value : imageScaleWidth,
+        name === "height" ? value : imageScaleHeight
+      );
     }
   };
 
@@ -68,7 +65,7 @@ const ScaleToolbar = observer((props: Props) => {
     setLoadSpinner(true);
     await new Promise<void>((resolve) => {
       setTimeout(() => {
-        imageNewSize(imageScaleSize, image, setImgUrl);
+        imageNewSize(imageScaleWidth, imageScaleHeight, image, setImgUrl);
         resolve();
       }, 10);
     });
@@ -90,7 +87,7 @@ const ScaleToolbar = observer((props: Props) => {
             label="width"
             name="width"
             size="small"
-            value={String(imageScaleSize?.width)}
+            value={String(imageScaleWidth)}
             onChange={handleImageScaleSizeChange}
             sx={{ width: "105px" }}
           />
@@ -99,7 +96,7 @@ const ScaleToolbar = observer((props: Props) => {
             label="height"
             name="height"
             size="small"
-            value={String(imageScaleSize?.height)}
+            value={String(imageScaleHeight)}
             onChange={handleImageScaleSizeChange}
             sx={{ width: "105px" }}
           />

@@ -4,6 +4,7 @@ class appState {
   isLoadSpinner = false;
   isScaleOpen = false;
   isFiltersOpen = false;
+  zoom = 1;
 
   constructor() {
     makeAutoObservable(this);
@@ -19,6 +20,10 @@ class appState {
 
   setFiltersOpen = (filtersOpen: boolean) => {
     this.isFiltersOpen = filtersOpen;
+  };
+
+  setZoom = (zoom: number) => {
+    this.zoom = zoom;
   };
 }
 
