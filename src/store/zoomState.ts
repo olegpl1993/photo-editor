@@ -7,9 +7,9 @@ class ZoomState {
     makeAutoObservable(this);
   }
 
-  setZoom(zoom: number) {
+  setZoom = (zoom: number) => {
     this.zoom = zoom;
-  }
+  };
 }
 
 export default new ZoomState();

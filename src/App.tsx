@@ -6,7 +6,6 @@ import Konva from "konva";
 import FiltersWorkspace from "./FiltersWorkspace/FiltersWorkspace";
 import FiltersToolbar from "./FiltersToolbar/FiltersToolbar";
 import { loadImg } from "./App.utils";
-import { Filters } from "./types";
 import Spinner from "./Spinner/Spinner";
 import ScaleToolbar from "./ScaleToolbar/ScaleToolbar";
 import zoomState from "./store/zoomState";
@@ -18,31 +17,9 @@ const App = observer(() => {
   const [imgUrl, setImgUrl] = useState<string>("");
   const [image, setImage] = useState<HTMLImageElement | null>(null);
   const [loadSpinner, setLoadSpinner] = useState(false);
-
   const [isScaleOpen, setIsScaleOpen] = useState(false);
   const [imageScaleSize, setImageScaleSize] = useState({ width: 1, height: 1 });
-
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
-  const [filters, setFilters] = useState<Filters>({
-    blur: 0,
-    brighten: 0,
-    contrast: 0,
-    grayscale: 0,
-    invert: 0,
-    noise: 0,
-    pixelate: 1,
-    posterize: 0,
-    sepia: 0,
-    solarize: 0,
-    threshold: 0,
-    red: 0,
-    green: 0,
-    blue: 0,
-    alpha: 0,
-    hue: 0,
-    saturation: 0,
-    luminance: 0,
-  });
 
   useEffect(() => {
     if (file) {
@@ -96,14 +73,12 @@ const App = observer(() => {
     return (
       <div className={styles.app}>
         <FiltersToolbar
-          filters={filters}
-          setFilters={setFilters}
           setIsFiltersOpen={setIsFiltersOpen}
           image={image}
           setImgUrl={setImgUrl}
           setLoadSpinner={setLoadSpinner}
         />
-        <FiltersWorkspace filters={filters} image={image} stageRef={stageRef} />
+        <FiltersWorkspace image={image} stageRef={stageRef} />
         {loadSpinner && (
           <div className={styles.spinnerWrapper}>
             <Spinner />
