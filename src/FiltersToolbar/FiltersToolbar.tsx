@@ -18,7 +18,7 @@ interface Props {
 
 const FiltersToolbar = observer((props: Props) => {
   const { setIsFiltersOpen, image, setImgUrl, setLoadSpinner } = props;
-  const { setFilters, setFilter } = filtersState;
+  const { setFilter, resetFilters, setFilterRGB } = filtersState;
   const filters = toJS(filtersState.filters);
 
   const [baseFilters] = useState(JSON.stringify(filters));
@@ -56,21 +56,16 @@ const FiltersToolbar = observer((props: Props) => {
   const handleFilterRGB = (event: React.FocusEvent<HTMLInputElement>) => {
     const { value } = event.target;
     const { r, g, b } = hexToRgb(value);
-    setFilters({
-      ...filters,
-      red: r,
-      green: g,
-      blue: b,
-    });
+    setFilterRGB(r, g, b);
   };
 
   const handleFilterReset = () => {
-    const copyFilters: Record<string, number> = { ...filters };
-    Object.keys(copyFilters).forEach((key) => {
-      copyFilters[key] = 0;
-    });
-    copyFilters.pixelate = 1;
-    setFilters(copyFilters);
+    resetFilters();
+  };
+
+  const handleFiltersClose = () => {
+    setIsFiltersOpen(false);
+    resetFilters();
   };
 
   const handleFiltersApply = async () => {
@@ -83,11 +78,6 @@ const FiltersToolbar = observer((props: Props) => {
     });
     handleFiltersClose();
     setLoadSpinner(false);
-  };
-
-  const handleFiltersClose = () => {
-    setIsFiltersOpen(false);
-    handleFilterReset();
   };
 
   return (

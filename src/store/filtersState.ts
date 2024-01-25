@@ -27,12 +27,21 @@ class FiltersState {
     makeAutoObservable(this);
   }
 
-  setFilters = (newFilters: Filters) => {
-    this.filters = newFilters;
-  };
-
   setFilter = (filter: keyof Filters, value: number) => {
     this.filters[filter] = value;
+  };
+
+  resetFilters = () => {
+    Object.keys(this.filters).forEach((key) => {
+      this.filters[key] = 0;
+    });
+    this.filters.pixelate = 1;
+  };
+
+  setFilterRGB = (r: number, g: number, b: number) => {
+    this.filters.red = r;
+    this.filters.green = g;
+    this.filters.blue = b;
   };
 }
 
