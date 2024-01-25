@@ -12,29 +12,20 @@ import SwapVerticalCircleIcon from "@mui/icons-material/SwapVerticalCircle";
 import SaveModal from "./SaveModal/SaveModal";
 import FullScreen from "./FullScreen/FullScreen";
 import AspectRatioIcon from "@mui/icons-material/AspectRatio";
+import appState from "../store/appState";
+import { observer } from "mobx-react-lite";
 
 interface Props {
   file: File | null;
   stageRef: React.RefObject<Konva.Stage>;
   setFile: React.Dispatch<React.SetStateAction<File | null>>;
-  setIsFiltersOpen: React.Dispatch<React.SetStateAction<boolean>>;
   image: HTMLImageElement;
   setImgUrl: React.Dispatch<React.SetStateAction<string>>;
-  setLoadSpinner: React.Dispatch<React.SetStateAction<boolean>>;
-  setIsScaleOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-function Toolbar(props: Props) {
-  const {
-    file,
-    stageRef,
-    setFile,
-    setIsFiltersOpen,
-    image,
-    setImgUrl,
-    setLoadSpinner,
-    setIsScaleOpen,
-  } = props;
+const Toolbar = observer((props: Props) => {
+  const { file, stageRef, setFile, image, setImgUrl } = props;
+  const { setLoadSpinner, setScaleOpen, setFiltersOpen } = appState;
 
   const rootStyles = getComputedStyle(document.documentElement);
   const primaryColor = rootStyles.getPropertyValue("--primary-color");
@@ -52,7 +43,7 @@ function Toolbar(props: Props) {
       setTimeout(() => {
         rotateImage(direction, image, setImgUrl);
         resolve();
-      }, 0);
+      }, 10);
     });
     setLoadSpinner(false);
   };
@@ -73,7 +64,7 @@ function Toolbar(props: Props) {
 
       <IconButton
         title="Filters"
-        onClick={() => setIsFiltersOpen(true)}
+        onClick={() => setFiltersOpen(true)}
         sx={iconButtonSX}
       >
         <TuneIcon fontSize="large" />
@@ -81,7 +72,7 @@ function Toolbar(props: Props) {
 
       <IconButton
         title="Scale"
-        onClick={() => setIsScaleOpen(true)}
+        onClick={() => setScaleOpen(true)}
         sx={iconButtonSX}
       >
         <AspectRatioIcon fontSize="large" />
@@ -124,6 +115,6 @@ function Toolbar(props: Props) {
       <FullScreen />
     </div>
   );
-}
+});
 
 export default Toolbar;

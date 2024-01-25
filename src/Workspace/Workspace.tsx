@@ -5,16 +5,17 @@ import Konva from "konva";
 import ZoomSlider from "./ZoomSlider/ZoomSlider";
 import zoomState from "../store/zoomState";
 import { observer } from "mobx-react-lite";
+import appState from "../store/appState";
 
 interface Props {
   image: HTMLImageElement | null;
   stageRef: React.RefObject<Konva.Stage>;
-  isScaleOpen: boolean;
   imageScaleSize: { width: number; height: number };
 }
 
 const Workspace = observer((props: Props) => {
-  const { image, stageRef, isScaleOpen, imageScaleSize } = props;
+  const { image, stageRef, imageScaleSize } = props;
+  const { isScaleOpen } = appState;
 
   const workspaceRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<Konva.Image>(null);

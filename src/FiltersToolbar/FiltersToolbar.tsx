@@ -8,17 +8,17 @@ import { useState } from "react";
 import filtersState from "../store/filtersState";
 import { observer } from "mobx-react-lite";
 import { toJS } from "mobx";
+import appState from "../store/appState";
 
 interface Props {
-  setIsFiltersOpen: React.Dispatch<React.SetStateAction<boolean>>;
   image: HTMLImageElement;
   setImgUrl: React.Dispatch<React.SetStateAction<string>>;
-  setLoadSpinner: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const FiltersToolbar = observer((props: Props) => {
-  const { setIsFiltersOpen, image, setImgUrl, setLoadSpinner } = props;
+  const { image, setImgUrl } = props;
   const { setFilter, resetFilters, setFilterRGB } = filtersState;
+  const { setLoadSpinner, setFiltersOpen } = appState;
   const filters = toJS(filtersState.filters);
 
   const [baseFilters] = useState(JSON.stringify(filters));
@@ -64,7 +64,7 @@ const FiltersToolbar = observer((props: Props) => {
   };
 
   const handleFiltersClose = () => {
-    setIsFiltersOpen(false);
+    setFiltersOpen(false);
     resetFilters();
   };
 
@@ -74,7 +74,7 @@ const FiltersToolbar = observer((props: Props) => {
       setTimeout(() => {
         updateFiltersImage(image, filters, setImgUrl);
         resolve();
-      }, 0);
+      }, 10);
     });
     handleFiltersClose();
     setLoadSpinner(false);

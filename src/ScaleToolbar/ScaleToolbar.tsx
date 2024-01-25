@@ -5,6 +5,8 @@ import { imageNewSize } from "./ScaleToolbar.utils";
 import SaveIcon from "@mui/icons-material/Save";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import FilterListOffIcon from "@mui/icons-material/FilterListOff";
+import appState from "../store/appState";
+import { observer } from "mobx-react-lite";
 
 interface Props {
   image: HTMLImageElement;
@@ -13,19 +15,12 @@ interface Props {
     React.SetStateAction<{ width: number; height: number }>
   >;
   setImgUrl: React.Dispatch<React.SetStateAction<string>>;
-  setLoadSpinner: React.Dispatch<React.SetStateAction<boolean>>;
-  setIsScaleOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-function ScaleToolbar(props: Props) {
-  const {
-    image,
-    setImgUrl,
-    setLoadSpinner,
-    setIsScaleOpen,
-    imageScaleSize,
-    setImageScaleSize,
-  } = props;
+const ScaleToolbar = observer((props: Props) => {
+  const { image, setImgUrl, imageScaleSize, setImageScaleSize } = props;
+
+  const { setLoadSpinner, setScaleOpen } = appState;
 
   const rootStyles = getComputedStyle(document.documentElement);
   const primaryColor = rootStyles.getPropertyValue("--primary-color");
@@ -75,7 +70,7 @@ function ScaleToolbar(props: Props) {
       setTimeout(() => {
         imageNewSize(imageScaleSize, image, setImgUrl);
         resolve();
-      }, 0);
+      }, 10);
     });
     handleScaleClose();
     setLoadSpinner(false);
@@ -83,7 +78,7 @@ function ScaleToolbar(props: Props) {
 
   const handleScaleClose = () => {
     handleScaleReset();
-    setIsScaleOpen(false);
+    setScaleOpen(false);
   };
 
   return (
@@ -150,6 +145,6 @@ function ScaleToolbar(props: Props) {
       </div>
     </div>
   );
-}
+});
 
 export default ScaleToolbar;
