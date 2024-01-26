@@ -17,8 +17,13 @@ interface Props {
 const ScaleToolbar = observer((props: Props) => {
   const { image, setImgUrl } = props;
   const { setLoadSpinner, setScaleOpen } = appState;
-  const { imageScaleWidth, imageScaleHeight, setImageScaleSize } =
-    imageScaleState;
+  const {
+    imageScaleWidth,
+    imageScaleHeight,
+    setImageScaleSize,
+    setImageScaleSizeByParam,
+    setImageScaleSizeSaveRatio,
+  } = imageScaleState;
   const [isSaveRatio, setIsSaveRatio] = useState(true);
 
   const rootStyles = getComputedStyle(document.documentElement);
@@ -40,25 +45,11 @@ const ScaleToolbar = observer((props: Props) => {
   const handleImageScaleSizeChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    const name = event.target.name;
+    const changeParam = event.target.name;
     const value = Math.min(parseInt(event.target.value) || 0, 10000);
-
-    if (isSaveRatio) {
-      const aspectRatio =
-        name === "width"
-          ? image.height / image.width
-          : image.width / image.height;
-
-      setImageScaleSize(
-        name === "width" ? value : Math.round(value * aspectRatio),
-        name === "height" ? value : Math.round(value * aspectRatio)
-      );
-    } else {
-      setImageScaleSize(
-        name === "width" ? value : imageScaleWidth,
-        name === "height" ? value : imageScaleHeight
-      );
-    }
+    if (isSaveRatio)
+      setImageScaleSizeSaveRatio(changeParam, value, image.width, image.height);
+    else setImageScaleSizeByParam(changeParam, value);
   };
 
   const handleImageApplySize = async () => {
