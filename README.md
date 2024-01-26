@@ -7,6 +7,7 @@ Photo Editor App is designed to allow users to upload photos, apply various filt
 ## Tech Stack
 
 - React
+- Mobx
 - Vite
 - TypeScript
 - CSS Modules
