@@ -1,19 +1,21 @@
 import { useEffect, useRef } from "react";
 import styles from "./FiltersWorkspace.module.css";
-import { Filters } from "../types";
 import { Stage, Layer, Image } from "react-konva";
 import Konva from "konva";
 import { createFiltersArr } from "../App.utils";
 import { updateCanvasSize } from "./FiltersWorkspace.utils";
+import filtersState from "../store/filtersState";
+import { observer } from "mobx-react-lite";
+import { toJS } from "mobx";
 
 interface Props {
-  filters: Filters;
   image: HTMLImageElement | null;
   stageRef: React.RefObject<Konva.Stage>;
 }
 
-function FiltersWorkspace(props: Props) {
-  const { filters, image, stageRef } = props;
+const FiltersWorkspace = observer((props: Props) => {
+  const { image, stageRef } = props;
+  const filters = toJS(filtersState.filters);
 
   const workspaceRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<Konva.Image>(null);
@@ -79,6 +81,6 @@ function FiltersWorkspace(props: Props) {
       </div>
     </div>
   );
-}
+});
 
 export default FiltersWorkspace;

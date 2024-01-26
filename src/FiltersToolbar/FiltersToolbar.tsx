@@ -1,30 +1,25 @@
 import { Checkbox, IconButton, Slider } from "@mui/material";
-import { Filters } from "../types";
 import styles from "./FiltersToolbar.module.css";
 import { hexToRgb, rgbToHex, updateFiltersImage } from "./FiltersToolbar.utils";
 import SaveIcon from "@mui/icons-material/Save";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import FilterListOffIcon from "@mui/icons-material/FilterListOff";
 import { useState } from "react";
+import filtersState from "../store/filtersState";
+import { observer } from "mobx-react-lite";
+import { toJS } from "mobx";
+import appState from "../store/appState";
 
 interface Props {
-  filters: Filters;
-  setFilters: React.Dispatch<React.SetStateAction<Filters>>;
-  setIsFiltersOpen: React.Dispatch<React.SetStateAction<boolean>>;
   image: HTMLImageElement;
   setImgUrl: React.Dispatch<React.SetStateAction<string>>;
-  setLoadSpinner: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-function FiltersToolbar(props: Props) {
-  const {
-    filters,
-    setFilters,
-    setIsFiltersOpen,
-    image,
-    setImgUrl,
-    setLoadSpinner,
-  } = props;
+const FiltersToolbar = observer((props: Props) => {
+  const { image, setImgUrl } = props;
+  const { setFilter, resetFilters, setFilterRGB } = filtersState;
+  const { setLoadSpinner, setFiltersOpen } = appState;
+  const filters = toJS(filtersState.filters);
 
   const [baseFilters] = useState(JSON.stringify(filters));
   const isFiltersChanged = baseFilters !== JSON.stringify(filters);
@@ -47,10 +42,7 @@ function FiltersToolbar(props: Props) {
 
   const handleFilter = (event: Event, newValue: number | number[]) => {
     const { name } = event.target as HTMLInputElement;
-    setFilters((prevFilters) => ({
-      ...prevFilters,
-      [name]: newValue as number,
-    }));
+    setFilter(name, newValue as number);
   };
 
   const handleFilterChecked = (
@@ -58,30 +50,22 @@ function FiltersToolbar(props: Props) {
     checked: boolean
   ) => {
     const { name } = event.target;
-    setFilters((prevFilters) => ({
-      ...prevFilters,
-      [name]: checked ? 1 : 0,
-    }));
+    setFilter(name, checked ? 1 : 0);
   };
 
   const handleFilterRGB = (event: React.FocusEvent<HTMLInputElement>) => {
     const { value } = event.target;
     const { r, g, b } = hexToRgb(value);
-    setFilters((prevFilters) => ({
-      ...prevFilters,
-      red: r,
-      green: g,
-      blue: b,
-    }));
+    setFilterRGB(r, g, b);
   };
 
   const handleFilterReset = () => {
-    const copyFilters: Record<string, number> = { ...filters };
-    Object.keys(copyFilters).forEach((key) => {
-      copyFilters[key] = 0;
-    });
-    copyFilters.pixelate = 1;
-    setFilters(copyFilters);
+    resetFilters();
+  };
+
+  const handleFiltersClose = () => {
+    setFiltersOpen(false);
+    resetFilters();
   };
 
   const handleFiltersApply = async () => {
@@ -90,15 +74,10 @@ function FiltersToolbar(props: Props) {
       setTimeout(() => {
         updateFiltersImage(image, filters, setImgUrl);
         resolve();
-      }, 0);
+      }, 10);
     });
     handleFiltersClose();
     setLoadSpinner(false);
-  };
-
-  const handleFiltersClose = () => {
-    setIsFiltersOpen(false);
-    handleFilterReset();
   };
 
   return (
@@ -343,6 +322,6 @@ function FiltersToolbar(props: Props) {
       </div>
     </div>
   );
-}
+});
 
 export default FiltersToolbar;

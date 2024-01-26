@@ -1,14 +1,15 @@
 import { Slider } from "@mui/material";
 import styles from "./ZoomSlider.module.css";
+import { observer } from "mobx-react-lite";
+import appState from "../../store/appState";
 
 interface Props {
-  zoom: number;
-  setZoom: React.Dispatch<React.SetStateAction<number>>;
   isScaleOpen: boolean;
 }
 
-function ZoomSlider(props: Props) {
-  const { zoom, setZoom, isScaleOpen } = props;
+const ZoomSlider = observer((props: Props) => {
+  const { isScaleOpen } = props;
+  const { zoom, setZoom } = appState;
 
   const rootStyles = getComputedStyle(document.documentElement);
   const primaryColor = rootStyles.getPropertyValue("--primary-color");
@@ -33,9 +34,9 @@ function ZoomSlider(props: Props) {
           "& .MuiSlider-thumb": { color: primaryColor },
         }}
       />
-      <p className={styles.value}>{zoomPercent}% </p>
+      <p className={styles.value}>{zoomPercent}%</p>
     </div>
   );
-}
+});
 
 export default ZoomSlider;
