@@ -23,18 +23,26 @@ export const createFiltersArr = (filters: Filters) => {
 };
 
 export const loadImg = (
-  setFile: (file: File | null) => void
+  setFile: (file: File | null) => void,
+  setLoadSpinner: (loadSpinner: boolean) => void
 ) => {
   const input = document.createElement("input");
   input.type = "file";
   input.accept = "image/*";
   input.style.display = "none";
 
-  const changeLoadEvent = (event: Event) => {
+  const changeLoadEvent = async (event: Event) => {
     const loadEvent = event as unknown as React.ChangeEvent<HTMLInputElement>;
     const file = loadEvent.target?.files?.[0];
     if (file) {
-      setFile(file);
+      setLoadSpinner(true);
+      await new Promise<void>((resolve) => {
+        setTimeout(() => {
+          setFile(file);
+          resolve();
+        }, 10);
+      });
+      setLoadSpinner(false);
     }
   };
 
