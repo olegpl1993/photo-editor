@@ -50,7 +50,7 @@ const Toolbar = observer((props: Props) => {
     <div className={styles.toolbar}>
       <IconButton
         title="Load image"
-        onClick={() => loadImg(setFile)}
+        onClick={() => loadImg(setFile, setLoadSpinner)}
         sx={iconButtonSX}
       >
         <FileOpenIcon fontSize="large" />

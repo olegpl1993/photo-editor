@@ -14,7 +14,7 @@ import imageScaleState from "./store/imageScaleState";
 import imageState from "./store/imageState";
 
 const App = observer(() => {
-  const { isLoadSpinner, isScaleOpen, isFiltersOpen, setZoom } = appState;
+  const { isLoadSpinner, isScaleOpen, isFiltersOpen, setZoom, setLoadSpinner } = appState;
   const { setImageScaleSize } = imageScaleState;
   const { file, setFile, imgUrl, setImgUrl, image, setImage } = imageState;
   const stageRef = useRef<Konva.Stage>(null);
@@ -85,7 +85,7 @@ const App = observer(() => {
 
   return (
     <div className={styles.loadPhotoWrapper}>
-      <button onClick={() => loadImg(setFile)} className={styles.loadPhotoBtn}>
+      <button onClick={() => loadImg(setFile, setLoadSpinner)} className={styles.loadPhotoBtn}>
         LOAD PHOTO
       </button>
     </div>
