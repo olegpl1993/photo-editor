@@ -4,14 +4,15 @@ import { useEffect, useState } from "react";
 import DriveFolderUploadIcon from "@mui/icons-material/DriveFolderUpload";
 import Konva from "konva";
 import { saveCanvas } from "./SaveModal.utils";
+import imageState from "../../store/imageState";
 
 interface Props {
-  file: File | null;
   stageRef: React.RefObject<Konva.Stage>;
 }
 
 const SaveModal = (props: Props) => {
-  const { file, stageRef } = props;
+  const { stageRef } = props;
+  const { file } = imageState;
   const [modalActive, setModalActive] = useState(false);
   const [quality, setQuality] = useState(1);
 

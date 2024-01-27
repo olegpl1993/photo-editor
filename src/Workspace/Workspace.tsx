@@ -41,7 +41,7 @@ const Workspace = observer((props: Props) => {
   if (!image) return null;
   return (
     <div className={styles.workspace} ref={workspaceRef}>
-      <ZoomSlider isScaleOpen={isScaleOpen} />
+      <ZoomSlider />
       <div
         className={styles.wrapper}
         style={{

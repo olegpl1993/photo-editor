@@ -23,7 +23,7 @@ interface Props {
 const Toolbar = observer((props: Props) => {
   const { stageRef } = props;
   const { setLoadSpinner, setScaleOpen, setFiltersOpen } = appState;
-  const { file, setFile, setImgUrl, image } = imageState;
+  const { setFile, setImgUrl, image } = imageState;
 
   const rootStyles = getComputedStyle(document.documentElement);
   const primaryColor = rootStyles.getPropertyValue("--primary-color");
@@ -56,7 +56,7 @@ const Toolbar = observer((props: Props) => {
         <FileOpenIcon fontSize="large" />
       </IconButton>
 
-      <SaveModal file={file} stageRef={stageRef} />
+      <SaveModal stageRef={stageRef} />
 
       <div className={styles.divider} />
 
