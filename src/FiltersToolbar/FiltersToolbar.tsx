@@ -9,14 +9,10 @@ import filtersState from "../store/filtersState";
 import { observer } from "mobx-react-lite";
 import { toJS } from "mobx";
 import appState from "../store/appState";
+import imageState from "../store/imageState";
 
-interface Props {
-  image: HTMLImageElement;
-  setImgUrl: React.Dispatch<React.SetStateAction<string>>;
-}
-
-const FiltersToolbar = observer((props: Props) => {
-  const { image, setImgUrl } = props;
+const FiltersToolbar = observer(() => {
+  const { image, setImgUrl } = imageState;
   const { setFilter, resetFilters, setFilterRGB } = filtersState;
   const { setLoadSpinner, setFiltersOpen } = appState;
   const filters = toJS(filtersState.filters);
@@ -72,7 +68,7 @@ const FiltersToolbar = observer((props: Props) => {
     setLoadSpinner(true);
     await new Promise<void>((resolve) => {
       setTimeout(() => {
-        updateFiltersImage(image, filters, setImgUrl);
+        if (image) updateFiltersImage(image, filters, setImgUrl);
         resolve();
       }, 10);
     });

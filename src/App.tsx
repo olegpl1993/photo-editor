@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import styles from "./App.module.css";
 import Toolbar from "./Toolbar/Toolbar";
 import Workspace from "./Workspace/Workspace";
@@ -11,14 +11,13 @@ import ScaleToolbar from "./ScaleToolbar/ScaleToolbar";
 import { observer } from "mobx-react-lite";
 import appState from "./store/appState";
 import imageScaleState from "./store/imageScaleState";
+import imageState from "./store/imageState";
 
 const App = observer(() => {
   const { isLoadSpinner, isScaleOpen, isFiltersOpen, setZoom } = appState;
   const { setImageScaleSize } = imageScaleState;
+  const { file, setFile, imgUrl, setImgUrl, image, setImage } = imageState;
   const stageRef = useRef<Konva.Stage>(null);
-  const [file, setFile] = useState<File | null>(null);
-  const [imgUrl, setImgUrl] = useState<string>("");
-  const [image, setImage] = useState<HTMLImageElement | null>(null);
 
   useEffect(() => {
     if (file) {
@@ -26,7 +25,7 @@ const App = observer(() => {
       setImgUrl(url);
       setZoom(1);
     }
-  }, [file, setZoom]);
+  }, [file, setImgUrl, setZoom]);
 
   useEffect(() => {
     const img = new Image();
@@ -34,7 +33,7 @@ const App = observer(() => {
     img.onload = () => {
       setImage(img);
     };
-  }, [imgUrl]);
+  }, [imgUrl, setImage]);
 
   useEffect(() => {
     if (image) {
@@ -45,8 +44,8 @@ const App = observer(() => {
   if (image && isScaleOpen) {
     return (
       <div className={styles.app}>
-        <ScaleToolbar image={image} setImgUrl={setImgUrl} />
-        <Workspace image={image} stageRef={stageRef} />
+        <ScaleToolbar />
+        <Workspace stageRef={stageRef} />
         {isLoadSpinner && (
           <div className={styles.spinnerWrapper}>
             <Spinner />
@@ -59,8 +58,8 @@ const App = observer(() => {
   if (image && isFiltersOpen) {
     return (
       <div className={styles.app}>
-        <FiltersToolbar image={image} setImgUrl={setImgUrl} />
-        <FiltersWorkspace image={image} stageRef={stageRef} />
+        <FiltersToolbar />
+        <FiltersWorkspace stageRef={stageRef} />
         {isLoadSpinner && (
           <div className={styles.spinnerWrapper}>
             <Spinner />
@@ -73,14 +72,8 @@ const App = observer(() => {
   if (image) {
     return (
       <div className={styles.app}>
-        <Toolbar
-          file={file}
-          stageRef={stageRef}
-          setFile={setFile}
-          image={image}
-          setImgUrl={setImgUrl}
-        />
-        <Workspace image={image} stageRef={stageRef} />
+        <Toolbar stageRef={stageRef} />
+        <Workspace stageRef={stageRef} />
         {isLoadSpinner && (
           <div className={styles.spinnerWrapper}>
             <Spinner />

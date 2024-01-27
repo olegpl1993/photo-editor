@@ -4,7 +4,7 @@ export const imageNewSize = (
   width: number,
   height: number,
   image: HTMLImageElement,
-  setImgUrl: React.Dispatch<React.SetStateAction<string>>
+  setImgUrl: (imgUrl: string) => void
 ) => {
   const saveImageDiv = document.createElement("div");
   if (saveImageDiv) {

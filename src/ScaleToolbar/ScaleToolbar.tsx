@@ -8,14 +8,10 @@ import FilterListOffIcon from "@mui/icons-material/FilterListOff";
 import appState from "../store/appState";
 import { observer } from "mobx-react-lite";
 import imageScaleState from "../store/imageScaleState";
+import imageState from "../store/imageState";
 
-interface Props {
-  image: HTMLImageElement;
-  setImgUrl: React.Dispatch<React.SetStateAction<string>>;
-}
-
-const ScaleToolbar = observer((props: Props) => {
-  const { image, setImgUrl } = props;
+const ScaleToolbar = observer(() => {
+  const { image, setImgUrl } = imageState;
   const { setLoadSpinner, setScaleOpen } = appState;
   const {
     imageScaleWidth,
@@ -36,10 +32,10 @@ const ScaleToolbar = observer((props: Props) => {
     color: primaryColor,
   };
   const isSizeChanged =
-    imageScaleWidth !== image.width || imageScaleHeight !== image.height;
+    imageScaleWidth !== image?.width || imageScaleHeight !== image.height;
 
   const handleScaleReset = () => {
-    setImageScaleSize(image.width, image.height);
+    if (image) setImageScaleSize(image.width, image.height);
   };
 
   const handleImageScaleSizeChange = (
@@ -47,7 +43,7 @@ const ScaleToolbar = observer((props: Props) => {
   ) => {
     const changeParam = event.target.name;
     const value = Math.min(parseInt(event.target.value) || 0, 10000);
-    if (isSaveRatio)
+    if (isSaveRatio && image)
       setImageScaleSizeSaveRatio(changeParam, value, image.width, image.height);
     else setImageScaleSizeByParam(changeParam, value);
   };
@@ -56,7 +52,8 @@ const ScaleToolbar = observer((props: Props) => {
     setLoadSpinner(true);
     await new Promise<void>((resolve) => {
       setTimeout(() => {
-        imageNewSize(imageScaleWidth, imageScaleHeight, image, setImgUrl);
+        if (image)
+          imageNewSize(imageScaleWidth, imageScaleHeight, image, setImgUrl);
         resolve();
       }, 10);
     });

@@ -23,7 +23,7 @@ export const createFiltersArr = (filters: Filters) => {
 };
 
 export const loadImg = (
-  setFile: React.Dispatch<React.SetStateAction<File | null>>
+  setFile: (file: File | null) => void
 ) => {
   const input = document.createElement("input");
   input.type = "file";
