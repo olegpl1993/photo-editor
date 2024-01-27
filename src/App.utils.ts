@@ -42,7 +42,6 @@ export const loadImg = (
           resolve();
         }, 10);
       });
-      setLoadSpinner(false);
     }
   };
 
