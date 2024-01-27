@@ -10,7 +10,7 @@ interface Props {
   stageRef: React.RefObject<Konva.Stage>;
 }
 
-function SaveModal(props: Props) {
+const SaveModal = (props: Props) => {
   const { file, stageRef } = props;
   const [modalActive, setModalActive] = useState(false);
   const [quality, setQuality] = useState(1);
@@ -113,6 +113,6 @@ function SaveModal(props: Props) {
       )}
     </div>
   );
-}
+};
 
 export default SaveModal;

@@ -12,7 +12,7 @@ const fullScreenChanger = (isFullScreen: boolean) => {
   }
 };
 
-function FullScreen() {
+const FullScreen = () => {
   const rootStyles = getComputedStyle(document.documentElement);
   const primaryColor = rootStyles.getPropertyValue("--primary-color");
   const [isFullScreen, setIsFullScreen] = useState(
@@ -42,6 +42,6 @@ function FullScreen() {
       )}
     </IconButton>
   );
-}
+};
 
 export default FullScreen;
