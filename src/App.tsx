@@ -14,7 +14,8 @@ import imageScaleState from "./store/imageScaleState";
 import imageState from "./store/imageState";
 
 const App = observer(() => {
-  const { isLoadSpinner, isScaleOpen, isFiltersOpen, setZoom, setLoadSpinner } = appState;
+  const { isLoadSpinner, isScaleOpen, isFiltersOpen, setZoom, setLoadSpinner } =
+    appState;
   const { setImageScaleSize } = imageScaleState;
   const { file, setFile, imgUrl, setImgUrl, image, setImage } = imageState;
   const stageRef = useRef<Konva.Stage>(null);
@@ -32,8 +33,9 @@ const App = observer(() => {
     img.src = imgUrl;
     img.onload = () => {
       setImage(img);
+      setLoadSpinner(false);
     };
-  }, [imgUrl, setImage]);
+  }, [imgUrl, setImage, setLoadSpinner]);
 
   useEffect(() => {
     if (image) {
@@ -85,9 +87,18 @@ const App = observer(() => {
 
   return (
     <div className={styles.loadPhotoWrapper}>
-      <button onClick={() => loadImg(setFile, setLoadSpinner)} className={styles.loadPhotoBtn}>
-        LOAD PHOTO
-      </button>
+      {isLoadSpinner ? (
+        <div className={styles.spinnerWrapper}>
+          <Spinner />
+        </div>
+      ) : (
+        <button
+          onClick={() => loadImg(setFile, setLoadSpinner)}
+          className={styles.loadPhotoBtn}
+        >
+          LOAD PHOTO
+        </button>
+      )}
     </div>
   );
 });
