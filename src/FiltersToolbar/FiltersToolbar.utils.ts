@@ -5,7 +5,7 @@ import { createFiltersArr } from "../App.utils";
 export const updateFiltersImage = (
   image: HTMLImageElement,
   filters: Filters,
-  setImgUrl: React.Dispatch<React.SetStateAction<string>>,
+  setImgUrl: (imgUrl: string) => void
 ) => {
   const saveImageDiv = document.createElement("div");
   if (saveImageDiv && image) {

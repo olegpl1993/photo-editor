@@ -1,6 +1,6 @@
 import { makeAutoObservable } from "mobx";
 
-class appState {
+class AppState {
   isLoadSpinner = false;
   isScaleOpen = false;
   isFiltersOpen = false;
@@ -27,4 +27,4 @@ class appState {
   };
 }
 
-export default new appState();
+export default new AppState();

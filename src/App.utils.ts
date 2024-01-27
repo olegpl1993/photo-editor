@@ -2,7 +2,7 @@ import Konva from "konva";
 import { Filters } from "./types";
 import { Filter } from "konva/lib/Node";
 
-export function createFiltersArr(filters: Filters) {
+export const createFiltersArr = (filters: Filters) => {
   const filtersArr: Filter[] = [];
   if (filters.blur) filtersArr.push(Konva.Filters.Blur);
   if (filters.brighten) filtersArr.push(Konva.Filters.Brighten);
@@ -20,10 +20,10 @@ export function createFiltersArr(filters: Filters) {
     filtersArr.push(Konva.Filters.HSL);
   }
   return filtersArr;
-}
+};
 
 export const loadImg = (
-  setFile: React.Dispatch<React.SetStateAction<File | null>>
+  setFile: (file: File | null) => void
 ) => {
   const input = document.createElement("input");
   input.type = "file";

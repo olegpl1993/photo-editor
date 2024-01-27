@@ -3,13 +3,8 @@ import styles from "./ZoomSlider.module.css";
 import { observer } from "mobx-react-lite";
 import appState from "../../store/appState";
 
-interface Props {
-  isScaleOpen: boolean;
-}
-
-const ZoomSlider = observer((props: Props) => {
-  const { isScaleOpen } = props;
-  const { zoom, setZoom } = appState;
+const ZoomSlider = observer(() => {
+  const { zoom, setZoom, isScaleOpen } = appState;
 
   const rootStyles = getComputedStyle(document.documentElement);
   const primaryColor = rootStyles.getPropertyValue("--primary-color");

@@ -3,7 +3,7 @@ import Konva from "konva";
 export const rotateImage = (
   direction: string,
   image: HTMLImageElement,
-  setImgUrl: React.Dispatch<React.SetStateAction<string>>
+  setImgUrl: (imgUrl: string) => void
 ) => {
   const directionMap = {
     left: -90,

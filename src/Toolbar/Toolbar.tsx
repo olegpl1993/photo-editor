@@ -14,18 +14,16 @@ import FullScreen from "./FullScreen/FullScreen";
 import AspectRatioIcon from "@mui/icons-material/AspectRatio";
 import appState from "../store/appState";
 import { observer } from "mobx-react-lite";
+import imageState from "../store/imageState";
 
 interface Props {
-  file: File | null;
   stageRef: React.RefObject<Konva.Stage>;
-  setFile: React.Dispatch<React.SetStateAction<File | null>>;
-  image: HTMLImageElement;
-  setImgUrl: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const Toolbar = observer((props: Props) => {
-  const { file, stageRef, setFile, image, setImgUrl } = props;
+  const { stageRef } = props;
   const { setLoadSpinner, setScaleOpen, setFiltersOpen } = appState;
+  const { setFile, setImgUrl, image } = imageState;
 
   const rootStyles = getComputedStyle(document.documentElement);
   const primaryColor = rootStyles.getPropertyValue("--primary-color");
@@ -41,7 +39,7 @@ const Toolbar = observer((props: Props) => {
     setLoadSpinner(true);
     await new Promise<void>((resolve) => {
       setTimeout(() => {
-        rotateImage(direction, image, setImgUrl);
+        if (image) rotateImage(direction, image, setImgUrl);
         resolve();
       }, 10);
     });
@@ -58,7 +56,7 @@ const Toolbar = observer((props: Props) => {
         <FileOpenIcon fontSize="large" />
       </IconButton>
 
-      <SaveModal file={file} stageRef={stageRef} />
+      <SaveModal stageRef={stageRef} />
 
       <div className={styles.divider} />
 

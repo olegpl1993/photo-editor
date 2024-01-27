@@ -7,14 +7,15 @@ import { updateCanvasSize } from "./FiltersWorkspace.utils";
 import filtersState from "../store/filtersState";
 import { observer } from "mobx-react-lite";
 import { toJS } from "mobx";
+import imageState from "../store/imageState";
 
 interface Props {
-  image: HTMLImageElement | null;
   stageRef: React.RefObject<Konva.Stage>;
 }
 
 const FiltersWorkspace = observer((props: Props) => {
-  const { image, stageRef } = props;
+  const { stageRef } = props;
+  const {image} = imageState;
   const filters = toJS(filtersState.filters);
 
   const workspaceRef = useRef<HTMLDivElement>(null);
