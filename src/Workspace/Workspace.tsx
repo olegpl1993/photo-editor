@@ -7,6 +7,8 @@ import { observer } from "mobx-react-lite";
 import appState from "../store/appState";
 import imageScaleState from "../store/imageScaleState";
 import imageState from "../store/imageState";
+import React from "react";
+import Crop from "./Crop/Crop";
 
 interface Props {
   stageRef: React.RefObject<Konva.Stage>;
@@ -16,7 +18,7 @@ const Workspace = observer((props: Props) => {
   const { stageRef } = props;
   const { image } = imageState;
   const { imageScaleWidth, imageScaleHeight } = imageScaleState;
-  const { isScaleOpen, zoom } = appState;
+  const { isScaleOpen, zoom, isCropActive } = appState;
 
   const workspaceRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<Konva.Image>(null);
@@ -75,6 +77,8 @@ const Workspace = observer((props: Props) => {
               imageSmoothingEnabled={false}
             />
           </Layer>
+
+          {isCropActive && <Crop />}
         </Stage>
       </div>
     </div>
