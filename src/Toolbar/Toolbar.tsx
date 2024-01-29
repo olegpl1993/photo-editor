@@ -15,6 +15,7 @@ import AspectRatioIcon from "@mui/icons-material/AspectRatio";
 import appState from "../store/appState";
 import { observer } from "mobx-react-lite";
 import imageState from "../store/imageState";
+import CropIcon from "@mui/icons-material/Crop";
 
 interface Props {
   stageRef: React.RefObject<Konva.Stage>;
@@ -22,11 +23,18 @@ interface Props {
 
 const Toolbar = observer((props: Props) => {
   const { stageRef } = props;
-  const { setLoadSpinner, setScaleOpen, setFiltersOpen } = appState;
+  const {
+    setLoadSpinner,
+    setScaleOpen,
+    setFiltersOpen,
+    isCropActive,
+    setCropActive,
+  } = appState;
   const { setFile, setImgUrl, image } = imageState;
 
   const rootStyles = getComputedStyle(document.documentElement);
   const primaryColor = rootStyles.getPropertyValue("--primary-color");
+  const activeColor = rootStyles.getPropertyValue("--active-color");
   const iconButtonSX = {
     height: "50px",
     width: "50px",
@@ -74,6 +82,20 @@ const Toolbar = observer((props: Props) => {
         sx={iconButtonSX}
       >
         <AspectRatioIcon fontSize="large" />
+      </IconButton>
+
+      <IconButton
+        title="Crop"
+        onClick={() => setCropActive(!isCropActive)}
+        sx={{
+          ...iconButtonSX,
+          borderColor: isCropActive ? activeColor : primaryColor,
+        }}
+      >
+        <CropIcon
+          fontSize="large"
+          sx={{ color: isCropActive ? activeColor : primaryColor }}
+        />
       </IconButton>
 
       <IconButton

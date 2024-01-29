@@ -4,6 +4,7 @@ class AppState {
   isLoadSpinner = false;
   isScaleOpen = false;
   isFiltersOpen = false;
+  isCropActive = false;
   zoom = 1;
 
   constructor() {
@@ -20,6 +21,10 @@ class AppState {
 
   setFiltersOpen = (filtersOpen: boolean) => {
     this.isFiltersOpen = filtersOpen;
+  };
+
+  setCropActive = (cropActive: boolean) => {
+    this.isCropActive = cropActive;
   };
 
   setZoom = (zoom: number) => {
