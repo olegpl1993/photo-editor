@@ -40,12 +40,61 @@ const Crop = observer(() => {
   }, [rectState]);
 
   const handleTransform = (event: Konva.KonvaEventObject<Event>) => {
+    const rect = rectRef.current;
+    if (!rect || !image) return;
+
+    const scaleX = event.target.scaleX();
+    const scaleY = event.target.scaleY();
+    const width = rect.width() * scaleX;
+    const height = rect.height() * scaleY;
+
+    const x = event.target.x();
+    const y = event.target.y();
+
+    const newX = Math.max(0, Math.min(image.width - width, x));
+    const newY = Math.max(0, Math.min(image.height - height, y));
+
+    console.log("-----------------");
+    console.log("x", x);
+    console.log("y", y);
+    console.log("newX", newX);
+    console.log("newY", newY);
+    console.log("width", width);
+    console.log("height", height);
+    console.log("scaleX", scaleX);
+    console.log("scaleY", scaleY);
+
+    if (x < 0) {
+      rectRef.current?.setAttrs({ ...rectState });
+      return;
+    }
+    if (y < 0) {
+      rectRef.current?.setAttrs({ ...rectState });
+      return;
+    }
+    if (x + width > image.width) {
+      rectRef.current?.setAttrs({ ...rectState });
+      return;
+    }
+    if (y + height > image.height) {
+      rectRef.current?.setAttrs({ ...rectState });
+      return;
+    }
+    if (width < 50 || scaleX < 0.05) {
+      rectRef.current?.setAttrs({ ...rectState, scaleX: 50 / image.width });
+      return;
+    }
+    if (height < 50 || scaleY < 0.05) {
+      rectRef.current?.setAttrs({ ...rectState, scaleY: 50 / image.height });
+      return;
+    }
+
     setRectState({
       ...rectState,
-      scaleX: event.target.scaleX(),
-      scaleY: event.target.scaleY(),
-      x: event.target.x(),
-      y: event.target.y(),
+      x: newX,
+      y: newY,
+      scaleX: scaleX,
+      scaleY: scaleY,
     });
   };
 
