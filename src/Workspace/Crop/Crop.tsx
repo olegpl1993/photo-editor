@@ -54,16 +54,6 @@ const Crop = observer(() => {
     const newX = Math.max(0, Math.min(image.width - width, x));
     const newY = Math.max(0, Math.min(image.height - height, y));
 
-    console.log("-----------------");
-    console.log("x", x);
-    console.log("y", y);
-    console.log("newX", newX);
-    console.log("newY", newY);
-    console.log("width", width);
-    console.log("height", height);
-    console.log("scaleX", scaleX);
-    console.log("scaleY", scaleY);
-
     if (x < 0) {
       rectRef.current?.setAttrs({ ...rectState });
       return;
