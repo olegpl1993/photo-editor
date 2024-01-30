@@ -5,14 +5,17 @@ import DriveFolderUploadIcon from "@mui/icons-material/DriveFolderUpload";
 import Konva from "konva";
 import { saveCanvas } from "./SaveModal.utils";
 import imageState from "../../store/imageState";
+import appState from "../../store/appState";
+import { observer } from "mobx-react-lite";
 
 interface Props {
   stageRef: React.RefObject<Konva.Stage>;
 }
 
-const SaveModal = (props: Props) => {
+const SaveModal = observer((props: Props) => {
   const { stageRef } = props;
   const { file } = imageState;
+  const { setCropActive } = appState;
   const [modalActive, setModalActive] = useState(false);
   const [quality, setQuality] = useState(1);
 
@@ -34,6 +37,11 @@ const SaveModal = (props: Props) => {
     };
   });
 
+  const handleClickOpen = () => {
+    setModalActive(true);
+    setCropActive(false);
+  };
+
   return (
     <div className={styles.saveModal}>
       <IconButton
@@ -45,7 +53,7 @@ const SaveModal = (props: Props) => {
           borderRadius: "50%",
           color: primaryColor,
         }}
-        onClick={() => setModalActive(true)}
+        onClick={handleClickOpen}
       >
         <DriveFolderUploadIcon fontSize="large" />
       </IconButton>
@@ -114,6 +122,6 @@ const SaveModal = (props: Props) => {
       )}
     </div>
   );
-};
+});
 
 export default SaveModal;

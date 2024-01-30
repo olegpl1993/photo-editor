@@ -44,6 +44,7 @@ const Toolbar = observer((props: Props) => {
   };
 
   const handleRotateImage = async (direction: string) => {
+    setCropActive(false);
     setLoadSpinner(true);
     await new Promise<void>((resolve) => {
       setTimeout(() => {
@@ -54,13 +55,24 @@ const Toolbar = observer((props: Props) => {
     setLoadSpinner(false);
   };
 
+  const handleLoadImg = () => {
+    loadImg(setFile, setLoadSpinner);
+    setCropActive(false);
+  };
+
+  const handleFiltersOpen = () => {
+    setFiltersOpen(true);
+    setCropActive(false);
+  };
+
+  const handleScaleOpen = () => {
+    setScaleOpen(true);
+    setCropActive(false);
+  };
+
   return (
     <div className={styles.toolbar}>
-      <IconButton
-        title="Load image"
-        onClick={() => loadImg(setFile, setLoadSpinner)}
-        sx={iconButtonSX}
-      >
+      <IconButton title="Load image" onClick={handleLoadImg} sx={iconButtonSX}>
         <FileOpenIcon fontSize="large" />
       </IconButton>
 
@@ -68,19 +80,11 @@ const Toolbar = observer((props: Props) => {
 
       <div className={styles.divider} />
 
-      <IconButton
-        title="Filters"
-        onClick={() => setFiltersOpen(true)}
-        sx={iconButtonSX}
-      >
+      <IconButton title="Filters" onClick={handleFiltersOpen} sx={iconButtonSX}>
         <TuneIcon fontSize="large" />
       </IconButton>
 
-      <IconButton
-        title="Scale"
-        onClick={() => setScaleOpen(true)}
-        sx={iconButtonSX}
-      >
+      <IconButton title="Scale" onClick={handleScaleOpen} sx={iconButtonSX}>
         <AspectRatioIcon fontSize="large" />
       </IconButton>
 
