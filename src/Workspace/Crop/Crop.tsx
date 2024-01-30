@@ -9,7 +9,10 @@ import appState from "../../store/appState";
 
 const Crop = observer(() => {
   const { image, setImgUrl } = imageState;
-  const { setCropActive, setLoadSpinner } = appState;
+  const { setCropActive, setLoadSpinner, zoom } = appState;
+
+  const baseAnchorSize = 10;
+  const currentAnchorSize = baseAnchorSize / zoom;
 
   const trRef = useRef<Konva.Transformer>(null);
   const rectRef = useRef<Konva.Rect>(null);
@@ -28,16 +31,17 @@ const Crop = observer(() => {
   const scissorsRef = useRef<Konva.Image>(null);
   const scissorsObj = new window.Image();
   scissorsObj.src = "./scissors.png";
-  const scissorsSize = 30;
+  const baseScissorsSize = 30;
+  const currentScissorsSize = baseScissorsSize / zoom;
 
   useEffect(() => {
     const currentRectWidth = rectState.width * rectState.scaleX;
     const currentRectHeight = rectState.height * rectState.scaleY;
     scissorsRef.current?.setAttrs({
-      x: rectState.x + currentRectWidth / 2 - scissorsSize / 2,
-      y: rectState.y + currentRectHeight / 2 - scissorsSize / 2,
+      x: rectState.x + currentRectWidth / 2 - currentScissorsSize / 2,
+      y: rectState.y + currentRectHeight / 2 - currentScissorsSize / 2,
     });
-  }, [rectState]);
+  }, [currentScissorsSize, rectState]);
 
   const handleTransform = (event: Konva.KonvaEventObject<Event>) => {
     const rect = rectRef.current;
@@ -129,14 +133,18 @@ const Crop = observer(() => {
         onTransform={handleTransform}
         dragBoundFunc={dragBound}
       />
-      <Transformer ref={trRef} rotateEnabled={false} />
+      <Transformer
+        ref={trRef}
+        rotateEnabled={false}
+        anchorSize={currentAnchorSize}
+      />
       <Image
-        x={rectState.width / 2 - scissorsSize / 2}
-        y={rectState.height / 2 - scissorsSize / 2}
+        x={rectState.width / 2 - currentScissorsSize / 2}
+        y={rectState.height / 2 - currentScissorsSize / 2}
         ref={scissorsRef}
         image={scissorsObj}
-        width={scissorsSize}
-        height={scissorsSize}
+        width={currentScissorsSize}
+        height={currentScissorsSize}
         onClick={handleScissorsClick}
         onTap={handleScissorsClick}
       />
