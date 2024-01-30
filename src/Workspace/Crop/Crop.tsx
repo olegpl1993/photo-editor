@@ -138,6 +138,7 @@ const Crop = observer(() => {
         width={scissorsSize}
         height={scissorsSize}
         onClick={handleScissorsClick}
+        onTap={handleScissorsClick}
       />
     </Layer>
   );
