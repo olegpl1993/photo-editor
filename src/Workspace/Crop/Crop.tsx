@@ -6,17 +6,24 @@ import imageState from "../../store/imageState";
 import { cropImage } from "./Crop.utils";
 import { RectState } from "./Crop.types";
 import appState from "../../store/appState";
+import { Box } from "konva/lib/shapes/Transformer";
 
 const Crop = observer(() => {
   const { image, setImgUrl } = imageState;
   const { setCropActive, setLoadSpinner, zoom } = appState;
 
-  const baseAnchorSize = 10;
+  const baseAnchorSize = 13;
   const currentAnchorSize = baseAnchorSize / zoom;
+  const baseScissorsSize = 30;
+  const currentScissorsSize = baseScissorsSize / zoom;
 
   const trRef = useRef<Konva.Transformer>(null);
   const rectRef = useRef<Konva.Rect>(null);
   if (rectRef.current) trRef.current?.nodes([rectRef.current]);
+
+  const scissorsRef = useRef<Konva.Image>(null);
+  const scissorsObj = new window.Image();
+  scissorsObj.src = "./scissors.png";
 
   const [rectState, setRectState] = useState<RectState>({
     x: image ? image.width / 2 - image.width / 4 : 0,
@@ -27,12 +34,6 @@ const Crop = observer(() => {
     scaleY: 0.5,
     fill: "rgba(103, 160, 210, 0.5)",
   });
-
-  const scissorsRef = useRef<Konva.Image>(null);
-  const scissorsObj = new window.Image();
-  scissorsObj.src = "./scissors.png";
-  const baseScissorsSize = 30;
-  const currentScissorsSize = baseScissorsSize / zoom;
 
   useEffect(() => {
     const currentRectWidth = rectState.width * rectState.scaleX;
@@ -46,42 +47,14 @@ const Crop = observer(() => {
   const handleTransform = (event: Konva.KonvaEventObject<Event>) => {
     const rect = rectRef.current;
     if (!rect || !image) return;
-
     const scaleX = event.target.scaleX();
     const scaleY = event.target.scaleY();
     const width = rect.width() * scaleX;
     const height = rect.height() * scaleY;
-
     const x = event.target.x();
     const y = event.target.y();
-
     const newX = Math.max(0, Math.min(image.width - width, x));
     const newY = Math.max(0, Math.min(image.height - height, y));
-
-    if (x < 0) {
-      rectRef.current?.setAttrs({ ...rectState });
-      return;
-    }
-    if (y < 0) {
-      rectRef.current?.setAttrs({ ...rectState });
-      return;
-    }
-    if (x + width > image.width) {
-      rectRef.current?.setAttrs({ ...rectState });
-      return;
-    }
-    if (y + height > image.height) {
-      rectRef.current?.setAttrs({ ...rectState });
-      return;
-    }
-    if (width < 50 || scaleX < 0.05) {
-      rectRef.current?.setAttrs({ ...rectState, scaleX: 50 / image.width });
-      return;
-    }
-    if (height < 50 || scaleY < 0.05) {
-      rectRef.current?.setAttrs({ ...rectState, scaleY: 50 / image.height });
-      return;
-    }
 
     setRectState({
       ...rectState,
@@ -101,14 +74,23 @@ const Crop = observer(() => {
   };
 
   const dragBound = (pos: { x: number; y: number }) => {
-    const rect = rectRef.current;
-    if (!rect || !image) return { x: 0, y: 0 };
-    const height = rect.height() * rect.scaleY();
-    const width = rect.width() * rect.scaleX();
-    const newX = Math.max(0, Math.min(image.width - width, pos.x));
-    const newY = Math.max(0, Math.min(image.height - height, pos.y));
+    const height = rectState.height * rectState.scaleY;
+    const width = rectState.width * rectState.scaleX;
+    const newX = Math.max(0, Math.min(rectState.width - width, pos.x));
+    const newY = Math.max(0, Math.min(rectState.height - height, pos.y));
     return { x: newX, y: newY };
   };
+
+  const boundBoxFunc = (oldBox: Box, newBox: Box): Box =>
+    newBox.width < 50 ||
+    newBox.height < 50 ||
+    newBox.rotation !== 0 ||
+    newBox.x < 0 ||
+    newBox.y < 0 ||
+    newBox.x + newBox.width > rectState.width ||
+    newBox.y + newBox.height > rectState.height
+      ? oldBox
+      : newBox;
 
   const handleScissorsClick = async () => {
     if (!image) return;
@@ -137,6 +119,7 @@ const Crop = observer(() => {
         ref={trRef}
         rotateEnabled={false}
         anchorSize={currentAnchorSize}
+        boundBoxFunc={boundBoxFunc}
       />
       <Image
         x={rectState.width / 2 - currentScissorsSize / 2}
