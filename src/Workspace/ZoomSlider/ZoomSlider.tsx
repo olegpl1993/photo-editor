@@ -9,11 +9,11 @@ const ZoomSlider = observer(() => {
   const rootStyles = getComputedStyle(document.documentElement);
   const primaryColor = rootStyles.getPropertyValue("--primary-color");
 
+  const zoomPercent = Math.round(zoom * 100);
+
   const handleSetZoom = (_event: Event, newValue: number | number[]) => {
     setZoom((newValue as number) / 100);
   };
-
-  const zoomPercent = Math.round(zoom * 100);
 
   return (
     <div className={`${styles.zoomSlider} ${isScaleOpen && styles.scaleOpen}`}>

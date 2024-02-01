@@ -3,25 +3,29 @@ import { IconButton } from "@mui/material";
 import FullscreenIcon from "@mui/icons-material/Fullscreen";
 import FullscreenExitIcon from "@mui/icons-material/FullscreenExit";
 
-const fullScreenChanger = (isFullScreen: boolean) => {
-  if (isFullScreen && !document.fullscreenElement) {
-    document.documentElement.requestFullscreen();
-  }
-  if (!isFullScreen && document.fullscreenElement) {
-    document.exitFullscreen();
-  }
-};
-
 const FullScreen = () => {
-  const rootStyles = getComputedStyle(document.documentElement);
-  const primaryColor = rootStyles.getPropertyValue("--primary-color");
   const [isFullScreen, setIsFullScreen] = useState(
     !!document.fullscreenElement
   );
 
+  const rootStyles = getComputedStyle(document.documentElement);
+  const primaryColor = rootStyles.getPropertyValue("--primary-color");
+
   useEffect(() => {
-    fullScreenChanger(isFullScreen);
+    if (isFullScreen && !document.fullscreenElement)
+      document.documentElement.requestFullscreen();
+    if (!isFullScreen && document.fullscreenElement) document.exitFullscreen();
   }, [isFullScreen]);
+
+  useEffect(() => {
+    const fullScreenChange = () =>
+      setIsFullScreen(!!document.fullscreenElement);
+
+    document.addEventListener("fullscreenchange", fullScreenChange);
+    return () => {
+      document.removeEventListener("fullscreenchange", fullScreenChange);
+    };
+  }, []);
 
   return (
     <IconButton

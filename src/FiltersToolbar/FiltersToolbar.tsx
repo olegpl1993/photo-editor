@@ -65,10 +65,11 @@ const FiltersToolbar = observer(() => {
   };
 
   const handleFiltersApply = async () => {
+    if (!image) return;
     setLoadSpinner(true);
     await new Promise<void>((resolve) => {
       setTimeout(() => {
-        if (image) updateFiltersImage(image, filters, setImgUrl);
+        updateFiltersImage(image, filters, setImgUrl);
         resolve();
       }, 10);
     });

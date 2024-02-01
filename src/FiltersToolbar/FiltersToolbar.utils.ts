@@ -1,6 +1,26 @@
 import Konva from "konva";
 import { Filters } from "../types";
-import { createFiltersArr } from "../App.utils";
+import { Filter } from "konva/lib/Node";
+
+export const createFiltersArr = (filters: Filters) => {
+  const filtersArr: Filter[] = [];
+  if (filters.blur) filtersArr.push(Konva.Filters.Blur);
+  if (filters.brighten) filtersArr.push(Konva.Filters.Brighten);
+  if (filters.contrast) filtersArr.push(Konva.Filters.Contrast);
+  if (filters.grayscale) filtersArr.push(Konva.Filters.Grayscale);
+  if (filters.invert) filtersArr.push(Konva.Filters.Invert);
+  if (filters.noise) filtersArr.push(Konva.Filters.Noise);
+  if (filters.pixelate > 1) filtersArr.push(Konva.Filters.Pixelate);
+  if (filters.posterize) filtersArr.push(Konva.Filters.Posterize);
+  if (filters.sepia) filtersArr.push(Konva.Filters.Sepia);
+  if (filters.solarize) filtersArr.push(Konva.Filters.Solarize);
+  if (filters.threshold) filtersArr.push(Konva.Filters.Threshold);
+  if (filters.alpha) filtersArr.push(Konva.Filters.RGBA);
+  if (filters.hue || filters.saturation || filters.luminance) {
+    filtersArr.push(Konva.Filters.HSL);
+  }
+  return filtersArr;
+};
 
 export const updateFiltersImage = (
   image: HTMLImageElement,

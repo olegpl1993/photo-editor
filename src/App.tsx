@@ -5,27 +5,27 @@ import Workspace from "./Workspace/Workspace";
 import Konva from "konva";
 import FiltersWorkspace from "./FiltersWorkspace/FiltersWorkspace";
 import FiltersToolbar from "./FiltersToolbar/FiltersToolbar";
-import { loadImg } from "./App.utils";
 import Spinner from "./Spinner/Spinner";
 import ScaleToolbar from "./ScaleToolbar/ScaleToolbar";
 import { observer } from "mobx-react-lite";
 import appState from "./store/appState";
 import imageScaleState from "./store/imageScaleState";
 import imageState from "./store/imageState";
+import LoadImageScreen from "./LoadImageScreen/LoadImageScreen";
 
 const App = observer(() => {
+  const { setImageScaleSize } = imageScaleState;
+  const { file, imgUrl, setImgUrl, image, setImage } = imageState;
   const { isLoadSpinner, isScaleOpen, isFiltersOpen, setZoom, setLoadSpinner } =
     appState;
-  const { setImageScaleSize } = imageScaleState;
-  const { file, setFile, imgUrl, setImgUrl, image, setImage } = imageState;
+
   const stageRef = useRef<Konva.Stage>(null);
 
   useEffect(() => {
-    if (file) {
-      const url = URL.createObjectURL(file);
-      setImgUrl(url);
-      setZoom(1);
-    }
+    if (!file) return;
+    const url = URL.createObjectURL(file);
+    setImgUrl(url);
+    setZoom(1);
   }, [file, setImgUrl, setZoom]);
 
   useEffect(() => {
@@ -38,67 +38,37 @@ const App = observer(() => {
   }, [imgUrl, setImage, setLoadSpinner]);
 
   useEffect(() => {
-    if (image) {
-      setImageScaleSize(image.width, image.height);
-    }
+    if (!image) return;
+    setImageScaleSize(image.width, image.height);
   }, [image, setImageScaleSize]);
 
-  if (image && isScaleOpen) {
+  if (!image) return <LoadImageScreen />;
+
+  if (isScaleOpen) {
     return (
       <div className={styles.app}>
         <ScaleToolbar />
         <Workspace stageRef={stageRef} />
-        {isLoadSpinner && (
-          <div className={styles.spinnerWrapper}>
-            <Spinner />
-          </div>
-        )}
+        {isLoadSpinner && <Spinner />}
       </div>
     );
   }
 
-  if (image && isFiltersOpen) {
+  if (isFiltersOpen) {
     return (
       <div className={styles.app}>
         <FiltersToolbar />
         <FiltersWorkspace stageRef={stageRef} />
-        {isLoadSpinner && (
-          <div className={styles.spinnerWrapper}>
-            <Spinner />
-          </div>
-        )}
-      </div>
-    );
-  }
-
-  if (image) {
-    return (
-      <div className={styles.app}>
-        <Toolbar stageRef={stageRef} />
-        <Workspace stageRef={stageRef} />
-        {isLoadSpinner && (
-          <div className={styles.spinnerWrapper}>
-            <Spinner />
-          </div>
-        )}
+        {isLoadSpinner && <Spinner />}
       </div>
     );
   }
 
   return (
-    <div className={styles.loadPhotoWrapper}>
-      {isLoadSpinner ? (
-        <div className={styles.spinnerWrapper}>
-          <Spinner />
-        </div>
-      ) : (
-        <button
-          onClick={() => loadImg(setFile, setLoadSpinner)}
-          className={styles.loadPhotoBtn}
-        >
-          LOAD PHOTO
-        </button>
-      )}
+    <div className={styles.app}>
+      <Toolbar stageRef={stageRef} />
+      <Workspace stageRef={stageRef} />
+      {isLoadSpinner && <Spinner />}
     </div>
   );
 });

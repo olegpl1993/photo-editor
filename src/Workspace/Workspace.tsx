@@ -24,23 +24,15 @@ const Workspace = observer((props: Props) => {
   const imageRef = useRef<Konva.Image>(null);
 
   useEffect(() => {
-    if (image && imageScaleWidth > 0 && imageScaleHeight > 0) {
-      imageRef.current?.cache();
-      imageRef.current?.getLayer()?.batchDraw();
-    }
-  }, [image, imageScaleWidth, imageScaleHeight, isScaleOpen]);
+    const workspace = workspaceRef.current;
+    if (!workspace) return;
+    workspace.scrollTop =
+      workspace.scrollHeight / 2 - workspace.clientHeight / 2;
+    workspace.scrollLeft =
+      workspace.scrollWidth / 2 - workspace.clientWidth / 2;
+  }, [image, imageScaleWidth, imageScaleHeight, isScaleOpen, isCropActive]);
 
-  useEffect(() => {
-    if (workspaceRef.current) {
-      const workspace = workspaceRef.current;
-      workspace.scrollTop =
-        workspace.scrollHeight / 2 - workspace.clientHeight / 2;
-      workspace.scrollLeft =
-        workspace.scrollWidth / 2 - workspace.clientWidth / 2;
-    }
-  }, [image, imageScaleWidth, imageScaleHeight, isScaleOpen]);
-
-  if (!image) return null;
+  if (!image) return;
   return (
     <div className={styles.workspace} ref={workspaceRef}>
       <ZoomSlider />
