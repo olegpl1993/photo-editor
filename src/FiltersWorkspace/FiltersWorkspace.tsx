@@ -2,12 +2,12 @@ import { useEffect, useRef } from "react";
 import styles from "./FiltersWorkspace.module.css";
 import { Stage, Layer, Image } from "react-konva";
 import Konva from "konva";
-import { createFiltersArr } from "../App.utils";
 import { updateCanvasSize } from "./FiltersWorkspace.utils";
 import filtersState from "../store/filtersState";
 import { observer } from "mobx-react-lite";
 import { toJS } from "mobx";
 import imageState from "../store/imageState";
+import { createFiltersArr } from "../FiltersToolbar/FiltersToolbar.utils";
 
 interface Props {
   stageRef: React.RefObject<Konva.Stage>;
@@ -15,40 +15,35 @@ interface Props {
 
 const FiltersWorkspace = observer((props: Props) => {
   const { stageRef } = props;
-  const {image} = imageState;
+  const { image } = imageState;
   const filters = toJS(filtersState.filters);
 
   const workspaceRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<Konva.Image>(null);
+  const canvasSize = updateCanvasSize(image);
 
   useEffect(() => {
-    if (image) {
-      const filtersArr = createFiltersArr(filters);
-      imageRef.current?.cache();
-      imageRef.current?.getLayer()?.batchDraw();
-      imageRef.current?.filters(filtersArr);
-      imageRef.current?.blurRadius(filters.blur);
-      imageRef.current?.brightness(filters.brighten);
-      imageRef.current?.contrast(filters.contrast);
-      imageRef.current?.noise(filters.noise);
-      imageRef.current?.pixelSize(filters.pixelate);
-      imageRef.current?.levels(filters.posterize);
-      imageRef.current?.threshold(filters.threshold);
-      imageRef.current?.red(filters.red);
-      imageRef.current?.green(filters.green);
-      imageRef.current?.blue(filters.blue);
-      imageRef.current?.alpha(filters.alpha);
-      imageRef.current?.hue(filters.hue);
-      imageRef.current?.saturation(filters.saturation);
-      imageRef.current?.luminance(filters.luminance);
-    }
+    const imageRefCurrent = imageRef.current;
+    if (!image || !imageRefCurrent) return;
+    const filtersArr = createFiltersArr(filters);
+    imageRefCurrent.cache();
+    imageRefCurrent.getLayer()?.batchDraw();
+    imageRefCurrent.filters(filtersArr);
+    imageRefCurrent.blurRadius(filters.blur);
+    imageRefCurrent.brightness(filters.brighten);
+    imageRefCurrent.contrast(filters.contrast);
+    imageRefCurrent.noise(filters.noise);
+    imageRefCurrent.pixelSize(filters.pixelate);
+    imageRefCurrent.levels(filters.posterize);
+    imageRefCurrent.threshold(filters.threshold);
+    imageRefCurrent.red(filters.red);
+    imageRefCurrent.green(filters.green);
+    imageRefCurrent.blue(filters.blue);
+    imageRefCurrent.alpha(filters.alpha);
+    imageRefCurrent.hue(filters.hue);
+    imageRefCurrent.saturation(filters.saturation);
+    imageRefCurrent.luminance(filters.luminance);
   }, [image, filters]);
-
-  if (!image) {
-    return null;
-  }
-
-  const canvasSize = updateCanvasSize(image);
 
   return (
     <div className={styles.filtersWorkspace} ref={workspaceRef}>

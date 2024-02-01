@@ -20,6 +20,7 @@ const ScaleToolbar = observer(() => {
     setImageScaleSizeByParam,
     setImageScaleSizeSaveRatio,
   } = imageScaleState;
+
   const [isSaveRatio, setIsSaveRatio] = useState(true);
 
   const rootStyles = getComputedStyle(document.documentElement);
@@ -35,25 +36,29 @@ const ScaleToolbar = observer(() => {
     imageScaleWidth !== image?.width || imageScaleHeight !== image.height;
 
   const handleScaleReset = () => {
-    if (image) setImageScaleSize(image.width, image.height);
+    if (!image) return;
+    setImageScaleSize(image.width, image.height);
   };
 
   const handleImageScaleSizeChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
+    if (!image) return;
     const changeParam = event.target.name;
     const value = Math.min(parseInt(event.target.value) || 0, 10000);
-    if (isSaveRatio && image)
+    if (isSaveRatio) {
       setImageScaleSizeSaveRatio(changeParam, value, image.width, image.height);
-    else setImageScaleSizeByParam(changeParam, value);
+    } else {
+      setImageScaleSizeByParam(changeParam, value);
+    }
   };
 
   const handleImageApplySize = async () => {
+    if (!image) return;
     setLoadSpinner(true);
     await new Promise<void>((resolve) => {
       setTimeout(() => {
-        if (image)
-          imageNewSize(imageScaleWidth, imageScaleHeight, image, setImgUrl);
+        imageNewSize(imageScaleWidth, imageScaleHeight, image, setImgUrl);
         resolve();
       }, 10);
     });

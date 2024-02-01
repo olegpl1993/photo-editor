@@ -1,7 +1,6 @@
 import Konva from "konva";
 import styles from "./Toolbar.module.css";
 import { rotateImage } from "./Toolbar.utils";
-import { loadImg } from "../App.utils";
 import { IconButton } from "@mui/material";
 import FileOpenIcon from "@mui/icons-material/FileOpen";
 import TuneIcon from "@mui/icons-material/Tune";
@@ -16,6 +15,7 @@ import appState from "../store/appState";
 import { observer } from "mobx-react-lite";
 import imageState from "../store/imageState";
 import CropIcon from "@mui/icons-material/Crop";
+import { loadImg } from "../LoadImageScreen/LoadImageScreen.utils";
 
 interface Props {
   stageRef: React.RefObject<Konva.Stage>;
@@ -23,6 +23,7 @@ interface Props {
 
 const Toolbar = observer((props: Props) => {
   const { stageRef } = props;
+  const { setFile, setImgUrl, image } = imageState;
   const {
     setLoadSpinner,
     setScaleOpen,
@@ -30,7 +31,6 @@ const Toolbar = observer((props: Props) => {
     isCropActive,
     setCropActive,
   } = appState;
-  const { setFile, setImgUrl, image } = imageState;
 
   const rootStyles = getComputedStyle(document.documentElement);
   const primaryColor = rootStyles.getPropertyValue("--primary-color");
@@ -44,11 +44,12 @@ const Toolbar = observer((props: Props) => {
   };
 
   const handleRotateImage = async (direction: string) => {
+    if (!image) return;
     setCropActive(false);
     setLoadSpinner(true);
     await new Promise<void>((resolve) => {
       setTimeout(() => {
-        if (image) rotateImage(direction, image, setImgUrl);
+        rotateImage(direction, image, setImgUrl);
         resolve();
       }, 10);
     });

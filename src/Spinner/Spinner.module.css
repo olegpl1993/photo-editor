@@ -5,6 +5,17 @@
 }
 
 .spinner {
+  position: absolute;
+  z-index: 1;
+  display: flex;
+  height: 100dvh;
+  width: 100dvw;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.spinnerBox {
   height: 180px;
   width: 180px;
   position: relative;

@@ -1,4 +1,6 @@
-export const updateCanvasSize = (image: HTMLImageElement) => {
+export const updateCanvasSize = (image: HTMLImageElement | null) => {
+  if (!image) return { width: 0, height: 0 };
+
   const desktopScale = 0.9;
   const mobileScale = 0.8;
   const containerWidth = window.innerWidth;

@@ -16,6 +16,7 @@ const SaveModal = observer((props: Props) => {
   const { stageRef } = props;
   const { file } = imageState;
   const { setCropActive } = appState;
+
   const [modalActive, setModalActive] = useState(false);
   const [quality, setQuality] = useState(1);
 
@@ -32,6 +33,7 @@ const SaveModal = observer((props: Props) => {
 
   useEffect(() => {
     document.body.style.overflow = modalActive ? "hidden" : "auto";
+
     return () => {
       document.body.style.overflow = "auto";
     };
