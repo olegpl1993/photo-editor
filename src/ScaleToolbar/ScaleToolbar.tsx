@@ -1,14 +1,14 @@
-import { Checkbox, IconButton, TextField } from "@mui/material";
-import styles from "./ScaleToolbar.module.css";
-import { useState } from "react";
-import { imageNewSize } from "./ScaleToolbar.utils";
-import SaveIcon from "@mui/icons-material/Save";
-import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import FilterListOffIcon from "@mui/icons-material/FilterListOff";
-import appState from "../store/appState";
+import HighlightOffIcon from "@mui/icons-material/HighlightOff";
+import SaveIcon from "@mui/icons-material/Save";
+import { Checkbox, IconButton, TextField } from "@mui/material";
 import { observer } from "mobx-react-lite";
+import { useState } from "react";
+import appState from "../store/appState";
 import imageScaleState from "../store/imageScaleState";
 import imageState from "../store/imageState";
+import styles from "./ScaleToolbar.module.css";
+import { imageNewSize } from "./ScaleToolbar.utils";
 
 const ScaleToolbar = observer(() => {
   const { image, setImgUrl } = imageState;

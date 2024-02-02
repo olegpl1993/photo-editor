@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
-import { IconButton } from "@mui/material";
 import FullscreenIcon from "@mui/icons-material/Fullscreen";
 import FullscreenExitIcon from "@mui/icons-material/FullscreenExit";
+import { IconButton } from "@mui/material";
+import { useEffect, useState } from "react";
 
 const FullScreen = () => {
   const [isFullScreen, setIsFullScreen] = useState(

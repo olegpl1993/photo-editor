@@ -1,6 +1,6 @@
 import Konva from "konva";
-import { Filters } from "../types";
 import { Filter } from "konva/lib/Node";
+import { Filters } from "../types";
 
 export const createFiltersArr = (filters: Filters) => {
   const filtersArr: Filter[] = [];

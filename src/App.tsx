@@ -1,17 +1,17 @@
+import Konva from "konva";
+import { observer } from "mobx-react-lite";
 import { useEffect, useRef } from "react";
 import styles from "./App.module.css";
+import FiltersToolbar from "./FiltersToolbar/FiltersToolbar";
+import FiltersWorkspace from "./FiltersWorkspace/FiltersWorkspace";
+import LoadImageScreen from "./LoadImageScreen/LoadImageScreen";
+import ScaleToolbar from "./ScaleToolbar/ScaleToolbar";
+import Spinner from "./Spinner/Spinner";
 import Toolbar from "./Toolbar/Toolbar";
 import Workspace from "./Workspace/Workspace";
-import Konva from "konva";
-import FiltersWorkspace from "./FiltersWorkspace/FiltersWorkspace";
-import FiltersToolbar from "./FiltersToolbar/FiltersToolbar";
-import Spinner from "./Spinner/Spinner";
-import ScaleToolbar from "./ScaleToolbar/ScaleToolbar";
-import { observer } from "mobx-react-lite";
 import appState from "./store/appState";
 import imageScaleState from "./store/imageScaleState";
 import imageState from "./store/imageState";
-import LoadImageScreen from "./LoadImageScreen/LoadImageScreen";
 
 const App = observer(() => {
   const { setImageScaleSize } = imageScaleState;

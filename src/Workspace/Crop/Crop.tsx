@@ -1,12 +1,12 @@
-import { useEffect, useRef, useState } from "react";
-import { Layer, Rect, Transformer, Image } from "react-konva";
 import Konva from "konva";
-import { observer } from "mobx-react-lite";
-import imageState from "../../store/imageState";
-import { cropImage } from "./Crop.utils";
-import { RectState } from "./Crop.types";
-import appState from "../../store/appState";
 import { Box } from "konva/lib/shapes/Transformer";
+import { observer } from "mobx-react-lite";
+import { useEffect, useRef, useState } from "react";
+import { Image, Layer, Rect, Transformer } from "react-konva";
+import appState from "../../store/appState";
+import imageState from "../../store/imageState";
+import { RectState } from "./Crop.types";
+import { cropImage } from "./Crop.utils";
 
 const Crop = observer(() => {
   const { image, setImgUrl } = imageState;
