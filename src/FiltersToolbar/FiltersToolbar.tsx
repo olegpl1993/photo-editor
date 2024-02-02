@@ -1,15 +1,15 @@
+import FilterListOffIcon from "@mui/icons-material/FilterListOff";
+import HighlightOffIcon from "@mui/icons-material/HighlightOff";
+import SaveIcon from "@mui/icons-material/Save";
 import { Checkbox, IconButton, Slider } from "@mui/material";
+import { toJS } from "mobx";
+import { observer } from "mobx-react-lite";
+import { useState } from "react";
+import appState from "../store/appState";
+import filtersState from "../store/filtersState";
+import imageState from "../store/imageState";
 import styles from "./FiltersToolbar.module.css";
 import { hexToRgb, rgbToHex, updateFiltersImage } from "./FiltersToolbar.utils";
-import SaveIcon from "@mui/icons-material/Save";
-import HighlightOffIcon from "@mui/icons-material/HighlightOff";
-import FilterListOffIcon from "@mui/icons-material/FilterListOff";
-import { useState } from "react";
-import filtersState from "../store/filtersState";
-import { observer } from "mobx-react-lite";
-import { toJS } from "mobx";
-import appState from "../store/appState";
-import imageState from "../store/imageState";
 
 const FiltersToolbar = observer(() => {
   const { image, setImgUrl } = imageState;

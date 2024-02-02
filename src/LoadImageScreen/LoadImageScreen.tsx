@@ -1,8 +1,8 @@
-import styles from "./LoadImageScreen.module.css";
 import { observer } from "mobx-react-lite";
+import Spinner from "../Spinner/Spinner";
 import appState from "../store/appState";
 import imageState from "../store/imageState";
-import Spinner from "../Spinner/Spinner";
+import styles from "./LoadImageScreen.module.css";
 import { loadImg } from "./LoadImageScreen.utils";
 
 const LoadImageScreen = observer(() => {

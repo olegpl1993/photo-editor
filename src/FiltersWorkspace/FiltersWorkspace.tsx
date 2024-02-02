@@ -1,13 +1,13 @@
-import { useEffect, useRef } from "react";
-import styles from "./FiltersWorkspace.module.css";
-import { Stage, Layer, Image } from "react-konva";
 import Konva from "konva";
-import { updateCanvasSize } from "./FiltersWorkspace.utils";
-import filtersState from "../store/filtersState";
-import { observer } from "mobx-react-lite";
 import { toJS } from "mobx";
-import imageState from "../store/imageState";
+import { observer } from "mobx-react-lite";
+import { useEffect, useRef } from "react";
+import { Image, Layer, Stage } from "react-konva";
 import { createFiltersArr } from "../FiltersToolbar/FiltersToolbar.utils";
+import filtersState from "../store/filtersState";
+import imageState from "../store/imageState";
+import styles from "./FiltersWorkspace.module.css";
+import { updateCanvasSize } from "./FiltersWorkspace.utils";
 
 interface Props {
   stageRef: React.RefObject<Konva.Stage>;
