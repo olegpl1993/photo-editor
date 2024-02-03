@@ -2,7 +2,7 @@ import Konva from "konva";
 import { Box } from "konva/lib/shapes/Transformer";
 import { observer } from "mobx-react-lite";
 import { useEffect, useRef, useState } from "react";
-import { Image, Layer, Rect, Transformer } from "react-konva";
+import { Image, Layer, Rect, Text, Transformer } from "react-konva";
 import appState from "../../store/appState";
 import imageState from "../../store/imageState";
 import { RectState } from "./Crop.types";
@@ -14,16 +14,18 @@ const Crop = observer(() => {
 
   const baseAnchorSize = 13;
   const currentAnchorSize = baseAnchorSize / zoom;
-  const baseScissorsSize = 30;
-  const currentScissorsSize = baseScissorsSize / zoom;
+  const cropBtnBaseSize = 30;
+  const currentCropBtnSize = cropBtnBaseSize / zoom;
+  const baseFontSize = 12;
+  const currentFontSize = baseFontSize / zoom;
 
   const trRef = useRef<Konva.Transformer>(null);
   const rectRef = useRef<Konva.Rect>(null);
   if (rectRef.current) trRef.current?.nodes([rectRef.current]);
 
-  const scissorsRef = useRef<Konva.Image>(null);
-  const scissorsObj = new window.Image();
-  scissorsObj.src = "./scissors.png";
+  const cropBtnRef = useRef<Konva.Image>(null);
+  const cropBtnObj = new window.Image();
+  cropBtnObj.src = "./crop-img.png";
 
   const [rectState, setRectState] = useState<RectState>({
     x: image ? image.width / 2 - image.width / 4 : 0,
@@ -38,11 +40,11 @@ const Crop = observer(() => {
   useEffect(() => {
     const currentRectWidth = rectState.width * rectState.scaleX;
     const currentRectHeight = rectState.height * rectState.scaleY;
-    scissorsRef.current?.setAttrs({
-      x: rectState.x + currentRectWidth / 2 - currentScissorsSize / 2,
-      y: rectState.y + currentRectHeight / 2 - currentScissorsSize / 2,
+    cropBtnRef.current?.setAttrs({
+      x: rectState.x + currentRectWidth / 2 - currentCropBtnSize / 2,
+      y: rectState.y + currentRectHeight / 2 - currentCropBtnSize / 2,
     });
-  }, [currentScissorsSize, rectState]);
+  }, [currentCropBtnSize, rectState]);
 
   const handleTransform = (event: Konva.KonvaEventObject<Event>) => {
     const rect = rectRef.current;
@@ -92,7 +94,7 @@ const Crop = observer(() => {
       ? oldBox
       : newBox;
 
-  const handleScissorsClick = async () => {
+  const handleCropBtnClick = async () => {
     if (!image) return;
     setLoadSpinner(true);
     await new Promise<void>((resolve) => {
@@ -114,6 +116,12 @@ const Crop = observer(() => {
         onDragMove={handleDragMove}
         onTransform={handleTransform}
         dragBoundFunc={dragBound}
+        onMouseOver={() => {
+          document.body.style.cursor = "grab";
+        }}
+        onMouseOut={() => {
+          document.body.style.cursor = "default";
+        }}
       />
       <Transformer
         ref={trRef}
@@ -121,15 +129,37 @@ const Crop = observer(() => {
         anchorSize={currentAnchorSize}
         boundBoxFunc={boundBoxFunc}
       />
+      <Text
+        x={rectState.x + 5}
+        y={rectState.y + 5}
+        text={`W: ${Math.round(rectState.width * rectState.scaleX)}`}
+        fontSize={currentFontSize}
+        fill="#ffffff"
+        align="center"
+      />
+      <Text
+        x={rectState.x + 5}
+        y={rectState.y + 5 + currentFontSize}
+        text={`H:  ${Math.round(rectState.height * rectState.scaleY)}`}
+        fontSize={currentFontSize}
+        fill="#ffffff"
+        align="center"
+      />
       <Image
-        x={rectState.width / 2 - currentScissorsSize / 2}
-        y={rectState.height / 2 - currentScissorsSize / 2}
-        ref={scissorsRef}
-        image={scissorsObj}
-        width={currentScissorsSize}
-        height={currentScissorsSize}
-        onClick={handleScissorsClick}
-        onTap={handleScissorsClick}
+        x={rectState.width / 2 - currentCropBtnSize / 2}
+        y={rectState.height / 2 - currentCropBtnSize / 2}
+        ref={cropBtnRef}
+        image={cropBtnObj}
+        width={currentCropBtnSize}
+        height={currentCropBtnSize}
+        onClick={handleCropBtnClick}
+        onTap={handleCropBtnClick}
+        onMouseOver={() => {
+          document.body.style.cursor = "pointer";
+        }}
+        onMouseOut={() => {
+          document.body.style.cursor = "default";
+        }}
       />
     </Layer>
   );
