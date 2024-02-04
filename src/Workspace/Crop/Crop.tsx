@@ -12,7 +12,7 @@ const Crop = observer(() => {
   const { image, setImgUrl } = imageState;
   const { setCropActive, setLoadSpinner, zoom } = appState;
 
-  const baseAnchorSize = 13;
+  const baseAnchorSize = 20;
   const currentAnchorSize = baseAnchorSize / zoom;
   const cropBtnBaseSize = 30;
   const currentCropBtnSize = cropBtnBaseSize / zoom;
@@ -127,6 +127,7 @@ const Crop = observer(() => {
         ref={trRef}
         rotateEnabled={false}
         anchorSize={currentAnchorSize}
+        anchorCornerRadius={8}
         boundBoxFunc={boundBoxFunc}
       />
       <Text
