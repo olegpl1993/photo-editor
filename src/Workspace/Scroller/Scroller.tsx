@@ -20,13 +20,15 @@ const getPosition = (workspaceRef: React.RefObject<HTMLDivElement>) => {
 const Scroller = observer((props: Props) => {
   const { workspaceRef } = props;
   const { zoom } = appState;
-
   const rootStyles = getComputedStyle(document.documentElement);
-  const primaryColor = rootStyles.getPropertyValue("--primary-color");
+  const scrollerColor = rootStyles.getPropertyValue("--spinner-color");
   const isTouchDevice =
     "ontouchstart" in window ||
     navigator.maxTouchPoints > 0 ||
     navigator.maxTouchPoints > 0;
+
+  const scrollerBaseSize = 50;
+  const scrollerSize = scrollerBaseSize / zoom;
 
   const [targetPosition, setTargetPosition] = useState(
     getPosition(workspaceRef)
@@ -48,9 +50,9 @@ const Scroller = observer((props: Props) => {
         display: isTouchDevice ? "block" : "none",
         position: "absolute",
         ...targetPosition,
-        minWidth: 40 / zoom,
-        minHeight: 40 / zoom,
-        color: primaryColor,
+        minWidth: scrollerSize,
+        minHeight: scrollerSize,
+        color: scrollerColor,
         borderRadius: "50%",
         transform: `translate(-50%, -50%) scale(${zoom})`,
       }}
