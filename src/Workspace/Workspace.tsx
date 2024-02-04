@@ -6,6 +6,7 @@ import appState from "../store/appState";
 import imageScaleState from "../store/imageScaleState";
 import imageState from "../store/imageState";
 import Crop from "./Crop/Crop";
+import Scroller from "./Scroller/Scroller";
 import styles from "./Workspace.module.css";
 import ZoomSlider from "./ZoomSlider/ZoomSlider";
 
@@ -71,6 +72,7 @@ const Workspace = observer((props: Props) => {
 
           {isCropActive && <Crop />}
         </Stage>
+        <Scroller workspaceRef={workspaceRef} />
       </div>
     </div>
   );
