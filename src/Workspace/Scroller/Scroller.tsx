@@ -34,10 +34,20 @@ const Scroller = observer((props: Props) => {
     getPosition(workspaceRef)
   );
 
+  const [isScrolling, setIsScrolling] = useState(false);
+
   useEffect(() => {
     if (!workspaceRef.current) return;
-    const handleScroll = () => setTargetPosition(getPosition(workspaceRef));
+    const handleScroll = () => {
+      setIsScrolling(true);
+      setTargetPosition(getPosition(workspaceRef));
+    };
+
     workspaceRef.current?.addEventListener("scroll", handleScroll);
+    workspaceRef.current?.addEventListener("scrollend", () =>
+      setIsScrolling(false)
+    );
+
     window.addEventListener("resize", handleScroll);
     return () => {
       window.removeEventListener("resize", handleScroll);
@@ -52,7 +62,7 @@ const Scroller = observer((props: Props) => {
         ...targetPosition,
         minWidth: scrollerSize,
         minHeight: scrollerSize,
-        color: scrollerColor,
+        color: isScrolling ? "transparent" : scrollerColor,
         borderRadius: "50%",
         transform: `translate(-50%, -50%) scale(${zoom})`,
       }}
