@@ -51,7 +51,7 @@ const Toolbar = observer((props: Props) => {
       setTimeout(() => {
         rotateImage(direction, image, setImgUrl);
         resolve();
-      }, 10);
+      }, 100);
     });
     setLoadSpinner(false);
   };

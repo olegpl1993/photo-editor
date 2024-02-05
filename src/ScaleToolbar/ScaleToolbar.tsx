@@ -60,7 +60,7 @@ const ScaleToolbar = observer(() => {
       setTimeout(() => {
         imageNewSize(imageScaleWidth, imageScaleHeight, image, setImgUrl);
         resolve();
-      }, 10);
+      }, 100);
     });
     handleScaleClose();
     setLoadSpinner(false);
