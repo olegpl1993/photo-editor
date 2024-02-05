@@ -12,12 +12,12 @@ const Crop = observer(() => {
   const { image, setImgUrl } = imageState;
   const { setCropActive, setLoadSpinner, zoom } = appState;
 
-  const baseAnchorSize = 20;
-  const currentAnchorSize = baseAnchorSize / zoom;
-  const cropBtnBaseSize = 30;
-  const currentCropBtnSize = cropBtnBaseSize / zoom;
-  const baseFontSize = 12;
-  const currentFontSize = baseFontSize / zoom;
+  const borderStrokeWidth = 2;
+  const anchorRadius = 6;
+  const anchorSize = 20;
+  const fontSize = 12;
+  const cropBtnSize = 30;
+  const currentCropBtnSize = cropBtnSize / zoom;
 
   const trRef = useRef<Konva.Transformer>(null);
   const rectRef = useRef<Konva.Rect>(null);
@@ -126,23 +126,25 @@ const Crop = observer(() => {
       <Transformer
         ref={trRef}
         rotateEnabled={false}
-        anchorSize={currentAnchorSize}
-        anchorCornerRadius={8}
+        anchorSize={anchorSize / zoom}
+        anchorCornerRadius={anchorRadius / zoom}
         boundBoxFunc={boundBoxFunc}
+        borderStrokeWidth={borderStrokeWidth / zoom}
+        anchorStrokeWidth={borderStrokeWidth / zoom}
       />
       <Text
         x={rectState.x + 5}
         y={rectState.y + 5}
         text={`W: ${Math.round(rectState.width * rectState.scaleX)}`}
-        fontSize={currentFontSize}
+        fontSize={fontSize / zoom}
         fill="#ffffff"
         align="center"
       />
       <Text
         x={rectState.x + 5}
-        y={rectState.y + 5 + currentFontSize}
+        y={rectState.y + 5 + fontSize / zoom}
         text={`H:  ${Math.round(rectState.height * rectState.scaleY)}`}
-        fontSize={currentFontSize}
+        fontSize={fontSize / zoom}
         fill="#ffffff"
         align="center"
       />
