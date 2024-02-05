@@ -71,7 +71,7 @@ const FiltersToolbar = observer(() => {
       setTimeout(() => {
         updateFiltersImage(image, filters, setImgUrl);
         resolve();
-      }, 10);
+      }, 100);
     });
     handleFiltersClose();
     setLoadSpinner(false);

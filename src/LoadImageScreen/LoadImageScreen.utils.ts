@@ -16,7 +16,7 @@ export const loadImg = (
       setTimeout(() => {
         setFile(file);
         resolve();
-      }, 10);
+      }, 100);
     });
   };
 

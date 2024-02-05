@@ -101,7 +101,7 @@ const Crop = observer(() => {
       setTimeout(() => {
         cropImage(rectState, image, setImgUrl);
         resolve();
-      }, 10);
+      }, 100);
     });
     setCropActive(false);
     setLoadSpinner(false);
