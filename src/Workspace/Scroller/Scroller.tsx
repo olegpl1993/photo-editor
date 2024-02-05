@@ -2,21 +2,11 @@ import ControlCameraIcon from "@mui/icons-material/ControlCamera";
 import { observer } from "mobx-react-lite";
 import React, { useEffect, useState } from "react";
 import appState from "../../store/appState";
+import { getScrollPosition } from "./Scroller.utils";
 
 interface Props {
   workspaceRef: React.RefObject<HTMLDivElement>;
 }
-
-const getPosition = (workspaceRef: React.RefObject<HTMLDivElement>) => {
-  const workspace = workspaceRef.current;
-  if (!workspace) return;
-  const { scrollTop, scrollLeft, clientHeight, clientWidth } = workspace;
-  return {
-    left: scrollLeft + clientWidth / 2,
-    top: scrollTop + clientHeight - 100,
-  };
-};
-
 const Scroller = observer((props: Props) => {
   const { workspaceRef } = props;
   const { zoom } = appState;
@@ -31,7 +21,7 @@ const Scroller = observer((props: Props) => {
   const scrollerSize = scrollerBaseSize / zoom;
 
   const [targetPosition, setTargetPosition] = useState(
-    getPosition(workspaceRef)
+    getScrollPosition(workspaceRef)
   );
 
   const [isScrolling, setIsScrolling] = useState(false);
@@ -40,7 +30,7 @@ const Scroller = observer((props: Props) => {
     if (!workspaceRef.current) return;
     const handleScroll = () => {
       setIsScrolling(true);
-      setTargetPosition(getPosition(workspaceRef));
+      setTargetPosition(getScrollPosition(workspaceRef));
     };
 
     workspaceRef.current?.addEventListener("scroll", handleScroll);
