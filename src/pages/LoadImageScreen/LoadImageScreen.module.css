@@ -1,0 +1,9 @@
+.loadImageScreen {
+  display: flex;
+  height: 100dvh;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
