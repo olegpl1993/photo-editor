@@ -8,9 +8,6 @@ const FullScreen = () => {
     !!document.fullscreenElement
   );
 
-  const rootStyles = getComputedStyle(document.documentElement);
-  const primaryColor = rootStyles.getPropertyValue("--primary-color");
-
   useEffect(() => {
     if (isFullScreen && !document.fullscreenElement)
       document.documentElement.requestFullscreen();
@@ -33,9 +30,9 @@ const FullScreen = () => {
       sx={{
         height: "50px",
         width: "50px",
-        border: `2px solid ${primaryColor}`,
+        border: `2px solid var(--primary-color)`,
         borderRadius: "50%",
-        color: primaryColor,
+        color: "var(--primary-color)",
       }}
       onClick={() => setIsFullScreen(!isFullScreen)}
     >

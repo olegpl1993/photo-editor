@@ -23,14 +23,12 @@ const ScaleToolbar = observer(() => {
 
   const [isSaveRatio, setIsSaveRatio] = useState(true);
 
-  const rootStyles = getComputedStyle(document.documentElement);
-  const primaryColor = rootStyles.getPropertyValue("--primary-color");
   const iconButtonSX = {
     height: "50px",
     width: "50px",
-    border: `2px solid ${primaryColor}`,
+    border: `2px solid var(--primary-color)`,
     borderRadius: "50%",
-    color: primaryColor,
+    color: "var(--primary-color)",
   };
   const isSizeChanged =
     imageScaleWidth !== image?.width || imageScaleHeight !== image.height;
@@ -99,7 +97,7 @@ const ScaleToolbar = observer(() => {
           name="solarize"
           checked={!!isSaveRatio}
           onChange={() => setIsSaveRatio(!isSaveRatio)}
-          sx={{ color: primaryColor }}
+          sx={{ color: "var(--primary-color)" }}
         />
         <p>Save ratio</p>
       </div>
@@ -110,7 +108,9 @@ const ScaleToolbar = observer(() => {
           onClick={handleImageApplySize}
           sx={{
             ...iconButtonSX,
-            border: `2px solid ${isSizeChanged ? primaryColor : "#AAAAAA"}`,
+            border: `2px solid ${
+              isSizeChanged ? "var(--primary-color)" : "#AAAAAA"
+            }`,
           }}
           disabled={!isSizeChanged}
         >
@@ -122,7 +122,9 @@ const ScaleToolbar = observer(() => {
           onClick={handleScaleReset}
           sx={{
             ...iconButtonSX,
-            border: `2px solid ${isSizeChanged ? primaryColor : "#AAAAAA"}`,
+            border: `2px solid ${
+              isSizeChanged ? "var(--primary-color)" : "#AAAAAA"
+            }`,
           }}
           disabled={!isSizeChanged}
         >

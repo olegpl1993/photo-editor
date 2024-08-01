@@ -10,8 +10,7 @@ interface Props {
 const Scroller = observer((props: Props) => {
   const { workspaceRef } = props;
   const { zoom } = appState;
-  const rootStyles = getComputedStyle(document.documentElement);
-  const scrollerColor = rootStyles.getPropertyValue("--spinner-color");
+
   const isTouchDevice =
     "ontouchstart" in window ||
     navigator.maxTouchPoints > 0 ||
@@ -52,7 +51,7 @@ const Scroller = observer((props: Props) => {
         ...targetPosition,
         minWidth: scrollerSize,
         minHeight: scrollerSize,
-        color: isScrolling ? "transparent" : scrollerColor,
+        color: isScrolling ? "transparent" : "var(--spinner-color)",
         borderRadius: "50%",
         transform: `translate(-50%, -50%) scale(${zoom})`,
       }}

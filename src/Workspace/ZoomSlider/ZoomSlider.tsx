@@ -6,9 +6,6 @@ import styles from "./ZoomSlider.module.css";
 const ZoomSlider = observer(() => {
   const { zoom, setZoom, isScaleOpen } = appState;
 
-  const rootStyles = getComputedStyle(document.documentElement);
-  const primaryColor = rootStyles.getPropertyValue("--primary-color");
-
   const zoomPercent = Math.round(zoom * 100);
 
   const handleSetZoom = (_event: Event, newValue: number | number[]) => {
@@ -25,8 +22,8 @@ const ZoomSlider = observer(() => {
         onChange={handleSetZoom}
         sx={{
           width: "100px",
-          color: primaryColor,
-          "& .MuiSlider-thumb": { color: primaryColor },
+          color: "var(--primary-color)",
+          "& .MuiSlider-thumb": { color: "var(--primary-color)" },
         }}
       />
       <p className={styles.value}>{zoomPercent}%</p>

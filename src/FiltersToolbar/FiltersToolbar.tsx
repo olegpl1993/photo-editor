@@ -20,20 +20,18 @@ const FiltersToolbar = observer(() => {
   const [baseFilters] = useState(JSON.stringify(filters));
   const isFiltersChanged = baseFilters !== JSON.stringify(filters);
 
-  const rootStyles = getComputedStyle(document.documentElement);
-  const primaryColor = rootStyles.getPropertyValue("--primary-color");
   const sliderSX = {
     width: "100px",
-    color: primaryColor,
-    "& .MuiSlider-thumb": { color: primaryColor },
+    color: "var(--primary-color)",
+    "& .MuiSlider-thumb": { color: "var(--primary-color)" },
   };
-  const checkboxSX = { marginRight: "10px", color: primaryColor };
+  const checkboxSX = { marginRight: "10px", color: "var(--primary-color)" };
   const iconButtonSX = {
     height: "50px",
     width: "50px",
-    border: `2px solid ${primaryColor}`,
+    border: `2px solid var(--primary-color)`,
     borderRadius: "50%",
-    color: primaryColor,
+    color: "var(--primary-color)",
   };
 
   const handleFilter = (event: Event, newValue: number | number[]) => {
@@ -290,7 +288,9 @@ const FiltersToolbar = observer(() => {
           onClick={handleFiltersApply}
           sx={{
             ...iconButtonSX,
-            border: `2px solid ${isFiltersChanged ? primaryColor : "#AAAAAA"}`,
+            border: `2px solid ${
+              isFiltersChanged ? "var(--primary-color)" : "#AAAAAA"
+            }`,
           }}
           disabled={!isFiltersChanged}
         >
@@ -302,7 +302,9 @@ const FiltersToolbar = observer(() => {
           onClick={handleFilterReset}
           sx={{
             ...iconButtonSX,
-            border: `2px solid ${isFiltersChanged ? primaryColor : "#AAAAAA"}`,
+            border: `2px solid ${
+              isFiltersChanged ? "var(--primary-color)" : "#AAAAAA"
+            }`,
           }}
           disabled={!isFiltersChanged}
         >

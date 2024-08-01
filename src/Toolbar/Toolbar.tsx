@@ -32,15 +32,12 @@ const Toolbar = observer((props: Props) => {
     setCropActive,
   } = appState;
 
-  const rootStyles = getComputedStyle(document.documentElement);
-  const primaryColor = rootStyles.getPropertyValue("--primary-color");
-  const activeColor = rootStyles.getPropertyValue("--active-color");
   const iconButtonSX = {
     height: "50px",
     width: "50px",
-    border: `2px solid ${primaryColor}`,
+    border: `2px solid var(--primary-color)`,
     borderRadius: "50%",
-    color: primaryColor,
+    color: "var(--primary-color)",
   };
 
   const handleRotateImage = async (direction: string) => {
@@ -94,12 +91,18 @@ const Toolbar = observer((props: Props) => {
         onClick={() => setCropActive(!isCropActive)}
         sx={{
           ...iconButtonSX,
-          borderColor: isCropActive ? activeColor : primaryColor,
+          borderColor: isCropActive
+            ? "var(--active-color)"
+            : "var(--primary-color)",
         }}
       >
         <CropIcon
           fontSize="large"
-          sx={{ color: isCropActive ? activeColor : primaryColor }}
+          sx={{
+            color: isCropActive
+              ? "var(--active-color)"
+              : "var(--primary-color)",
+          }}
         />
       </IconButton>
 

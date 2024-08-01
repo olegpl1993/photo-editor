@@ -20,12 +20,10 @@ const SaveModal = observer((props: Props) => {
   const [modalActive, setModalActive] = useState(false);
   const [quality, setQuality] = useState(1);
 
-  const rootStyles = getComputedStyle(document.documentElement);
-  const primaryColor = rootStyles.getPropertyValue("--primary-color");
   const buttonSX = {
-    color: primaryColor,
-    border: `2px solid ${primaryColor}`,
-    "&:hover": { border: `3px solid ${primaryColor}` },
+    color: "var(--primary-color)",
+    border: `2px solid var(--primary-color)`,
+    "&:hover": { border: `3px solid var(--primary-color)` },
     height: "100px",
     width: "100px",
     fontSize: "20px",
@@ -51,9 +49,9 @@ const SaveModal = observer((props: Props) => {
         sx={{
           height: "50px",
           width: "50px",
-          border: `2px solid ${primaryColor}`,
+          border: `2px solid var(--primary-color)`,
           borderRadius: "50%",
-          color: primaryColor,
+          color: "var(--primary-color)",
         }}
         onClick={handleClickOpen}
       >
@@ -112,8 +110,8 @@ const SaveModal = observer((props: Props) => {
                     sx={{
                       padding: "20px 0px",
                       width: "100px",
-                      color: primaryColor,
-                      "& .MuiSlider-thumb": { color: primaryColor },
+                      color: "var(--primary-color)",
+                      "& .MuiSlider-thumb": { color: "var(--primary-color)" },
                     }}
                   />
                 </div>
