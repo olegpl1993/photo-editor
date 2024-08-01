@@ -6,10 +6,10 @@ import RotateRightIcon from "@mui/icons-material/RotateRight";
 import SwapHorizontalCircleIcon from "@mui/icons-material/SwapHorizontalCircle";
 import SwapVerticalCircleIcon from "@mui/icons-material/SwapVerticalCircle";
 import TuneIcon from "@mui/icons-material/Tune";
-import { IconButton } from "@mui/material";
+import { Button, IconButton } from "@mui/material";
 import Konva from "konva";
 import { observer } from "mobx-react-lite";
-import { loadImg } from "../LoadImageScreen/LoadImageScreen.utils";
+import { ChangeEvent } from "react";
 import appState from "../store/appState";
 import imageState from "../store/imageState";
 import FullScreen from "./FullScreen/FullScreen";
@@ -53,11 +53,6 @@ const Toolbar = observer((props: Props) => {
     setLoadSpinner(false);
   };
 
-  const handleLoadImg = () => {
-    loadImg(setFile, setLoadSpinner);
-    setCropActive(false);
-  };
-
   const handleFiltersOpen = () => {
     setFiltersOpen(true);
     setCropActive(false);
@@ -68,11 +63,65 @@ const Toolbar = observer((props: Props) => {
     setCropActive(false);
   };
 
+  const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const file = e.target.files[0];
+
+      if (!file) return;
+      setLoadSpinner(true);
+      setCropActive(false);
+      await new Promise<void>((resolve) => {
+        setTimeout(() => {
+          setFile(file);
+          resolve();
+        }, 100);
+      });
+    }
+  };
+
   return (
     <div className={styles.toolbar}>
-      <IconButton title="Load image" onClick={handleLoadImg} sx={iconButtonSX}>
-        <FileOpenIcon fontSize="large" />
-      </IconButton>
+      <Button
+        component="label"
+        role={undefined}
+        variant="contained"
+        tabIndex={-1}
+        sx={{
+          minWidth: "50px",
+          minHeight: "50px",
+          height: "50px",
+          width: "50px",
+          borderRadius: "50%",
+          backgroundColor: "inherit",
+          border: `2px solid var(--primary-color)`,
+          fontSize: "22px",
+          boxShadow: "none",
+          "&:hover": {
+            backgroundColor: "rgba(0, 0, 0, 0.05)",
+            boxShadow: "none",
+          },
+          "&:active": {
+            boxShadow: "none",
+          },
+        }}
+        startIcon={
+          <FileOpenIcon
+            style={{
+              color: "var(--primary-color)",
+              fontSize: "30px",
+              position: "relative",
+              left: "5px",
+            }}
+          />
+        }
+      >
+        <input
+          style={{ display: "none" }}
+          type="file"
+          accept="image/*"
+          onChange={handleFileChange}
+        />
+      </Button>
 
       <SaveModal stageRef={stageRef} />
 
