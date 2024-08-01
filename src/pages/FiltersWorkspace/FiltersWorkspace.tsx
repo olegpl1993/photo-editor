@@ -3,9 +3,9 @@ import { toJS } from "mobx";
 import { observer } from "mobx-react-lite";
 import { useEffect, useRef } from "react";
 import { Image, Layer, Stage } from "react-konva";
-import { createFiltersArr } from "../FiltersToolbar/FiltersToolbar.utils";
-import filtersState from "../store/filtersState";
-import imageState from "../store/imageState";
+import filtersState from "../../app/store/filtersState";
+import imageState from "../../app/store/imageState";
+import { createFiltersArr } from "../../widgets/FiltersToolbar/FiltersToolbar.utils";
 import styles from "./FiltersWorkspace.module.css";
 import { updateCanvasSize } from "./FiltersWorkspace.utils";
 

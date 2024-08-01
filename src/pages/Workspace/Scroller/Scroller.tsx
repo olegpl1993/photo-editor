@@ -1,7 +1,7 @@
 import ControlCameraIcon from "@mui/icons-material/ControlCamera";
 import { observer } from "mobx-react-lite";
 import React, { useEffect, useState } from "react";
-import appState from "../../store/appState";
+import appState from "../../../app/store/appState";
 import { getScrollPosition } from "./Scroller.utils";
 
 interface Props {

@@ -2,13 +2,13 @@ import Konva from "konva";
 import { observer } from "mobx-react-lite";
 import React, { useEffect, useRef } from "react";
 import { Image, Layer, Stage } from "react-konva";
-import appState from "../store/appState";
-import imageScaleState from "../store/imageScaleState";
-import imageState from "../store/imageState";
-import Crop from "./Crop/Crop";
+import appState from "../../app/store/appState";
+import imageScaleState from "../../app/store/imageScaleState";
+import imageState from "../../app/store/imageState";
+import Crop from "../../shared/Crop/Crop";
+import ZoomSlider from "../../shared/ZoomSlider/ZoomSlider";
 import Scroller from "./Scroller/Scroller";
 import styles from "./Workspace.module.css";
-import ZoomSlider from "./ZoomSlider/ZoomSlider";
 
 interface Props {
   stageRef: React.RefObject<Konva.Stage>;

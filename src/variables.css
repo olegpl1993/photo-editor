@@ -1,0 +1,7 @@
+:root {
+  --primary-color: rgb(103, 160, 210);
+  --active-color: rgb(0, 0, 255);
+  --spinner-color: rgba(103, 160, 210, 0.6);
+  --toolbar-bg-color: rgb(230, 230, 230);
+  --divider-color: rgb(200, 200, 200);
+}

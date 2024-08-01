@@ -6,4 +6,4 @@ export type RectState = {
   scaleX: number;
   scaleY: number;
   fill: string;
-}
+};

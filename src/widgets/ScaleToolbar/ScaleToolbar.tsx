@@ -4,9 +4,9 @@ import SaveIcon from "@mui/icons-material/Save";
 import { Checkbox, IconButton, TextField } from "@mui/material";
 import { observer } from "mobx-react-lite";
 import { useState } from "react";
-import appState from "../store/appState";
-import imageScaleState from "../store/imageScaleState";
-import imageState from "../store/imageState";
+import appState from "../../app/store/appState";
+import imageScaleState from "../../app/store/imageScaleState";
+import imageState from "../../app/store/imageState";
 import styles from "./ScaleToolbar.module.css";
 import { imageNewSize } from "./ScaleToolbar.utils";
 

@@ -1,6 +1,6 @@
 import { Slider } from "@mui/material";
 import { observer } from "mobx-react-lite";
-import appState from "../../store/appState";
+import appState from "../../app/store/appState";
 import styles from "./ZoomSlider.module.css";
 
 const ZoomSlider = observer(() => {

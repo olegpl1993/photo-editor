@@ -3,8 +3,8 @@ import { Box } from "konva/lib/shapes/Transformer";
 import { observer } from "mobx-react-lite";
 import { useEffect, useRef, useState } from "react";
 import { Image, Layer, Rect, Text, Transformer } from "react-konva";
-import appState from "../../store/appState";
-import imageState from "../../store/imageState";
+import appState from "../../app/store/appState";
+import imageState from "../../app/store/imageState";
 import { RectState } from "./Crop.types";
 import { cropImage } from "./Crop.utils";
 

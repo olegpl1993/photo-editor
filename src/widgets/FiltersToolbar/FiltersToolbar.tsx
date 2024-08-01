@@ -5,9 +5,9 @@ import { Checkbox, IconButton, Slider } from "@mui/material";
 import { toJS } from "mobx";
 import { observer } from "mobx-react-lite";
 import { useState } from "react";
-import appState from "../store/appState";
-import filtersState from "../store/filtersState";
-import imageState from "../store/imageState";
+import appState from "../../app/store/appState";
+import filtersState from "../../app/store/filtersState";
+import imageState from "../../app/store/imageState";
 import styles from "./FiltersToolbar.module.css";
 import { hexToRgb, rgbToHex, updateFiltersImage } from "./FiltersToolbar.utils";
 

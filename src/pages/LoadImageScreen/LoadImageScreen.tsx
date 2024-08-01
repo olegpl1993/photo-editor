@@ -1,9 +1,9 @@
 import { Button } from "@mui/material";
 import { observer } from "mobx-react-lite";
 import { ChangeEvent } from "react";
-import Spinner from "../Spinner/Spinner";
-import appState from "../store/appState";
-import imageState from "../store/imageState";
+import appState from "../../app/store/appState";
+import imageState from "../../app/store/imageState";
+import Spinner from "../../shared/Spinner/Spinner";
 import styles from "./LoadImageScreen.module.css";
 
 const LoadImageScreen = observer(() => {

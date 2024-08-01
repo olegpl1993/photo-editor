@@ -1,5 +1,5 @@
 import { makeAutoObservable } from "mobx";
-import { Filters } from "../types";
+import { Filters } from "../../shared/types";
 
 class FiltersState {
   filters: Filters = {

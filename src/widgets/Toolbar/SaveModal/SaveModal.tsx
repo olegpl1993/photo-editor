@@ -3,8 +3,8 @@ import { Button, IconButton, Slider } from "@mui/material";
 import Konva from "konva";
 import { observer } from "mobx-react-lite";
 import { useEffect, useState } from "react";
-import appState from "../../store/appState";
-import imageState from "../../store/imageState";
+import appState from "../../../app/store/appState";
+import imageState from "../../../app/store/imageState";
 import styles from "./SaveModal.module.css";
 import { saveCanvas } from "./SaveModal.utils";
 
