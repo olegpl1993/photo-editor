@@ -9,20 +9,32 @@ const FullScreen = () => {
   );
 
   useEffect(() => {
-    if (isFullScreen && !document.fullscreenElement)
+    if (isFullScreen && !document.fullscreenElement) {
       document.documentElement.requestFullscreen();
-    if (!isFullScreen && document.fullscreenElement) document.exitFullscreen();
+    } else if (!isFullScreen && document.fullscreenElement) {
+      document.exitFullscreen();
+    }
   }, [isFullScreen]);
 
   useEffect(() => {
-    const fullScreenChange = () =>
+    const onFullScreenChange = () =>
       setIsFullScreen(!!document.fullscreenElement);
 
-    document.addEventListener("fullscreenchange", fullScreenChange);
+    document.addEventListener("fullscreenchange", onFullScreenChange);
+    document.addEventListener("keydown", handleFullScreenChange);
+
     return () => {
-      document.removeEventListener("fullscreenchange", fullScreenChange);
+      document.removeEventListener("fullscreenchange", onFullScreenChange);
+      document.removeEventListener("keydown", handleFullScreenChange);
     };
   }, []);
+
+  const handleFullScreenChange = (e: KeyboardEvent) => {
+    if (e.key === "F11") {
+      e.preventDefault();
+      setIsFullScreen((prev) => !prev);
+    }
+  };
 
   return (
     <IconButton
@@ -34,7 +46,7 @@ const FullScreen = () => {
         borderRadius: "50%",
         color: "var(--primary-color)",
       }}
-      onClick={() => setIsFullScreen(!isFullScreen)}
+      onClick={() => setIsFullScreen((prev) => !prev)}
     >
       {isFullScreen ? (
         <FullscreenExitIcon fontSize="large" />
